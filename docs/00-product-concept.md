@@ -1,14 +1,21 @@
 # CommonGround App — Product Concept
 
 ## 1. One-sentence summary
+
 A privacy-conscious mutual reflection app that helps people compare collaboration styles, working preferences, and engineering culture expectations through neutral questionnaire-based insights.
 
-## 2. Problem statement
-People often start working together without clearly understanding each other’s expectations around communication, feedback, quality, decision-making, conflict, deadlines, and collaboration.
+---
 
-Traditional “culture fit” discussions can be vague, biased, or one-sided. The goal of this app is to make these expectations easier to discuss in a structured, respectful, and non-judgmental way.
+## 2. Problem statement
+
+People often start working together without clearly understanding each other's expectations around communication, feedback, quality, decision-making, conflict, deadlines, and collaboration.
+
+Traditional "culture fit" discussions can be vague, biased, or one-sided. The goal of this app is to make these expectations easier to discuss in a structured, respectful, and non-judgmental way.
+
+---
 
 ## 3. Product goal
+
 The app helps two or more people compare self-reported working-style preferences and receive:
 
 - personal reflection
@@ -16,7 +23,10 @@ The app helps two or more people compare self-reported working-style preferences
 - meaningful differences
 - neutral conversation prompts
 
+---
+
 ## 4. Non-goals
+
 The app is not:
 
 - a psychological assessment
@@ -28,8 +38,9 @@ The app is not:
 - a dating app
 - a replacement for real conversation
 
+---
+
 ## 5. Target users
-Possible users:
 
 - job candidate and potential team lead
 - manager and team member
@@ -38,14 +49,19 @@ Possible users:
 - cofounders
 - collaborators
 - open-source maintainers and contributors
-- small teams
+- small teams (via pairwise comparisons in MVP; group report is a later feature)
+
+---
 
 ## 6. Core use cases
+
 ### Use case 1: Personal reflection
 
 A user fills in the questionnaire and receives a private reflection page showing their own working-style patterns.
 
-The reflection is visible only through the user’s private result link or access code.
+The reflection is accessible only through the user's private result link.
+
+---
 
 ### Use case 2: One-to-one comparison
 
@@ -53,22 +69,28 @@ A user creates an invite link and shares it with one other person.
 
 The invited person completes the questionnaire or reuses an existing response with explicit consent.
 
-Once both responses are available, the app generates a pair comparison report showing:
+Once both responses are available, the app automatically generates a pair comparison report. Both participants access the report independently via their own private result links.
+
+The report shows:
 
 - shared working-style patterns
 - meaningful differences
 - neutral conversation prompts
 - explanations based on questionnaire answers or dimensions
 
+---
+
 ### Use case 3: Response reuse across multiple comparisons
 
 A user should not be forced to fill in the same questionnaire again if they already completed it.
 
-A completed response can be reused across multiple separate comparisons.
+A completed response can be reused across multiple separate comparisons, provided it was completed for the same questionnaire version. If a newer questionnaire version exists, the user must fill in a new response — old responses cannot be reused across versions.
 
-For example, one person may compare their response with a team lead, teammate, mentor, and recruiter without answering the questionnaire again each time.
+For example, one person may compare their response with a team lead, a teammate, a mentor, and a recruiter without filling in the questionnaire again each time. Each comparison remains separate.
 
-Each comparison remains separate. Reuse is only allowed after the user explicitly confirms that they want to use an existing response in the new comparison context.
+Reuse is always user-initiated. The app does not automatically identify returning users. An invitee who wants to reuse an existing response must choose "Use existing response" and enter their access code. The backend hashes the entered code, looks for a matching response, checks that the questionnaire version matches the invite, and verifies the response has not been deleted. Only then does it ask the user to confirm reuse.
+
+---
 
 ### Use case 4: Invited participant gets their own private result
 
@@ -81,7 +103,9 @@ After completing the questionnaire, the invited participant also receives:
 - their own access code
 - access to the comparison report when it is ready
 
-### Use case 5: Group comparison
+---
+
+### Use case 5: Group comparison *(post-MVP)*
 
 A small group can compare shared and different working preferences in one group report.
 
@@ -94,7 +118,9 @@ The group report may show:
 - where there are different but complementary working styles
 - conversation prompts for team alignment
 
-This is a later feature, but the data model should support it from the beginning.
+The MVP supports personal reflection, reusable responses, and one-to-one comparison only. Small teams can use the app in MVP by running pairwise comparisons between members. The data model should support group comparisons from the beginning so this feature can be added without a migration.
+
+---
 
 ### Use case 6: Delete personal response and comparison access
 
@@ -102,195 +128,251 @@ A participant can delete their own response.
 
 When a response is deleted:
 
-- the participant’s private reflection page is no longer available
+- the participant's private reflection page is no longer available
 - the response can no longer be reused in new comparisons
-- access through the private result link or access code is disabled
-- comparisons that depend on this response are either removed, anonymized, or marked as unavailable
+- access through the private result link is disabled
+- comparisons that depend on this response are marked as unavailable — they remain as records but are inaccessible to all participants, who see a notice that the comparison is no longer available
 
 The app should make the deletion behavior clear before the user confirms deletion.
 
-For MVP, deleting a response should remove the user’s answers and disable future access to related personal results. Audit events may keep a minimal record that deletion happened, but must not store raw answers.
+For MVP, deleting a response removes the user's answers and disables future access to related personal results. Audit events may keep a minimal record that deletion happened, but must not store raw answers.
+
+---
 
 ## 7. Main user flows
+
 ### First participant flow
-User opens app<br>
-→ reads privacy/consent explanation<br>
-→ fills in questionnaire<br>
-→ receives personal reflection<br>
-→ receives private result link<br>
-→ receives access code<br>
-→ creates invite link<br>
-→ shares only invite link with another person<br>
+
+1. User opens app
+2. Reads privacy and consent explanation
+3. Fills in questionnaire
+4. Receives personal reflection
+5. Receives private result link
+6. Receives access code
+7. Creates invite link (provides a display name or label for the invitee to see)
+8. Shares only the invite link with another person
+
+---
+
 ### Invited participant flow
-Invited person opens /invite/...<br>
-→ reads explanation of what will be shared<br>
-→ chooses one option:
 
-   1. Fill in questionnaire
-   2. Use existing access code
-   3. Use existing private result link
+1. Invited person opens `/invite/...`
+2. Reads explanation of what will be shared
+3. Explicitly consents to:
+   - their answers being compared with the inviter's
+   - the inviter seeing the comparison report (not raw answers)
+   - audit events being logged for traceability
+   - their response being used for this specific comparison only (if reusing)
+4. Chooses one option:
+   - Fill in questionnaire
+   - Use existing response (enter access code)
+5. Receives their own private result link
+6. Receives their own access code
+7. Sees personal reflection
+8. Sees comparison report when it is ready
 
-→ gives explicit consent to join comparison<br>
-→ receives their own private result link<br>
-→ receives their own access code<br>
-→ sees personal reflection<br>
-→ sees comparison when ready<br>
-### Reuse flow
-Invited person opens invite<br>
-→ app asks: “Already completed this questionnaire?”<br>
-→ person enters access code<br>
-→ app finds existing response<br>
-→ app asks: “Use this response for this comparison?”<br>
-→ person confirms<br>
-→ response is attached to comparison<br>
-→ no second questionnaire needed<br>
+---
+
+### Reuse sub-flow (step 4b above)
+
+1. Invitee selects "Use existing response"
+2. App prompts: "Enter your access code"
+3. Invitee enters code (e.g. `K7Q9-MP2D-W4T8`)
+4. App finds matching response and checks questionnaire version
+5. App asks: "Use this response for this comparison?"
+6. Invitee confirms
+7. Response is attached to the comparison — no second questionnaire needed
+
+---
 
 ## 8. Key product rules and constraints
+
 ### Rule 1: Invite link is only for inviting
 
-The link shared with another person should be an invite link:
+The link shared with another person is an invite link:
 
+```
 /invite/{inviteToken}
+```
 
-It should not expose the inviter’s private result page.
+It does not expose the inviter's private result page.
+
+When creating the invite link, the inviter provides a display name or label (e.g. `"Alex"` or `"Team Lead at Acme"`). This name is shown to the invitee during the consent step.
+
+**Expiry:** Invite links expire under two conditions, whichever comes first:
+
+- a fixed time limit (e.g. 7 days)
+- the invitee successfully joins the comparison (single-use)
+
+If the invitee opens the link and begins filling in the questionnaire but the invite expires mid-flow, their in-progress answers are preserved for a short grace period so they can complete the questionnaire. Once the session completes, the invite is consumed.
+
+**Visibility:** The `comparison_invite_opened` audit event is logged internally for traceability. It is not surfaced to the inviter in the UI. The inviter only sees when the comparison report is ready.
+
+---
 
 ### Rule 2: Each participant gets their own private result link
 
 After completing the questionnaire, every participant receives their own private result link:
 
+```
 /me/{privateResultToken}
+```
 
-This page shows:
+The private result link is the primary way to access personal results and existing comparisons. It is distinct from the access code — the access code is used only to reuse a response in a new comparison (see Rule 5), not to open the result page.
+
+If a participant loses both their private result link and their access code, there is no recovery path. Because the MVP has no accounts, the app cannot verify identity. The participant must fill in a new response. This is by design and consistent with the privacy-first approach.
+
+The result page shows:
 
 - personal reflection
 - existing comparisons
 - pending comparisons
 - ability to create new comparisons
-- access code reminder or regeneration option
+- access code reminder or regeneration option (regenerating invalidates the old code immediately)
 - delete response option
-### Rule 3: A response can be reused
 
-A person should not need to answer the same questionnaire again if they already completed it.
+---
+
+### Rule 3: A response can be reused
 
 Core model:
 
-ResponseSet = one person’s completed answers to one questionnaire version
-ComparisonSession = a comparison that references two or more ResponseSets
+- `ResponseSet` — one person's completed answers to one questionnaire version
+- `ComparisonSession` — a comparison that references two or more ResponseSets
 
-The same ResponseSet can be used in multiple comparisons.
+The same `ResponseSet` can be used in multiple `ComparisonSession`s, as long as the questionnaire version matches.
+
+---
 
 ### Rule 4: Reuse requires explicit consent
 
-Even if the app recognizes an existing response, it must not automatically attach it to a new comparison.
+Even if the app finds an existing response by access code, it must not automatically attach it to a new comparison.
 
 The user must confirm:
 
-Use this existing response for comparison with [Name]?
+> Use this existing response for comparison with **[Name]**?
+
+`[Name]` is the display name the inviter provided when creating the invite link.
+
+---
+
 ### Rule 5: Access code supports accountless reuse
 
-Because the MVP has no accounts, users can reuse previous answers by entering an access code.
+Because the MVP has no accounts, users reuse previous responses by entering an access code:
 
-Example:
-
+```
 K7Q9-MP2D-W4T8
+```
 
-The access code should be shown after questionnaire completion and explained clearly.
+The access code is a portable credential used only to attach an existing response to a new comparison. It does not open the personal result page — that requires the private result link.
+
+The access code is shown after questionnaire completion and explained clearly, including its distinction from the private result link.
+
+---
 
 ### Rule 6: Access code must be private
 
 The UI should warn:
 
-Keep this access code private. Anyone with this code may be able to access or reuse your response.
+> Keep this access code private. Anyone with this code can reuse your response in a new comparison.
 
-Technically, the app should store only a hash of the access code, not the plain code.
+The app stores only a hash of the access code, never the plain value.
+
+---
 
 ### Rule 7: Raw answers are not shown by default
 
-Comparison reports should show summaries, overlaps, differences, and prompts.
+Comparison reports show summaries, overlaps, differences, and prompts.
 
-Raw answers should not be visible unless a future feature explicitly allows sharing them with consent.
+Raw answers are not visible unless a future feature explicitly allows sharing them with consent.
+
+---
 
 ### Rule 8: No compatibility score
 
-The app should avoid:
+The app avoids language such as:
 
-87% compatible
-good fit
-bad fit
-high empathy
-low empathy
-hire
-reject
+- `87% compatible`
+- `good fit` / `bad fit`
+- `high empathy` / `low empathy`
+- `hire` / `reject`
 
-Instead, it should say things like:
+Instead it uses neutral, descriptive language:
 
-You both prefer explicit expectations.
-You differ in how much flexibility you prefer under deadline pressure.
-This may be useful to discuss before working together.
+- *You both prefer explicit expectations.*
+- *You differ in how much flexibility you prefer under deadline pressure.*
+- *This may be useful to discuss before working together.*
+
+---
+
 ### Rule 9: Results are explainable
 
 Each insight should be traceable to questionnaire dimensions or specific questions.
 
 Example:
 
-Based on your answers about feedback rhythm and decision-making, you both prefer written context before important discussions.
+> *Based on your answers about feedback rhythm and decision-making, you both prefer written context before important discussions.*
+
+---
+
 ### Rule 10: Context matters
 
-A response may depend on context. Someone may answer differently for:
+A response may depend on context. Someone may answer differently for a job interview, a current team, a cofounder relationship, or a mentorship.
 
-- job interview
-- current team
-- friendship
-- cofounder relationship
-- manager relationship
+Reuse options (full set, future):
 
-So reuse should include options:
+- Use existing response
+- Review/edit a copy
+- Fill in a new response
 
-Use existing response
-Review/edit a copy
-Fill in a new response
+**MVP reuse options:**
 
-For MVP: 
-Use existing response
-Fill in again
+- Use existing response
+- Fill in again
 
-and document “review/edit copy” as future improvement.
+"Review/edit a copy" is documented as a future improvement.
+
+---
 
 ## 9. Privacy and ethics principles
+
 This application is a reflective comparison tool. It does not diagnose personality, empathy, morality, emotional intelligence, mental health, or relationship compatibility. Results are based only on self-reported answers and are presented as neutral conversation prompts.
 
-The app should be built around these principles:
+The app is built around these principles:
 
 - no psychological diagnosis
-- no ranking people
-- no emotional intelligence scoring
+- no ranking or scoring people
 - no hidden sharing
 - no raw answer sharing by default
-- explicit consent before reuse
+- explicit consent before reuse, scoped to the specific comparison
 - private result links
-- access codes treated as sensitive
-- ability to delete response
-- invite links expire
+- access codes treated as sensitive credentials
+- ability to delete response at any time
+- invite links are time-limited and single-use
 - minimal data collection
 
+---
+
 ## 10. MVP scope
-The first version should include:
+
+**In scope:**
 
 - questionnaire definition
 - questionnaire completion
 - personal reflection result
 - private result link
 - access code generation
-- invite link generation
+- invite link generation (with inviter display name)
 - one-to-one comparison
+- automatic comparison generation when both responses are available
 - reuse existing response by access code
 - explicit consent before reuse
 - comparison result page
 - delete response
-- invite expiry
+- invite expiry (time-based and single-use)
 - audit event logging
 
-The MVP should not include:
+**Out of scope:**
 
 - user accounts
 - social network profiles
@@ -302,93 +384,98 @@ The MVP should not include:
 - complex admin dashboard
 - microservices
 
+---
+
 ## 11. Future ideas
 
-Later versions could add:
-
-- optional accounts
-- email magic links
-- group comparisons
+- optional accounts and email magic links
+- group comparisons (single report for three or more participants)
 - PDF or Markdown report export
 - questionnaire version management UI
-- organization/team spaces
+- organization and team spaces
 - optional raw answer sharing with consent
 - analytics for small teams
 - reporting module
+- review/edit a copy of an existing response before reuse
+
+---
 
 ## 12. Technical implications
-The product should be designed as a modular monolith.
 
-Possible modules:
+The product should be designed as a **modular monolith**.
 
-Questionnaires
-Responses
-Comparisons
-Reporting
-Privacy
-Audit
-Notifications
+**Modules:**
 
-Important domain objects:
+- `Questionnaires`
+- `Responses`
+- `Comparisons`
+- `Reporting`
+- `Privacy`
+- `Audit`
+- `Notifications`
 
-QuestionnaireTemplate
-QuestionnaireVersion
-Question
-AnswerOption
-ScoringRule
-InsightTemplate
-ResponseSet
-Answer
-ComparisonSession
-ComparisonParticipant
-ComparisonResult
-InviteToken
-AccessCode
-AuditEvent
+**Domain objects:**
 
-Important technical decisions:
+- `QuestionnaireTemplate`
+- `QuestionnaireVersion`
+- `Question`
+- `AnswerOption`
+- `ScoringRule`
+- `InsightTemplate`
+- `ResponseSet`
+- `Answer`
+- `ComparisonSession`
+- `ComparisonParticipant`
+- `ComparisonResult`
+- `InviteToken`
+- `AccessCode`
+- `AuditEvent`
+
+**Key technical decisions:**
 
 - deterministic comparison engine
 - no LLM-generated interpretation in MVP
 - access code stored as hash
-- private tokens stored as hash
+- private result tokens stored as hash
 - comparison results tied to questionnaire version
 - audit events record important lifecycle actions
 - architecture tests enforce module boundaries
 
+---
+
 ## 13. Audit events
 
-The app should log important audit events for traceability, but not raw answers.
+The app logs important lifecycle events for traceability, but never raw answers.
 
-Events:
+**Events logged:**
 
-questionnaire_started
-questionnaire_completed
-personal_reflection_generated
-comparison_invite_created
-comparison_invite_opened
-comparison_joined
-existing_response_reuse_requested
-existing_response_reuse_approved
-comparison_generated
-response_deleted
-comparison_deleted
-access_denied
-invite_expired
+- `questionnaire_started`
+- `questionnaire_completed`
+- `personal_reflection_generated`
+- `comparison_invite_created`
+- `comparison_invite_opened`
+- `comparison_joined`
+- `existing_response_reuse_requested`
+- `existing_response_reuse_approved`
+- `comparison_generated`
+- `response_deleted`
+- `comparison_deleted`
+- `access_denied`
+- `invite_expired`
 
-Audit logs should answer:
+**Audit logs must be able to answer:**
 
-Was consent given?
-Was a response reused?
-Was a comparison generated?
-Was an invite expired?
-Was a response deleted?
-Was access denied?
+- Was consent given?
+- Was a response reused?
+- Was a comparison generated?
+- Was an invite expired?
+- Was a response deleted?
+- Was access denied?
 
-They should not contain:
+**Audit logs must never contain:**
 
-raw answers
-private tokens
-access codes
-full result text
-sensitive personal content
+- raw answers
+- private tokens
+- access codes
+- full result text
+- sensitive personal content
