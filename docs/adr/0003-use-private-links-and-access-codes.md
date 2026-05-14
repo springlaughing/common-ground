@@ -29,8 +29,15 @@ Use two separate access mechanisms:
 The private result link is used to access a participant's personal result page:
 
 ```text
-/me/{privateResultToken}
+/me#TOKEN
 ```
+
+The token is delivered in the URL fragment, not the path. Fragments are never transmitted to the server in HTTP requests, so the token does not appear in server access logs, CDN logs, or proxy logs.
+
+When the participant navigates to `/me#TOKEN`, the React frontend reads the fragment, POSTs the token to `/api/session/start`, and the server validates it against the stored hash. On success, the server issues a short-lived session as a `HttpOnly; Secure; SameSite=Strict` cookie. Subsequent requests use the cookie — the token is not re-transmitted after the first validation.
+
+The URL remains a valid bookmark. If the session cookie expires, the participant navigates back to their saved link to re-validate.
+
 The personal result page may show:
 
 - personal reflection
@@ -66,6 +73,12 @@ The system stores only hashes of:
 
 - private result tokens
 - access codes
+
+The token is delivered in the URL fragment (`/me#TOKEN`) so it is never transmitted to the server in HTTP requests and does not appear in server or proxy logs.
+
+The server must respond with `Referrer-Policy: no-referrer` on result pages to prevent the token leaking via the Referer header if the user navigates to an external link.
+
+After the token is validated, the server issues a session as a `HttpOnly; Secure; SameSite=Strict` cookie. The token is not re-transmitted after the first validation. The cookie has a defined expiry; when it expires the participant re-validates using their saved link.
 
 The access code is a portable credential. The UI must clearly explain that it should be kept private.
 
@@ -121,6 +134,10 @@ Email magic links may be considered later as an optional recovery mechanism.
 This was rejected because it makes the access code too powerful.
 
 The access code is intended only for response reuse. Full access to the personal reflection page and comparison dashboard should require the private result link.
+
+### Token in URL path
+
+Placing the token in the URL path (`/me/{token}`) was considered and rejected because the token would appear in server access logs, CDN logs, proxy logs, and browser history on every visit. The fragment approach (`/me#token`) avoids server-side log exposure while keeping the URL bookmarkable.
 
 ### Automatic returning-user detection
 
