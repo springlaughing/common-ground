@@ -16,19 +16,19 @@ Choose one primary answer. You may also choose one secondary answer.
 
 **Q1 When starting work with someone new, what helps you feel ready to collaborate?**
 
-A. Understanding the goal, context, and expectations — I find it hard to contribute well without knowing what we are working toward and what is expected of me.
+A. Written goals, context, and expectations — I need to understand what we are working toward before I can contribute. A document I can return to is more reliable than a conversation I have to remember.
 
-B. A short conversation to align and ask questions — I need direct exchange to feel confident that I understand what is real, not just what was written down.
+B. A live conversation to ask questions and calibrate — written context only tells me what someone decided to write down. A real exchange lets me test my understanding and surface what I did not know I needed to ask.
 
-C. A small first task to learn how we work together — I learn more about how a collaboration actually works by doing something together than by talking about it first.
+C. Seeing examples or trying a small piece of real work — I learn more about how a collaboration works by doing something together than by discussing it first.
 
-D. Knowing who owns which decisions and responsibilities — I can start quickly once I know who is accountable for what and where my judgment matters.
+D. Clear ownership and decision boundaries outlined somewhere, and discussion about them when needed — I can move quickly once I know who is accountable for what and where my judgment applies.
 
 Hidden mapping:
-A → clarity_before_action: 2
-B → verbal_alignment_preference: 2
-C → learning_by_doing: 2
-D → clarity_before_action: 2, ownership_clarity_need: 2
+- A: upfront_clarity_need: +2, clarity_via_written_context: +2, verbal_alignment_preference: -1
+- B: upfront_clarity_need: +2, verbal_alignment_preference: +2, clarity_via_written_context: -1
+- C: learning_by_doing: +2, ambiguity_tolerance: +2, upfront_clarity_need: -1
+- D: ownership_boundary_clarity: +2, upfront_clarity_need: +2
 
 **Q2 After initial alignment, what source of truth helps you most?**
 
@@ -41,10 +41,10 @@ C. Clear task ownership in the work-tracking system — I work best when respons
 D. I usually rely more on conversation than written tracking — I find that regular dialogue keeps me aligned more reliably than maintaining documents.
 
 Hidden mapping:
-A → documentation_preference: 2
-B → visibility_preference: 2
-C → ownership_clarity_need: 2
-D → verbal_alignment_preference: 2
+- A: clarity_via_written_context: +2, verbal_alignment_preference: -1
+- B: visibility_preference: +2, clarity_via_written_context: +1
+- C: ownership_boundary_clarity: +2, clarity_via_written_context: +1
+- D: verbal_alignment_preference: +2, clarity_via_written_context: -1
 
 **Q3 When you join an existing team or project, what helps you integrate fastest?**
 
@@ -57,10 +57,10 @@ C. Looking at real examples: tasks, code, tickets, or past work — the actual w
 D. Understanding team norms, roles, and expectations — I integrate faster when I know how the team works together and what is expected of me, not just what the work is.
 
 Hidden mapping:
-A → documentation_preference: 2, clarity_before_action: 1
-B → verbal_alignment_preference: 2
-C → learning_by_doing: 2
-D → social_context_need: 2, ownership_clarity_need: 1
+- A → clarity_via_written_context: +2, upfront_clarity_need: +1
+- B → verbal_alignment_preference: +2, clarity_via_written_context: -1
+- C → learning_by_doing: +2, clarity_via_artifact_context: +2, ambiguity_tolerance: +1
+- D → social_context_need: +2, ownership_boundary_clarity: +2
 
 **Q4 When working with someone new, which situation would make you most cautious?**
 
@@ -73,10 +73,10 @@ C. People act on assumptions without checking understanding — decisions are ma
 D. Risks or mistakes are not raised early — I find it harder to trust a collaboration where problems are held back until they become urgent.
 
 Hidden mapping:
-A → ownership_clarity_need: 2
-B → documentation_preference: 2, visibility_preference: 1
-C → explicit_alignment_need: 2
-D → risk_transparency_need: 2
+- A: ownership_boundary_clarity: +2
+- B: clarity_via_written_context: +2, visibility_preference: +1
+- C: explicit_alignment_need: +2
+- D: risk_transparency_need: +2
 
 ## Section 2: Staying aligned during work / Collaboration rhythm
 
@@ -88,9 +88,15 @@ A. At scheduled check-ins, so people can prepare and avoid unnecessary interrupt
 
 B. Spontaneously, whenever alignment needs attention — I would rather address a misalignment the moment I notice it than wait for a scheduled moment that may not come soon enough.
 
-C. Only when there is a clear reason, such as a blocker, decision, or major change — conversations without a purpose tend to create more noise than clarity.
+C. Scheduled only when there is a clear reason, such as a blocker, decision, or major change — conversations without a purpose tend to create more noise than clarity.
 
 D. At a regular rhythm, with spontaneous conversations for urgent issues — I want a predictable baseline with room to escalate when something cannot wait.
+
+Hidden mapping:
+- A: scheduled_communication_preference: +2, focus_protection: +1
+- B: immediate_alignment_preference: +2, verbal_alignment_preference: +1
+- C: focus_protection: +2, scheduled_communication_preference: +1
+- D: scheduled_communication_preference: +1, immediate_alignment_preference: +1, verbal_alignment_preference: +1
 
 **Q2 During shared work, where should important updates, decisions, and progress be captured?**
 
@@ -102,15 +108,27 @@ C. In task comments, tickets, or pull requests close to the work — context bel
 
 D. In conversation first; written capture is only needed when something is unclear, risky, or important — I do not think everything needs to be documented, only the things worth coming back to.
 
+Hidden mapping:
+- A: clarity_via_written_context: +2, verbal_alignment_preference: -1
+- B: visibility_preference: +2, clarity_via_written_context: +1
+- C: clarity_via_artifact_context: +2, clarity_via_written_context: +1
+- D: verbal_alignment_preference: +2, clarity_via_written_context: -1
+
 **Q3 During shared work, how much visibility do you prefer into collaborators' progress before the work is finished?**
 
-A. Frequent small updates while work is still in progress — I find it easier to coordinate and help when I have a live sense of where things are, not just the final result.
+A. Frequent small updates while work is still in progress — whether through a board, messages, or brief updates, I find it easier to coordinate and help when I have a live sense of where things are, not just the final result.
 
 B. Updates when progress, blockers, or assumptions meaningfully change — I do not need a running feed, just a signal when something shifts that I should know about.
 
 C. Updates at agreed checkpoints, such as review points or milestones — predictable moments work better for me than continuous updates that interrupt flow.
 
 D. Minimal updates unless help, coordination, or a decision is needed — I trust people to surface what matters and prefer not to monitor what does not require my attention.
+
+Hidden mapping:
+- A: visibility_preference: +2, immediate_alignment_preference: +1
+- B: visibility_preference: +1, risk_transparency_need: +1
+- C: focus_protection: +2, scheduled_communication_preference: +1
+- D: ambiguity_tolerance: +2, focus_protection: +1
 
 This makes it clearer that it is about amount/frequency of visibility, not tool.
 A nice user instruction could be: "Answer based on how much visibility you prefer, not where the update happens."
@@ -125,11 +143,17 @@ So Section 2 now has clean separation:
 
 A. Fixed cycles with planning, review, and reflection — I work best when there is a predictable rhythm with clear moments to plan, deliver, and improve.
 
-B. Continuous flow through a visible board or backlog — I prefer to pull from a prioritized list and keep work moving without waiting for the next cycle to start.
+B. Continuous flow through a visible board or backlog — I prefer to pull from a prioritized list and keep work moving without waiting for the next cycle to start. The backlog doesn't need to be complete before I begin.
 
 C. A hybrid approach with some planning rhythm and flexible flow — I want the predictability of regular planning without the rigidity of fixed cycles that cannot respond to change.
 
 D. Larger upfront planning with milestones and dependencies clarified early — I find it easier to execute when the full scope, sequence, and dependencies are visible from the start.
+
+Hidden mapping:
+- A: iteration_preference: +2, scheduled_communication_preference: +1
+- B: flow_preference: +2, ambiguity_tolerance: +1
+- C: iteration_preference: +1, flow_preference: +1
+- D: upfront_planning_preference: +2, upfront_clarity_need: +1
 
 This is probably the core question for this section.
 Rough hidden mapping:
@@ -149,7 +173,13 @@ C. Starting with a rough direction and refining the plan as we learn — I find 
 
 D. When uncertainty or risk is high, running a small experiment first and planning based on what we learn — I would rather build the plan on something real than commit to assumptions we have not tested.
 
-The hidden mapping becomes:
+Hidden mapping:
+- A: upfront_planning_preference: +2, upfront_clarity_need: +1
+- B: flow_preference: +2, ambiguity_tolerance: +1
+- C: adaptive_planning_preference: +2, ambiguity_tolerance: +2, upfront_planning_preference: -1
+- D: evidence_based_planning_preference: +2, risk_transparency_need: +1, ambiguity_tolerance: +1
+
+Rough hidden mapping explanation:
 •	A = upfront planning from known constraints 
 •	B = backlog / next-step planning 
 •	C = adaptive planning while work progresses 
@@ -164,6 +194,12 @@ B. The reason, trade-offs, and risks are explained before the change is made —
 C. The change is discussed with the people affected before it is finalized — I need to be part of the conversation before the change lands, not just informed after.
 
 D. Changes are grouped into planning points rather than introduced continuously — I find it harder to work well when priorities can shift at any moment without a boundary.
+
+Hidden mapping:
+- A: clarity_via_written_context: +2, visibility_preference: +1, verbal_alignment_preference: -1
+- B: risk_transparency_need: +2, upfront_clarity_need: +1
+- C: participatory_decision_preference: +2, explicit_alignment_need: +1
+- D: planning_boundary_protection: +2, focus_protection: +1, scheduled_communication_preference: +1
 
 This is not asking:
 "Do you accept priority changes?"
@@ -195,6 +231,12 @@ B. Decide case by case after discussing urgency, impact, and risks — I am open
 C. Add them flexibly if they are clearly valuable — I think the ability to respond to something important should not be blocked by process.
 
 D. Save them for the next planning point unless they are truly urgent — I need the plan to mean something, and that requires protecting it from constant interruption.
+
+Hidden mapping:
+- A: capacity_protection: +2, sustainable_pace_preference: +1
+- B: tradeoff_visibility: +2, risk_transparency_need: +1, participatory_decision_preference: +1, change_tolerance: +1
+- C: change_tolerance: +2, ambiguity_tolerance: +1, capacity_protection: -1, sustainable_pace_preference: -1
+- D: planning_boundary_protection: +2, capacity_protection: +1, sustainable_pace_preference: +1
 
 This version is cleaner:
 •	A = capacity trade-off required 
@@ -292,6 +334,12 @@ They may think:
 Hidden mapping:
 D = participatory planning / impact discussion / responsibility-change sensitivity
 This is important for trust and fairness.
+
+Hidden mapping:
+- A: clarity_via_written_context: +2, visibility_preference: +2
+- B: tradeoff_visibility: +2, risk_transparency_need: +2
+- C: focus_protection: +2, planning_boundary_protection: +2
+- D: participatory_decision_preference: +2, ownership_boundary_clarity: +1
 
 **Q6 When a team needs to improve how it works, what approach feels most useful to you?**
 
