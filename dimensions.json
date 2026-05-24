@@ -1,0 +1,244 @@
+{
+  "dimensions": [
+    {
+      "id": "upfront_clarity_need",
+      "description": "Needs clear goals, expectations, and success criteria — including quality bar and definition of done — established before starting work",
+      "first_appears": "S1 Q1"
+    },
+    {
+      "id": "clarity_via_written_context",
+      "description": "Prefers written documentation as the primary source of truth for alignment",
+      "first_appears": "S1 Q1"
+    },
+    {
+      "id": "clarity_via_artifact_context",
+      "description": "Learns from existing examples, code, tickets, or past work rather than descriptions",
+      "first_appears": "S1 Q3"
+    },
+    {
+      "id": "verbal_alignment_preference",
+      "description": "Prefers live conversation over written documentation for staying aligned",
+      "first_appears": "S1 Q1"
+    },
+    {
+      "id": "learning_by_doing",
+      "description": "Learns how a collaboration or system works by trying something real rather than reading about it first",
+      "first_appears": "S1 Q1"
+    },
+    {
+      "id": "ambiguity_tolerance",
+      "description": "Comfortable working with incomplete information or undefined constraints",
+      "first_appears": "S1 Q1"
+    },
+    {
+      "id": "ownership_boundary_clarity",
+      "description": "Needs clear definition of who owns which decisions and responsibilities",
+      "first_appears": "S1 Q1"
+    },
+    {
+      "id": "visibility_preference",
+      "description": "Prefers live visibility into progress, blockers, and state rather than periodic summaries",
+      "first_appears": "S1 Q2"
+    },
+    {
+      "id": "social_context_need",
+      "description": "Needs to understand team norms, roles, and interpersonal context to integrate effectively",
+      "first_appears": "S1 Q3"
+    },
+    {
+      "id": "explicit_alignment_need",
+      "description": "Needs explicit shared agreement before acting — uncomfortable with unverified assumptions",
+      "first_appears": "S1 Q4"
+    },
+    {
+      "id": "risk_transparency_need",
+      "description": "Expects risks, gaps, and problems to be surfaced early and openly rather than held back",
+      "first_appears": "S1 Q4"
+    },
+    {
+      "id": "scheduled_communication_preference",
+      "description": "Prefers alignment and updates at predictable, structured moments rather than continuously",
+      "first_appears": "S2 Q1"
+    },
+    {
+      "id": "focus_protection",
+      "description": "Values protecting uninterrupted work time; sensitive to unnecessary context switching",
+      "first_appears": "S2 Q1"
+    },
+    {
+      "id": "immediate_alignment_preference",
+      "description": "Prefers addressing misalignment or blockers as soon as they appear rather than waiting",
+      "first_appears": "S2 Q1"
+    },
+    {
+      "id": "iteration_preference",
+      "description": "Prefers fixed delivery cycles with dedicated planning, review, and reflection moments",
+      "first_appears": "S3 Q1"
+    },
+    {
+      "id": "flow_preference",
+      "description": "Prefers continuous work pulled from a prioritized backlog without fixed cycles or waiting",
+      "first_appears": "S3 Q1"
+    },
+    {
+      "id": "upfront_planning_preference",
+      "description": "Prefers clarifying full scope, dependencies, and milestones before beginning execution",
+      "first_appears": "S3 Q1"
+    },
+    {
+      "id": "adaptive_planning_preference",
+      "description": "Prefers refining the plan progressively as work progresses and more is learned",
+      "first_appears": "S3 Q2"
+    },
+    {
+      "id": "evidence_based_planning_preference",
+      "description": "Prefers grounding plans in small experiments or observable signals before committing to a direction",
+      "first_appears": "S3 Q2"
+    },
+    {
+      "id": "participatory_decision_preference",
+      "description": "Expects to be involved in decisions that affect their work before those decisions are finalized",
+      "first_appears": "S3 Q3"
+    },
+    {
+      "id": "planning_boundary_protection",
+      "description": "Expects changes to be batched into planning points rather than introduced mid-flow",
+      "first_appears": "S3 Q3"
+    },
+    {
+      "id": "capacity_protection",
+      "description": "Expects new work to require an explicit trade-off against existing commitments rather than being added on top",
+      "first_appears": "S3 Q4"
+    },
+    {
+      "id": "sustainable_pace_preference",
+      "description": "Values maintaining a sustainable workload and resisting scope or pace inflation",
+      "first_appears": "S3 Q4"
+    },
+    {
+      "id": "tradeoff_visibility",
+      "description": "Expects trade-offs, alternatives considered, and what is being given up to be made explicit",
+      "first_appears": "S3 Q4"
+    },
+    {
+      "id": "change_tolerance",
+      "description": "Comfortable accepting scope or plan changes without requiring extensive process or justification",
+      "first_appears": "S3 Q4"
+    },
+    {
+      "id": "pragmatic_completion_preference",
+      "description": "Considers work done when the core problem is solved reliably; follow-up items should not always be a gate",
+      "first_appears": "S4 Q1"
+    },
+    {
+      "id": "external_validation_need",
+      "description": "Needs a peer review or external check before trusting a handoff or considering work complete",
+      "first_appears": "S4 Q1"
+    },
+    {
+      "id": "impact_calibration_preference",
+      "description": "Prefers assessing severity and actual impact before reacting; values proportionate responses over immediate alarm",
+      "first_appears": "S4 Q2"
+    },
+    {
+      "id": "autonomous_problem_resolution",
+      "description": "Prefers resolving problems independently before involving others to avoid unnecessary noise or interruption",
+      "first_appears": "S4 Q2"
+    },
+    {
+      "id": "root_cause_orientation",
+      "description": "Prioritizes understanding why a problem happened alongside fixing it, to prevent recurrence",
+      "first_appears": "S4 Q2"
+    },
+    {
+      "id": "quality_protection_preference",
+      "description": "Protects the quality bar even under deadline pressure; treats some quality risks as non-negotiable",
+      "first_appears": "S4 Q3"
+    },
+    {
+      "id": "accountability_preference",
+      "description": "Prioritizes owning and fixing a problem over explaining or questioning it; repair-first orientation",
+      "first_appears": "S4 Q5"
+    },
+    {
+      "id": "critical_feedback_validation",
+      "description": "Validates whether a concern reflects a real gap before accepting it; does not treat every finding as a problem by default",
+      "first_appears": "S4 Q5"
+    },
+    {
+      "id": "feedback_content_primacy_giving",
+      "description": "When giving feedback, prioritizes accuracy and substance over delivery style; believes valid concerns should not be dismissed due to discomfort",
+      "first_appears": "S5 Q1"
+    },
+    {
+      "id": "feedback_delivery_awareness_giving",
+      "description": "When giving feedback, believes delivery style is essential to effectiveness; adjusts how feedback is given so the other person can actually use it",
+      "first_appears": "S5 Q1"
+    },
+    {
+      "id": "feedback_content_primacy_receiving",
+      "description": "When receiving feedback, extracts useful signal even from poor delivery; does not let style get in the way of hearing the concern",
+      "first_appears": "S5 Q2"
+    },
+    {
+      "id": "feedback_delivery_awareness_receiving",
+      "description": "When receiving feedback, needs delivery to be appropriate before being able to process the concern; style affects ability to engage",
+      "first_appears": "S5 Q2"
+    },
+    {
+      "id": "communication_norm_alignment",
+      "description": "Prefers to explicitly agree on shared norms for how concerns and feedback are exchanged, not just resolve the immediate instance",
+      "first_appears": "S5 Q1"
+    },
+    {
+      "id": "private_feedback_preference",
+      "description": "Prefers to raise concerns privately first; treats public discussion of problems as a last resort",
+      "first_appears": "S5 Q3"
+    },
+    {
+      "id": "dignity_in_feedback_need",
+      "description": "Needs public feedback to be handled respectfully and without embarrassment; dignity is a precondition for engagement",
+      "first_appears": "S5 Q4"
+    },
+    {
+      "id": "relational_repair_need",
+      "description": "Needs a private follow-up conversation after public feedback exchanges; repair happens separately from the public discussion",
+      "first_appears": "S5 Q4"
+    },
+    {
+      "id": "autonomous_pace_preference",
+      "description": "Expects to manage their own work tempo without regular monitoring; frequent purposeless check-ins feel like distrust",
+      "first_appears": "S6 Q1"
+    },
+    {
+      "id": "autonomous_execution_preference",
+      "description": "Expects to decide HOW to execute work they own; detailed direction within owned scope feels like a lack of trust in their judgment",
+      "first_appears": "S6 Q1"
+    },
+    {
+      "id": "support_over_control_preference",
+      "description": "Accepts oversight when it comes from a place of support; rejects oversight that feels driven by anxiety, distrust, or a need to approve every step",
+      "first_appears": "S6 Q1"
+    },
+    {
+      "id": "unblocking_support_need",
+      "description": "Needs access to guidance or decision help when blocked; unavailable support on important decisions feels like abandonment",
+      "first_appears": "S6 Q2"
+    },
+    {
+      "id": "proactive_feedback_need",
+      "description": "Needs ongoing calibrating signals and encouragement, not just feedback when something goes wrong",
+      "first_appears": "S6 Q2"
+    },
+    {
+      "id": "directive_support_preference",
+      "description": "When blocked or unsure, prefers a concrete decision or recommendation over collaborative exploration; wants to be unblocked, not facilitated",
+      "first_appears": "S6 Q3"
+    },
+    {
+      "id": "help_seeking_safety_need",
+      "description": "Needs to be able to ask for support without it being interpreted as a lack of competence; psychological safety to seek help is part of healthy ownership",
+      "first_appears": "S6 Q4"
+    }
+  ]
+}

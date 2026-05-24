@@ -453,6 +453,12 @@ C. Someone else has reviewed it. I trust the handoff more when another person ha
 
 D. What is not done now has a clear owner and plan. Iteration is fine, but only with accountability.
 
+Hidden mapping:
+- A: pragmatic_completion_preference: +2, ambiguity_tolerance: +1
+- B: risk_transparency_need: +2, visibility_preference: +2
+- C: external_validation_need: +2
+- D: ownership_boundary_clarity: +2, upfront_clarity_need: +1
+
 **Q2 You discover a problem with work that has already been handed off or shared. What is your instinct?**
 
 A. I tell the relevant people early, even before I know everything. Surprises are worse than uncertainty.
@@ -462,6 +468,12 @@ B. I assess how serious it is first. A proportionate response serves everyone be
 C. I try to fix it quickly before involving others. If I can resolve it responsibly, I do not want to create unnecessary noise.
 
 D. I look for why it happened, not only how to fix it. Preventing the same problem matters as much as resolving this one.
+
+Hidden mapping:
+- A: risk_transparency_need: +2, immediate_alignment_preference: +1
+- B: impact_calibration_preference: +2, ambiguity_tolerance: +1
+- C: autonomous_problem_resolution: +2, ambiguity_tolerance: +1
+- D: root_cause_orientation: +2, risk_transparency_need: +1
 
 **Q3 Your team needs to reduce scope or quality to meet a deadline. What is your instinct?**
 
@@ -473,6 +485,12 @@ C. I accept the compromise and trust we will improve later. Progress over perfec
 
 D. I need explicit agreement from the people affected before moving forward. Alignment is not optional.
 
+Hidden mapping:
+- A: risk_transparency_need: +2, clarity_via_written_context: +1, participatory_decision_preference: -1
+- B: quality_protection_preference: +2, sustainable_pace_preference: +1
+- C: pragmatic_completion_preference: +2, change_tolerance: +1
+- D: participatory_decision_preference: +2, explicit_alignment_need: +1
+
 **Q4 You are starting a significant piece of work, and the expected quality bar has not been clearly defined. What is your instinct?**
 
 A. I clarify what "good enough" means before going too far. Shared expectations prevent rework.
@@ -482,6 +500,12 @@ B. I define my own quality bar and make my assumptions visible. Someone needs to
 C. I start with a smaller version and use feedback to calibrate the quality bar. Learning through progress is safest.
 
 D. I use existing team standards or past examples as the quality bar. Consistency matters when expectations are unclear.
+
+Hidden mapping:
+- A: upfront_clarity_need: +2, explicit_alignment_need: +1
+- B: ownership_boundary_clarity: +2, ambiguity_tolerance: +1
+- C: adaptive_planning_preference: +2, learning_by_doing: +1
+- D: clarity_via_artifact_context: +2, upfront_clarity_need: +1
 
 It distinguishes:
 •	A = clarify before execution 
@@ -500,6 +524,11 @@ C. I want to understand why it is considered a problem. Not every concern reflec
 D. I want to revisit expectations and assumptions. If the quality bar was not shared clearly, the finding itself is worth examining.
 
 Hidden mapping:
+- A: accountability_preference: +2
+- B: impact_calibration_preference: +2
+- C: critical_feedback_validation: +2
+- D: explicit_alignment_need: +2, upfront_clarity_need: +1
+
 •	A = ownership / repair-first 
 •	B = impact assessment / proportional response 
 •	C = validation before acceptance / healthy skepticism 
@@ -522,6 +551,12 @@ C. I want to separate the two issues: whether the concern was valid, and whether
 
 D. I ask what specifically felt harsh so we can agree on a better way to discuss concerns next time.
 
+Hidden mapping:
+- A: feedback_content_primacy_giving: +2, feedback_delivery_awareness_giving: -1
+- B: feedback_delivery_awareness_giving: +2, feedback_content_primacy_giving: -1
+- C: feedback_content_primacy_giving: +1, feedback_delivery_awareness_giving: +1
+- D: communication_norm_alignment: +2
+
 **Q2 You receive feedback that feels unnecessarily harsh, but the concern may be valid. What is your instinct?**
 
 A. I try to separate the message from the delivery. If there is something useful in the feedback, I want to understand it even if the style was poor.
@@ -531,6 +566,12 @@ B. I ask for the feedback to be given in a way I can actually use. Directness is
 C. I want to discuss both the concern and how it was delivered. The feedback itself may matter, but so does the communication pattern around it.
 
 D. I question the feedback more if the delivery feels unclear, exaggerated, or unfair. If the style distorts the message, I need to examine whether the concern is valid.
+
+Hidden mapping:
+- A: feedback_content_primacy_receiving: +2, feedback_delivery_awareness_receiving: -1
+- B: feedback_delivery_awareness_receiving: +2, feedback_content_primacy_receiving: -1
+- C: feedback_content_primacy_receiving: +1, feedback_delivery_awareness_receiving: +1, communication_norm_alignment: +1
+- D: critical_feedback_validation: +2, feedback_delivery_awareness_receiving: +1, feedback_content_primacy_receiving: -1
 
 **Q3 When you have a concern about someone's work or behavior, what is your default instinct?**
 
@@ -542,6 +583,12 @@ C. I adjust based on the person and relationship. Some people can handle public 
 
 D. I raise it in the context where the concern appeared. If it happened in a meeting, task, review, or shared discussion, I usually address it there.
 
+Hidden mapping:
+- A: private_feedback_preference: +2
+- B: visibility_preference: +2, private_feedback_preference: -1
+- C: social_context_need: +2
+- D: immediate_alignment_preference: +2
+
 **Q4 Someone raises a concern about your work or behavior in front of others. What matters most to you?**
 
 A. That the concern is relevant to the group. If others are affected or need the context, public discussion can be appropriate.
@@ -551,6 +598,12 @@ B. That it is handled respectfully and without embarrassment. Public feedback ca
 C. That I have a chance to respond or clarify context. If a concern is raised publicly, I need room for my perspective too.
 
 D. That the person follows up privately afterward. Public discussion may solve the immediate issue, but repair often needs a separate conversation.
+
+Hidden mapping:
+- A: visibility_preference: +2
+- B: dignity_in_feedback_need: +2
+- C: participatory_decision_preference: +2
+- D: relational_repair_need: +2
 
 ## Section 6: Autonomy and support
 
@@ -567,6 +620,12 @@ C. Decisions being reopened repeatedly after alignment. If we already agreed on 
 
 D. Oversight that feels more like control than support. I can accept involvement, but not when it seems driven by anxiety, distrust, or a need to approve every step.
 
+Hidden mapping:
+- A: autonomous_pace_preference: +2, focus_protection: +1
+- B: autonomous_execution_preference: +2
+- C: planning_boundary_protection: +2, ownership_boundary_clarity: +1
+- D: support_over_control_preference: +2
+
 **Q2 What starts feeling like abandonment to you?**
 
 A. Expectations change without discussion or support. I can handle change, but not when I am left to absorb it alone or guess what is now expected.
@@ -576,6 +635,12 @@ B. Important decisions become hard to get help on. I can work independently, but
 C. I only hear feedback when something goes wrong. If there is no encouragement, calibration, or signal until a problem appears, support starts to feel absent.
 
 D. Coordination disappears even though the work is interdependent. Autonomy is fine, but connected work still needs communication, timing, and shared awareness.
+
+Hidden mapping:
+- A: participatory_decision_preference: +2, explicit_alignment_need: +1
+- B: unblocking_support_need: +2
+- C: proactive_feedback_need: +2
+- D: visibility_preference: +2, scheduled_communication_preference: +1, upfront_planning_preference: +1
 
 **Q3 When you are unsure how to move forward, what kind of support feels most helpful?**
 
@@ -587,6 +652,12 @@ C. A conversation to think through options together. I value support that helps 
 
 D. Space to explore first, then bring back what I learn. I prefer not to involve others before I have formed my own view.
 
+Hidden mapping:
+- A: upfront_clarity_need: +2, explicit_alignment_need: +1, upfront_planning_preference: +1
+- B: directive_support_preference: +2, ambiguity_tolerance: -1
+- C: verbal_alignment_preference: +2, participatory_decision_preference: +1
+- D: ambiguity_tolerance: +2, autonomous_problem_resolution: +1, learning_by_doing: +1, directive_support_preference: -1
+
 **Q4 What makes ownership of work feel healthy to you?**
 
 A. I know what decisions are mine to make. Clear boundaries make ownership feel safe.
@@ -596,6 +667,12 @@ B. I can ask for help without it being seen as a lack of competence. Support sho
 C. Others stay informed enough that my work does not become isolated. Ownership should not mean disappearing.
 
 D. I have enough freedom to make trade-offs without needing approval for every step. Ownership should come with real authority.
+
+Hidden mapping:
+- A: ownership_boundary_clarity: +2
+- B: help_seeking_safety_need: +2
+- C: visibility_preference: +2, scheduled_communication_preference: +1
+- D: autonomous_execution_preference: +2, ownership_boundary_clarity: +1
 
 ## Section 7: Meetings and live collaboration
 
