@@ -689,6 +689,12 @@ C. Mostly async updates, with meetings only when something actually needs live d
 
 D. A regular rhythm, even if there is not always much to discuss — the consistency itself has value, and I would rather have a quiet meeting than lose the habit.
 
+Hidden mapping:
+- A: focus_protection: +2, visibility_preference: +1
+- B: verbal_alignment_preference: +2, tradeoff_visibility: +1
+- C: focus_protection: +2, clarity_via_written_context: +2, verbal_alignment_preference: -1
+- D: scheduled_communication_preference: +2, social_context_need: +1
+
 **Q2 — What is the strongest justification for interrupting someone with an unscheduled conversation?**
 
 A. Something is genuinely blocked and every hour of waiting has a real cost. I would rather interrupt than let the work stall or the decision stay open longer than it needs to.
@@ -698,6 +704,12 @@ B. The topic is too sensitive or too easily misread in writing. Some things need
 C. The written thread has already taken longer than a short conversation would. When async stops being efficient, switching to real-time is not an interruption — it is the right call.
 
 D. Honestly, almost nothing justifies it by default. Most things can wait, and I think respecting someone's focus means letting them choose when they are available rather than pulling them out of it.
+
+Hidden mapping:
+- A: immediate_alignment_preference: +2, focus_protection: -1
+- B: verbal_alignment_preference: +2, social_context_need: +1
+- C: verbal_alignment_preference: +1, pragmatic_completion_preference: +1
+- D: focus_protection: +2, scheduled_communication_preference: +1, verbal_alignment_preference: -1
 
 **Q3 — If a recurring meeting could only guarantee one of these things, which would make it worth keeping?**
 
@@ -709,6 +721,12 @@ C. Shared awareness of what is shifting, what is blocked, and what people need f
 
 D. The genuine freedom to cancel it when it is not needed. A meeting that earns its place every time it happens feels very different from one that just recurs because it was scheduled.
 
+Hidden mapping:
+- A: upfront_clarity_need: +2, visible_result_need: +1, focus_protection: +1
+- B: relational_connection_need: +2, scheduled_communication_preference: +1
+- C: explicit_alignment_need: +2, visibility_preference: +1, risk_transparency_need: +1
+- D: focus_protection: +2
+
 **Q4 — What makes a meeting feel draining or unnecessary?**
 
 A. No clear decision, outcome, or next step came from it — I can accept that a meeting was hard or long, but I struggle when I cannot point to what it produced.
@@ -718,6 +736,12 @@ B. The same context could have been shared in writing and people could have resp
 C. Too many people were included without a clear reason to be there — it signals either unclear ownership or a habit of over-involving people as a substitute for actual communication.
 
 D. It pulled me out of focused work without delivering enough value to justify the cost — the interruption itself is the problem, not just the meeting content.
+
+Hidden mapping:
+- A: visible_result_need: +2, focus_protection: +1
+- B: clarity_via_written_context: +2, focus_protection: +1, verbal_alignment_preference: -1
+- C: ownership_boundary_clarity: +2
+- D: focus_protection: +2
 
 ## Section 8: Pressure, urgency, and motivation
 
@@ -731,6 +755,12 @@ C. A quick collaborative moment to agree on what gets dropped or deferred — I 
 
 D. A written summary I can come back to — when things are urgent, live conversation creates noise I have to carry in my head. Written expectations let me focus instead of remember.
 
+Hidden mapping:
+- A: calm_urgency_preference: +2, tradeoff_visibility: +1
+- B: risk_transparency_need: +2, tradeoff_visibility: +1
+- C: participatory_decision_preference: +2, immediate_alignment_preference: +1
+- D: clarity_via_written_context: +2, focus_protection: +1, verbal_alignment_preference: -1
+
 **Q2 — Your manager addresses the team before a critical deadline. Which would actually motivate you most?**
 
 A. "If we don't deliver this, heads will roll."
@@ -740,6 +770,12 @@ B. "This is not university. We have to deliver."
 C. "I think this is a genuinely exciting milestone. Let me know if anything is blocking you."
 
 D. Nothing — the deadline is visible, the priorities are clear. A speech would mostly get in the way.
+
+Hidden mapping:
+- A: pressure_driven_motivation: +2, calm_urgency_preference: -1
+- B: pressure_driven_motivation: +2, calm_urgency_preference: -1
+- C: positive_motivation_preference: +2, calm_urgency_preference: +1
+- D: autonomous_motivation: +2, focus_protection: +1
 
 **Q3 — When a manager or colleague communicates urgency in a way that bothers you, what do you usually do?**
 
@@ -751,6 +787,12 @@ C. I mention it to someone I trust, but not to the person directly — sometimes
 
 D. It depends on the relationship and how often it happens — a one-off I can usually let go, but if it keeps happening I will say something.
 
+Hidden mapping:
+- A: direct_conflict_approach: +2, private_feedback_preference: +1
+- B: communication_friction_tolerance: +2, team_impact_orientation: +1
+- C: conflict_avoidance_tendency: +2, indirect_conflict_processing: +1
+- D: direct_conflict_approach: +1, social_context_need: +1
+
 **Q4 — During a high-pressure or urgent situation, someone tells you that your tone, word choice, or communication style felt too intense, too blunt, or hard to receive. What is your instinct?**
 
 A. I take it seriously and adjust — if my delivery made it harder for someone to think clearly or act well, that is my problem to fix regardless of the pressure we were both under.
@@ -760,6 +802,12 @@ B. I want to understand what specifically landed badly before I change anything 
 C. I acknowledge the reaction but do not automatically see it as something to fix — sometimes intensity reflects the situation honestly, and I think that can be said without apologizing for it.
 
 D. I notice whether it is a pattern or a one-off — pressure situations are not normal conditions, and a single reaction does not always mean I need to change how I communicate generally.
+
+Hidden mapping:
+- A: feedback_delivery_awareness_giving: +2, accountability_preference: +1
+- B: root_cause_orientation: +2, feedback_delivery_awareness_giving: +1
+- C: feedback_content_primacy_giving: +2, critical_feedback_validation: +1
+- D: impact_calibration_preference: +2
 
 ## Section 9: Conflict and tension handling
 

@@ -239,6 +239,61 @@
       "id": "help_seeking_safety_need",
       "description": "Needs to be able to ask for support without it being interpreted as a lack of competence; psychological safety to seek help is part of healthy ownership",
       "first_appears": "S6 Q4"
+    },
+    {
+      "id": "visible_result_need",
+      "description": "Needs collaborative interactions to produce a concrete, visible outcome — a decision, next step, or documented result; time without tangible output is hard to justify",
+      "first_appears": "S7 Q3"
+    },
+    {
+      "id": "relational_connection_need",
+      "description": "Values regular synchronous contact for team cohesion and human connection beyond task-based interaction; familiarity and rhythm matter independently of output",
+      "first_appears": "S7 Q3"
+    },
+    {
+      "id": "calm_urgency_preference",
+      "description": "Needs urgency communicated calmly and factually; does not want stress, anxiety, or pressure to be performed — clarity over dramatisation",
+      "first_appears": "S8 Q1"
+    },
+    {
+      "id": "pressure_driven_motivation",
+      "description": "Galvanized by high-pressure, consequence-laden, or accountability-based urgency communication; responds to stress-driven framing",
+      "first_appears": "S8 Q2"
+    },
+    {
+      "id": "positive_motivation_preference",
+      "description": "Motivated by positive, encouraging, and purpose-driven framing; responds to excitement and support rather than pressure or consequences",
+      "first_appears": "S8 Q2"
+    },
+    {
+      "id": "autonomous_motivation",
+      "description": "Self-motivated and does not need external motivational input; finds speeches or pep talks before deadlines distracting rather than helpful",
+      "first_appears": "S8 Q2"
+    },
+    {
+      "id": "direct_conflict_approach",
+      "description": "Addresses interpersonal friction directly with the person involved, even when uncomfortable; willing to name patterns that bother them",
+      "first_appears": "S8 Q3"
+    },
+    {
+      "id": "communication_friction_tolerance",
+      "description": "Genuinely absorbs uncomfortable communication styles without needing to address them; personal discomfort is not sufficient reason to escalate",
+      "first_appears": "S8 Q3"
+    },
+    {
+      "id": "team_impact_orientation",
+      "description": "Uses team impact rather than personal discomfort as the threshold for action; subordinates own comfort to team function",
+      "first_appears": "S8 Q3"
+    },
+    {
+      "id": "conflict_avoidance_tendency",
+      "description": "Avoids direct confrontation of uncomfortable patterns; needs distance and processing time before deciding whether to act",
+      "first_appears": "S8 Q3"
+    },
+    {
+      "id": "indirect_conflict_processing",
+      "description": "Processes interpersonal friction by naming it to a trusted third party rather than raising it directly with the person involved",
+      "first_appears": "S8 Q3"
     }
   ]
 }
