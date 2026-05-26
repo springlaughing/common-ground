@@ -395,6 +395,12 @@ Hidden mapping:
 D = informal reflection / relational sensing / low-structure feedback
 This can work well in high-trust teams, but may miss deeper patterns if people avoid difficult conversations.
 
+Hidden mapping:
+- A: scheduled_communication_preference: +2, iteration_preference: +1
+- B: immediate_alignment_preference: +2, ambiguity_tolerance: +1
+- C: root_cause_orientation: +2, impact_calibration_preference: +1
+- D: verbal_alignment_preference: +2, relational_connection_need: +1
+
 **Q7 When a team reflects on how work is going, what topics should be included?**
 
 A. Work process, planning, blockers, and delivery flow — I think the most important thing to examine is whether the team can execute and deliver reliably.
@@ -405,11 +411,17 @@ C. Collaboration patterns, communication, and decision-making — these topics f
 
 D. Team safety, pressure, conflict, and how people are treated — when people do not feel safe being honest, real problems stay hidden until they are already affecting the work. That is usually when they are hardest to fix.
 
-Hidden mapping
+Notes about possible mapping:
 A → process_reflection_preference, delivery_flow_orientation
 B → technical_reflection_preference, quality_orientation, risk_awareness
 C → collaboration_reflection_preference, communication_awareness, decision_process_awareness
 D → psychological_safety_preference, conflict_awareness, interpersonal_safety_orientation
+
+Hidden mapping:
+- A: delivery_reflection_priority: +2
+- B: technical_reflection_priority: +2
+- C: interpersonal_reflection_priority: +2
+- D: safety_reflection_priority: +2
 Possible internal dimensions for section 3
 You could define Section 3 dimensions like this (should be corrected/updated)
 delivery_rhythm_preference
@@ -821,6 +833,12 @@ C. Give both of us some space before trying to address it — when people are st
 
 D. Name it directly before it has time to harden — the longer something sits unacknowledged between two people, the more weight it accumulates.
 
+Hidden mapping:
+- A: impact_calibration_preference: +2, root_cause_orientation: +1
+- B: team_impact_orientation: +2, private_feedback_preference: +1
+- C: tension_deescalation_preference: +2
+- D: direct_conflict_approach: +2, immediate_alignment_preference: +1
+
 **Q2 — When should an issue be escalated?**
 
 A. As soon as delivery or coordination is genuinely at risk — waiting for the right process when something real is breaking feels like prioritising comfort over responsibility.
@@ -830,6 +848,12 @@ B. When the issue involves a decision or authority that neither person actually 
 C. When the same pattern repeats without improvement — a single incident rarely justifies escalation, but a pattern that nobody is addressing is a different problem entirely.
 
 D. Only when the people involved have genuinely tried and cannot resolve it responsibly on their own — escalation should be a last resort, not a shortcut around a difficult conversation.
+
+Hidden mapping:
+- A: issue_escalation_preference: +2, team_impact_orientation: +1, immediate_alignment_preference: +1, risk_transparency_need: +1
+- B: issue_escalation_preference: +2, ownership_boundary_clarity: +1
+- C: root_cause_orientation: +2, impact_calibration_preference: +1, communication_friction_tolerance: +1, issue_escalation_preference: +1
+- D: direct_conflict_approach: +2, autonomous_problem_resolution: +1
 
 **Q3 — When a difficult conversation is necessary, what do you most want it to produce?**
 
@@ -841,6 +865,12 @@ C. The relationship staying intact and workable — the outcome matters, but not
 
 D. Both people owning something — I find conversations more honest when neither person is only delivering or only receiving. Shared accountability changes the dynamic entirely.
 
+Hidden mapping:
+- A: visible_result_need: +2
+- B: mutual_understanding_need: +2
+- C: relational_connection_need: +2, relational_repair_need: +1
+- D: shared_accountability_preference: +2, accountability_preference: +1
+
 **Q4 — When tension or conflict between you and a colleague is not resolving itself, would you want someone to help facilitate, and who should that be?**
 
 A. Yes — a neutral peer who knows both of us and has enough context to help without taking sides.
@@ -850,6 +880,12 @@ B. Yes — a manager or someone with enough authority to move things forward if 
 C. Only if both people agree to it — facilitation imposed on one side usually makes things worse, not better.
 
 D. No — I think bringing in a third party changes the dynamic in ways that are hard to undo. I would rather resolve it directly even if it takes longer.
+
+Hidden mapping:
+- A: facilitation_openness: +2, social_context_need: +1
+- B: facilitation_openness: +2, issue_escalation_preference: +2
+- C: explicit_alignment_need: +2, facilitation_openness: +1
+- D: direct_conflict_approach: +2, autonomous_problem_resolution: +1
 
 **Q5 — When conflict or tension appears in a team, what do you believe about how it resolves?**
 
@@ -861,6 +897,12 @@ C. It often resolves itself if people are given enough space and time — premat
 
 D. It resolves more reliably when the team has regular practices that make tension safe to surface early — not just when something breaks. Without those habits, people wait too long or avoid it entirely.
 
+Hidden mapping:
+- A: direct_conflict_approach: +2, risk_transparency_need: +1
+- B: social_context_need: +2, ambiguity_tolerance: +1
+- C: tension_deescalation_preference: +2, autonomous_problem_resolution: +1
+- D: communication_norm_alignment: +2, proactive_conflict_culture_preference: +1, scheduled_communication_preference: +1
+
 **Q6 — You are in a leading role, and a team member comes to you and tells you they are in conflict with a colleague. What is your instinct?**
 
 A. I listen first and ask what they have already tried — I want to understand the situation before doing anything, and I want to support them in resolving it directly if that is still possible.
@@ -870,6 +912,12 @@ B. I offer to facilitate a conversation or organize a moderation between both pe
 C. I talk to the other person separately to hear their perspective before deciding anything — one account is never the whole picture.
 
 D. I assess whether this is affecting the wider team before deciding how to respond — a conflict between two people is sometimes a symptom of something bigger, and I want to understand that before focusing only on the two people involved.
+
+Hidden mapping:
+- A: autonomous_problem_resolution: +2, impact_calibration_preference: +1
+- B: facilitation_openness: +2, proactive_conflict_culture_preference: +1
+- C: impact_calibration_preference: +2, social_context_need: +1
+- D: team_impact_orientation: +2, root_cause_orientation: +1
 
 ## Section 10: Energy, satisfaction, and drain
 
@@ -886,6 +934,12 @@ C. Ownership and trust — being given real responsibility and the freedom to ma
 
 D. The people and relationships — the team, the collaboration, the shared experience of building something together matters more to me than the work itself.
 
+Hidden mapping:
+- A: craft_intrinsic_motivation: +2, autonomous_motivation: +1
+- B: purpose_driven_motivation: +2
+- C: autonomy_driven_motivation: +2, autonomous_execution_preference: +1
+- D: relational_driven_motivation: +2, relational_connection_need: +1
+
 **Q2 — What do you want more of in your work?**
 
 A. Deep focus time — uninterrupted stretches where I can actually think, not just react to whatever is most urgent.
@@ -895,6 +949,12 @@ B. Clearer priorities — not more information, just a more honest signal about 
 C. Better collaboration and feedback — work that involves real exchange, not just parallel effort with occasional updates.
 
 D. More ownership and decision-making space — I want to be trusted with the whole problem, not just the execution of someone else's solution.
+
+Hidden mapping:
+- A: focus_protection: +2, autonomous_pace_preference: +1
+- B: tradeoff_visibility: +2
+- C: proactive_feedback_need: +2, verbal_alignment_preference: +1
+- D: autonomy_driven_motivation: +2, autonomous_execution_preference: +1
 
 **Q3 — What kind of recognition feels most meaningful?**
 
@@ -906,6 +966,12 @@ C. Someone acknowledges the effort during a difficult or pressured period — be
 
 D. Someone connects my work to a bigger outcome — I find it meaningful when I can see how what I did actually moved something that mattered.
 
+Hidden mapping:
+- A: craft_intrinsic_motivation: +2, quality_protection_preference: +1
+- B: autonomy_driven_motivation: +2, autonomous_execution_preference: +1
+- C: pressure_recognition_need: +2
+- D: purpose_driven_motivation: +2
+
 **Q4 — What drains you most at work?**
 
 A. Avoided conflict or indirect communication — when problems are visible but nobody names them, the silence itself becomes exhausting to work inside.
@@ -916,6 +982,12 @@ C. Work that feels disconnected from any meaningful outcome — I can push throu
 
 D. Feeling underutilized or invisible — when my judgment, skills, or contribution are consistently overlooked or not sought out, it is quietly exhausting in a way that is hard to name but hard to ignore.
 
+Hidden mapping:
+- A: direct_conflict_approach: +2, risk_transparency_need: +1
+- B: focus_protection: +2, visible_result_need: +1
+- C: purpose_driven_motivation: +2
+- D: autonomy_driven_motivation: +2, proactive_feedback_need: +1
+
 **Q5 — At the end of a good workday, what most often makes it feel like time well spent?**
 
 A. I made visible progress on something that actually matters — not busy work, not preparation for future work, but real movement on something with weight.
@@ -925,3 +997,9 @@ B. I helped someone or removed something that was blocking them — knowing the 
 C. I understood something I did not understand before — a day where my mental model of the problem, the system, or the people improved feels well spent even without visible output.
 
 D. I left things better than I found them — a cleaner codebase, a clearer process, a resolved tension. Incremental improvement in the right direction is quietly satisfying in a way that big visible progress sometimes is not.
+
+Hidden mapping:
+- A: purpose_driven_motivation: +2
+- B: relational_driven_motivation: +2
+- C: learning_orientation: +2
+- D: craft_intrinsic_motivation: +2, quality_protection_preference: +1
