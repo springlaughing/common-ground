@@ -41,18 +41,26 @@ sufficient.
 
 ## Deterministic Scoring Engine
 
-**Decision**: Each `AnswerOption` has a `ScoringValue` (integer). After submission, the
-engine groups answers by dimension, sums scoring values per dimension, and looks up the
-matching `InsightTemplate` for each dimension based on score range. Personal reflection
-is the set of matched insight texts. No calculation beyond summing and range lookup.
+**Decision**: Each `AnswerOption` carries a set of `DimensionWeight` rows (one per
+dimension it contributes to, with positive or negative integer weights). After
+submission, the engine accumulates weighted contributions per dimension — primary
+answer at ×1.0, optional secondary answer at ×0.5. Each raw score is then normalised
+against a per-dimension maximum (precomputed at seed time) to produce a 0.0–1.0
+normalised score stored in `DimensionScore`. Reflection assembly filters dimensions
+at a threshold (0.4), looks up pre-authored `InsightSnippet` texts, and computes a
+1–5 strength indicator (ceil(normalised_score × 5)).
 
-**Rationale**: Simple, testable, reproducible. The scoring logic can be fully covered
-by unit and mutation tests. Insight templates are human-reviewed strings stored in the
-database — not generated at runtime.
+**Rationale**: A single answer option contributes to multiple dimensions — the
+working-style questionnaire is designed this way intentionally. A single ScoringValue
+per option cannot represent this. Per-dimension normalisation ensures a dimension
+probed by 7 questions is not artificially stronger than one probed by 1 question.
+The full pipeline is deterministic and fully testable with unit and mutation tests.
+Insight snippets are human-authored strings in the database — no LLM at runtime.
 
-**Alternatives considered**: Weighted scoring with normalisation — rejected as
-unnecessary complexity for MVP. Can be introduced with a new questionnaire version
-later.
+**Alternatives considered**: Single ScoringValue per answer option — rejected because
+it cannot represent multi-dimensional answer contributions, which is fundamental to
+the questionnaire design. Score-range InsightTemplate lookup — rejected in favour of
+a single pre-authored snippet per dimension, which is simpler to author and maintain.
 
 ---
 
@@ -108,22 +116,32 @@ Types.InAssembly(typeof(ResponsesModule).Assembly)
 
 ## Questionnaire Content (MVP)
 
-**Decision**: Design a working-style questionnaire with 12 questions across 6
-dimensions. Each question has 4 answer options scored 1–4. Dimensions:
+**Decision**: The questionnaire has 46 questions across 10 sections, probing 76
+dimensions of working style. Each question has 4 answer options (A–D); the user
+selects one primary and optionally one secondary. Answer options carry
+multi-dimensional weights defined in `questionary.md`. Dimensions are defined in
+`dimensions.json`. User-facing insight snippets and group structure are defined in
+`reflection-groups.json`. The 76 dimensions are organised into 10 named groups for
+display on the personal reflection page.
 
-1. **FeedbackRhythm** — how often and in what form feedback is preferred
-2. **DecisionMaking** — autonomous vs. consensus-driven decisions
-3. **CommunicationStyle** — written vs. verbal, async vs. sync
-4. **DeadlineApproach** — flexible vs. strict, buffer vs. just-in-time
-5. **ConflictHandling** — direct vs. indirect, immediate vs. delayed
-6. **CollaborationDepth** — independent work vs. close collaboration
+Sections:
+1. Collaboration setup (4 questions)
+2. Staying aligned during work (3 questions)
+3. Planning and delivery style (7 questions)
+4. Quality, risk, and delivery expectations (5 questions)
+5. Feedback and psychological safety (4 questions)
+6. Autonomy and support (4 questions)
+7. Meetings and live collaboration (4 questions)
+8. Pressure, urgency, and motivation (4 questions)
+9. Conflict and tension handling (6 questions)
+10. Energy, satisfaction, and drain (5 questions)
 
-2 questions per dimension. Insight templates cover low (1–4), mid (5–6), and high
-(7–8) score ranges per dimension for personal reflection.
-
-**Rationale**: 12 questions is achievable in under 15 minutes (SC-001). 6 dimensions
-covers the key working-style areas identified in the product concept. 3 insight bands
-per dimension = 18 personal reflection insight templates for the MVP.
+**Rationale**: 46 questions across 10 sections is achievable in under 15 minutes
+(SC-001). The multi-dimensional weight model means each answer contributes to
+several dimensions simultaneously — this produces richer, more nuanced profiles than
+a single-dimension-per-question design. Secondary answer support adds signal without
+requiring additional questions. The 76 dimensions cover the full range of
+collaboration expectations identified in the product concept.
 
 ---
 
