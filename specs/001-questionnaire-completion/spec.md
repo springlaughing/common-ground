@@ -89,6 +89,21 @@ After completing the questionnaire, the user receives two separate credentials: 
 - **FR-013**: The app MUST log the following audit events: `questionnaire_started`, `questionnaire_completed`, `personal_reflection_generated`
 - **FR-014**: Audit events MUST NOT contain raw answers, tokens, or access codes
 
+#### Scoring Engine
+
+- **FR-015**: The scoring engine MUST compute a raw dimension score for each dimension by summing weighted answer contributions: primary answer at ×1.0, optional secondary answer at ×0.5
+- **FR-016**: Each raw dimension score MUST be normalised against that dimension's maximum achievable score, producing a normalised score in the range 0.0–1.0. Maximum achievable score per dimension is computed at seed time from the weight table.
+- **FR-017**: The scoring engine MUST be deterministic — identical response inputs always produce identical normalised scores
+- **FR-018**: Dimensions with a normalised score below the display threshold (default: 0.4) MUST NOT appear on the personal reflection page
+
+#### Personal Reflection Page
+
+- **FR-019**: The personal reflection page MUST organise visible dimensions into the 10 groups defined in `reflection-groups.json`, in group order
+- **FR-020**: Groups where no dimension meets the display threshold MUST be omitted from the page entirely
+- **FR-021**: Each visible dimension MUST be rendered using its pre-authored insight snippet from `reflection-groups.json`
+- **FR-022**: Each visible dimension MUST display a 5-point visual strength indicator derived from its normalised score
+- **FR-023**: The personal reflection page MUST NOT display raw dimension scores or numeric values to the user
+
 ### Key Entities
 
 - **QuestionnaireVersion**: A versioned, immutable snapshot of the questionnaire. Contains questions, answer options, and scoring rules. Only one version is active at a time for MVP.
@@ -96,7 +111,8 @@ After completing the questionnaire, the user receives two separate credentials: 
 - **AnswerOption**: A selectable answer for a question. Has a scoring value used by the comparison engine.
 - **ResponseSet**: A participant's completed answers to one questionnaire version. Immutable once submitted.
 - **Answer**: A single answer given by a participant to a specific question.
-- **InsightTemplate**: A predefined neutral insight template used to generate reflection content from scored dimensions.
+- **DimensionGroup**: A named group of related dimensions defined in `reflection-groups.json`. Has a human-readable title and an ordered list of dimension IDs. Used to organise the personal reflection page into thematic sections. There are 10 groups covering topics such as planning style, feedback, conflict, and motivation.
+- **InsightSnippet**: A pre-authored second-person text for a specific dimension, stored in `reflection-groups.json`. Rendered on the personal reflection page when the dimension's normalised score meets the display threshold. One snippet per dimension — no LLM involvement at runtime.
 - **PrivateResultCredential**: The participant's private result link credential. Stored as a hash. Used to access the personal reflection page.
 - **AccessCode**: The participant's reuse credential. Stored as a hash. Used only to reuse a response in a future comparison.
 
@@ -112,6 +128,8 @@ After completing the questionnaire, the user receives two separate credentials: 
 - **SC-004**: Every insight on the personal reflection page is traceable to a specific questionnaire dimension
 - **SC-005**: No raw answers appear on the personal reflection page or in any audit log
 - **SC-006**: The private result link and access code are always displayed with distinct labels and separate explanations
+- **SC-007**: No raw dimension scores or numeric values appear on the personal reflection page
+- **SC-008**: The personal reflection page omits any group where no dimension meets the display threshold — the page reflects only what the response actually signals about this person
 
 ---
 
