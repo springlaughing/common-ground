@@ -197,7 +197,7 @@ D. Changes are grouped into planning points rather than introduced continuously 
 
 Hidden mapping:
 - A: clarity_via_written_context: +2, visibility_preference: +1, verbal_alignment_preference: -1
-- B: risk_transparency_need: +2, upfront_clarity_need: +1
+- B: risk_transparency_need: +2, tradeoff_visibility: +1
 - C: participatory_decision_preference: +2, explicit_alignment_need: +1
 - D: planning_boundary_protection: +2, focus_protection: +1, scheduled_communication_preference: +1
 
@@ -768,7 +768,7 @@ C. A quick collaborative moment to agree on what gets dropped or deferred — I 
 D. A written summary I can come back to — when things are urgent, live conversation creates noise I have to carry in my head. Written expectations let me focus instead of remember.
 
 Hidden mapping:
-- A: calm_urgency_preference: +2, tradeoff_visibility: +1
+- A: calm_urgency_preference: +2, upfront_clarity_need: +1
 - B: risk_transparency_need: +2, tradeoff_visibility: +1
 - C: participatory_decision_preference: +2, immediate_alignment_preference: +1
 - D: clarity_via_written_context: +2, focus_protection: +1, verbal_alignment_preference: -1
@@ -915,7 +915,7 @@ D. I assess whether this is affecting the wider team before deciding how to resp
 
 Hidden mapping:
 - A: autonomous_problem_resolution: +2, impact_calibration_preference: +1
-- B: facilitation_openness: +2, proactive_conflict_culture_preference: +1
+- B: facilitation_openness: +2
 - C: impact_calibration_preference: +2, social_context_need: +1
 - D: team_impact_orientation: +2, root_cause_orientation: +1
 
@@ -952,7 +952,7 @@ D. More ownership and decision-making space — I want to be trusted with the wh
 
 Hidden mapping:
 - A: focus_protection: +2, autonomous_pace_preference: +1
-- B: tradeoff_visibility: +2
+- B: upfront_clarity_need: +2
 - C: proactive_feedback_need: +2, verbal_alignment_preference: +1
 - D: autonomy_driven_motivation: +2, autonomous_execution_preference: +1
 
@@ -967,7 +967,7 @@ C. Someone acknowledges the effort during a difficult or pressured period — be
 D. Someone connects my work to a bigger outcome — I find it meaningful when I can see how what I did actually moved something that mattered.
 
 Hidden mapping:
-- A: craft_intrinsic_motivation: +2, quality_protection_preference: +1
+- A: craft_intrinsic_motivation: +2
 - B: autonomy_driven_motivation: +2, autonomous_execution_preference: +1
 - C: pressure_recognition_need: +2
 - D: purpose_driven_motivation: +2
@@ -999,7 +999,7 @@ C. I understood something I did not understand before — a day where my mental 
 D. I left things better than I found them — a cleaner codebase, a clearer process, a resolved tension. Incremental improvement in the right direction is quietly satisfying in a way that big visible progress sometimes is not.
 
 Hidden mapping:
-- A: purpose_driven_motivation: +2
+- A: visible_result_need: +2, purpose_driven_motivation: +1
 - B: relational_driven_motivation: +2
 - C: learning_orientation: +2
-- D: craft_intrinsic_motivation: +2, quality_protection_preference: +1
+- D: improvement_satisfaction: +2, craft_intrinsic_motivation: +1
