@@ -1,0 +1,262 @@
+.step {
+  position: relative;
+  min-height: 100dvh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+}
+
+/* ── Top progress bar ─────────────────────── */
+
+.progressBar {
+  flex-shrink: 0;
+  height: 4px;
+  background: var(--color-border);
+}
+
+.progressFill {
+  height: 100%;
+  background: var(--color-accent);
+  transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Header ──────────────────────────────── */
+
+.header {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 40px;
+  position: relative;
+  z-index: 2;
+}
+
+.backLink {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  background: none;
+  border: none;
+  padding: 4px 0;
+  letter-spacing: 0.02em;
+  transition: color 0.12s;
+}
+
+.backLink:hover {
+  color: var(--color-text-primary);
+}
+
+.brand {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-primary);
+}
+
+/* ── Main content ────────────────────────── */
+
+.content {
+  flex: 1;
+  padding: 8px 40px 220px;
+  max-width: 720px;
+  width: 100%;
+  align-self: center;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.question {
+  font-size: clamp(26px, 3.8vw, 42px);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+}
+
+/* ── Answer cards ────────────────────────── */
+
+.cards {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  border-radius: var(--radius-card);
+  border: 1.5px solid var(--color-border);
+  background: #ffffff;
+  text-align: left;
+  width: 100%;
+  transition: border-color 0.12s, background 0.12s;
+}
+
+.card:hover {
+  border-color: var(--color-border-hover);
+  background: var(--color-card-hover);
+}
+
+/* Primary selection: black fill */
+.card.primary {
+  background: var(--color-text-primary);
+  border-color: var(--color-text-primary);
+}
+
+.card.primary:hover {
+  background: #222222;
+  border-color: #222222;
+}
+
+/* Secondary selection: yellow fill */
+.card.secondary {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.card.secondary:hover {
+  background: #f5d700;
+  border-color: #f5d700;
+}
+
+/* Dot badge (acts as radio indicator) */
+.dot {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1.5px solid #d1d5db;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  color: #9ca3af;
+  transition: border-color 0.12s, background 0.12s, color 0.12s;
+}
+
+.card.primary .dot {
+  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+}
+
+.card.secondary .dot {
+  border-color: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.07);
+  color: #111111;
+}
+
+.cardText {
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.45;
+  color: var(--color-text-primary);
+}
+
+.card.primary .cardText {
+  color: #ffffff;
+}
+
+.card.secondary .cardText {
+  color: #111111;
+}
+
+/* Optional secondary hint */
+.hint {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  font-weight: 400;
+  margin-top: -8px;
+}
+
+/* ── Decorative brand initials ───────────── */
+
+.deco {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.c,
+.g {
+  position: absolute;
+  font-weight: 800;
+  line-height: 0.7;
+  color: var(--color-accent);
+  user-select: none;
+}
+
+/* lowercase, big but not capital — pulled in toward the text column, asymmetric */
+.c {
+  font-family: var(--font-sans);
+  font-size: clamp(170px, 24vw, 380px);
+  left: 6%;
+  bottom: 8%;
+}
+
+/* unconventional g: serif double-story, italic, tilted, flanking the column higher up */
+.g {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-style: italic;
+  font-size: clamp(200px, 30vw, 460px);
+  right: 7%;
+  bottom: 24%;
+  transform: rotate(7deg);
+}
+
+/* ── Footer ──────────────────────────────── */
+
+.footer {
+  flex-shrink: 0;
+  padding: 20px 40px 28px;
+  display: flex;
+  justify-content: flex-end;
+  position: relative;
+  z-index: 2;
+  max-width: 720px;
+  width: 100%;
+  align-self: center;
+}
+
+.nextBtn {
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  background: var(--color-text-primary);
+  border: none;
+  padding: 14px 28px;
+  border-radius: var(--radius-button);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  letter-spacing: 0.01em;
+  transition: opacity 0.15s;
+}
+
+.nextBtn:disabled {
+  opacity: 0.28;
+  cursor: not-allowed;
+}
+
+.nextBtn:not(:disabled):hover {
+  opacity: 0.82;
+}
+
+/* ── Responsive ──────────────────────────── */
+
+@media (max-width: 640px) {
+  .header  { padding: 16px 20px; }
+  .content { padding: 8px 20px 200px; }
+  .footer  { padding: 16px 20px 24px; }
+}

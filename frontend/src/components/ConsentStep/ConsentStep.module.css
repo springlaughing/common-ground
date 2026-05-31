@@ -1,0 +1,76 @@
+.heading {
+  font-size: clamp(32px, 4.5vw, 52px);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+}
+
+.points {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  max-width: 560px;
+}
+
+.point {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding-left: 16px;
+  border-left: 2.5px solid var(--color-accent);
+}
+
+.pointTitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.pointText {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+}
+
+.consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  cursor: pointer;
+}
+
+.checkbox {
+  width: 20px;
+  height: 20px;
+  margin-top: 1px;
+  flex-shrink: 0;
+  accent-color: var(--color-text-primary);
+  cursor: pointer;
+}
+
+.cta {
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+  background: var(--color-text-primary);
+  border: none;
+  padding: 16px 32px;
+  border-radius: var(--radius-button);
+  letter-spacing: 0.01em;
+  transition: opacity 0.15s;
+}
+
+.cta:disabled {
+  opacity: 0.28;
+  cursor: not-allowed;
+}
+
+.cta:not(:disabled):hover {
+  opacity: 0.82;
+}
