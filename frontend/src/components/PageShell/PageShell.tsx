@@ -60,7 +60,10 @@ export function PageShell({
 
       {/* Subtle screens keep the viewport-corner deco. */}
       {decoVariant === 'default' && (
-        <div className={styles.deco} aria-hidden="true">
+        <div
+          className={`${styles.deco}${decoStyle === 'outline' ? ` ${styles.outlineDeco}` : ''}`}
+          aria-hidden="true"
+        >
           <span className={styles.c}>c</span>
           <span className={styles.g}>g</span>
         </div>

@@ -92,18 +92,17 @@
 
 .c {
   font-family: var(--font-sans);
-  font-size: clamp(170px, 24vw, 380px);
-  left: 6%;
-  bottom: 8%;
+  font-size: clamp(200px, 20vw, 360px);
+  left: 15%;
+  bottom: 5%;
+  transform: rotate(-40deg);
 }
 
 .g {
-  font-family: Georgia, 'Times New Roman', serif;
-  font-style: italic;
-  font-size: clamp(200px, 30vw, 460px);
-  right: 7%;
-  bottom: 24%;
-  transform: rotate(7deg);
+  font-family: 'Book Antiqua', 'Palatino Linotype', Palatino, Georgia, serif;
+  font-size: clamp(260px, 26vw, 460px);
+  right: 10%;
+  top: 15%;
 }
 
 /* ── Hero variant (landing) ────────────────────
@@ -155,6 +154,25 @@
 /* Narrow screens (no side gutters): hug the text vertically — g a fixed gap above the
    eyebrow, c a fixed gap below the button — so the spacing holds at any phone height. */
 @media (max-width: 900px) {
+  /* Default deco: fix to viewport so letters don't scroll with content */
+  .deco {
+    position: fixed;
+  }
+
+  .deco .c {
+    font-size: clamp(150px, 42vw, 260px);
+    left: -8%;
+    bottom: 15%;
+    top: auto;
+  }
+
+  .deco .g {
+    font-size: clamp(170px, 48vw, 280px);
+    right: -8%;
+    top: 22%;
+    bottom: auto;
+  }
+
   .heroDeco .c {
     font-size: clamp(190px, 60vw, 340px);
     right: auto;
@@ -173,14 +191,19 @@
 }
 
 /* Outline variant — inner pages: contour-only letters stay branded without competing with content */
-.outlineDeco {
-  opacity: 0.22;
-}
-
 .outlineDeco .c,
 .outlineDeco .g {
   color: transparent;
   -webkit-text-stroke: 4px var(--color-accent);
+}
+
+/* Hero (consent) a touch stronger; default (completion) matches question page */
+.heroDeco.outlineDeco {
+  opacity: 0.22;
+}
+
+.deco.outlineDeco {
+  opacity: 0.15;
 }
 
 @media (max-width: 640px) {

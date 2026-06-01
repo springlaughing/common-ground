@@ -3,27 +3,20 @@ import styles from './ReflectionPage.module.css'
 
 interface Props {
   reflection: ReflectionDto
+  onCompare?: () => void
 }
 
-function StrengthIndicator({ strength }: { strength: number }) {
+function DimensionDots({ strength }: { strength: number }) {
   return (
-    <span
-      className={styles.strength}
-      role="img"
-      aria-label={`Strength ${strength} out of 5`}
-    >
+    <div className={styles.dots} role="img" aria-label={`Strength ${strength} out of 5`}>
       {[1, 2, 3, 4, 5].map(i => (
-        <span
-          key={i}
-          className={`${styles.pip} ${i <= strength ? styles.pipOn : ''}`}
-          aria-hidden="true"
-        />
+        <span key={i} className={`${styles.dot} ${i <= strength ? styles.dotFilled : styles.dotEmpty}`} />
       ))}
-    </span>
+    </div>
   )
 }
 
-export function ReflectionPage({ reflection }: Props) {
+export function ReflectionPage({ reflection, onCompare }: Props) {
   return (
     <div className={styles.page}>
       <header className={styles.header}>
@@ -45,7 +38,8 @@ export function ReflectionPage({ reflection }: Props) {
             <div className={styles.insights}>
               {group.insights.map(insight => (
                 <article key={insight.dimensionId} className={styles.insight}>
-                  <StrengthIndicator strength={insight.strength} />
+                  <h3 className={styles.insightTitle}>{insight.title}</h3>
+                  <DimensionDots strength={insight.strength} />
                   <p className={styles.insightText}>{insight.text}</p>
                 </article>
               ))}
@@ -57,6 +51,14 @@ export function ReflectionPage({ reflection }: Props) {
           Only the patterns your answers signal clearly are shown here — that's why some
           themes may not appear.
         </p>
+
+        {onCompare && (
+          <div className={styles.compareBlock}>
+            <button className={styles.compareCta} onClick={onCompare}>
+              Compare with someone →
+            </button>
+          </div>
+        )}
       </main>
 
       <div className={styles.deco} aria-hidden="true">

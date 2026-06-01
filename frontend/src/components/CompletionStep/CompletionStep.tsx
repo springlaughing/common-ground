@@ -6,11 +6,12 @@ interface Props {
   privateResultLink: string
   accessCode: string
   onViewReflection: () => void
+  onBack?: () => void
 }
 
-export function CompletionStep({ privateResultLink, accessCode, onViewReflection }: Props) {
+export function CompletionStep({ privateResultLink, accessCode, onViewReflection, onBack }: Props) {
   return (
-    <PageShell align="top">
+    <PageShell align="top" decoStyle="outline" onBack={onBack} backLabel="← Back">
       <p className={styles.eyebrow}>All done</p>
       <h1 className={styles.heading}>Your reflection is ready.</h1>
       <p className={styles.lede}>

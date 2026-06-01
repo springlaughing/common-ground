@@ -30,6 +30,7 @@ export interface SubmitResponseRequest {
 
 export interface InsightDto {
   dimensionId: string
+  title: string
   text: string
   strength: number
 }
@@ -53,4 +54,27 @@ export interface SubmitResponseResult {
 export interface GetMyReflectionResponse {
   reflection: ReflectionDto
   accessCodeAvailable: boolean
+}
+
+export interface ComparisonInsightDto {
+  dimensionId: string
+  title: string
+  /** null = scored below display threshold for this person */
+  yourStrength: number | null
+  theirStrength: number | null
+  /** Omitted when this person scored below threshold */
+  yourText?: string
+  theirText?: string
+}
+
+export interface ComparisonGroupDto {
+  id: string
+  title: string
+  insights: ComparisonInsightDto[]
+}
+
+export interface ComparisonDto {
+  theirName: string
+  summary: string
+  groups: ComparisonGroupDto[]
 }

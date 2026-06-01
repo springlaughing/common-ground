@@ -91,33 +91,70 @@
 .insight {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
+}
+
+.insightTitle {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.dots {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.dotFilled {
+  background: var(--color-text-primary);
+}
+
+.dotEmpty {
+  background: transparent;
+  border: 1.5px solid var(--color-border);
 }
 
 .insightText {
-  font-size: 17px;
+  font-size: 15px;
   line-height: 1.55;
-  color: var(--color-text-primary);
+  color: var(--color-text-secondary);
   max-width: 600px;
+  margin: 0;
 }
 
-/* ── 5-point strength indicator ──────────── */
+/* ── Compare CTA ─────────────────────────── */
 
-.strength {
-  display: inline-flex;
-  gap: 6px;
-  align-items: center;
+.compareBlock {
+  margin-top: 48px;
+  padding-top: 32px;
+  border-top: 1px solid var(--color-border);
 }
 
-.pip {
-  width: 26px;
-  height: 6px;
-  border-radius: 3px;
-  background: var(--color-border);
+.compareCta {
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+  background: var(--color-text-primary);
+  border: none;
+  padding: 16px 32px;
+  border-radius: var(--radius-button);
+  letter-spacing: 0.01em;
+  transition: opacity 0.15s;
 }
 
-.pipOn {
-  background: var(--color-accent);
+.compareCta:hover {
+  opacity: 0.82;
 }
 
 /* ── Footnote ────────────────────────────── */
@@ -130,7 +167,7 @@
   max-width: 560px;
 }
 
-/* ── Decorative initials (fixed to viewport) ── */
+/* ── Decorative initials (fixed to viewport, same treatment as question page) ── */
 
 .deco {
   position: fixed;
@@ -138,6 +175,7 @@
   pointer-events: none;
   overflow: hidden;
   z-index: 1;
+  opacity: 0.15;
 }
 
 .c,
@@ -145,25 +183,38 @@
   position: absolute;
   font-weight: 800;
   line-height: 0.7;
-  color: var(--color-accent);
-  opacity: 0.5;
+  color: transparent;
+  -webkit-text-stroke: 4px var(--color-accent);
   user-select: none;
 }
 
 .c {
   font-family: var(--font-sans);
-  font-size: clamp(150px, 22vw, 340px);
-  left: 4%;
-  bottom: 4%;
+  font-size: clamp(200px, 20vw, 360px);
+  left: 15%;
+  bottom: 5%;
+  transform: rotate(-40deg);
 }
 
 .g {
-  font-family: Georgia, 'Times New Roman', serif;
-  font-style: italic;
-  font-size: clamp(180px, 26vw, 420px);
-  right: 4%;
-  bottom: 10%;
-  transform: rotate(7deg);
+  font-family: 'Book Antiqua', 'Palatino Linotype', Palatino, Georgia, serif;
+  font-size: clamp(260px, 26vw, 460px);
+  right: 10%;
+  top: 15%;
+}
+
+@media (max-width: 900px) {
+  .c {
+    font-size: clamp(150px, 42vw, 260px);
+    left: -8%;
+    bottom: 15%;
+  }
+  .g {
+    font-size: clamp(170px, 48vw, 280px);
+    right: -8%;
+    top: 22%;
+    bottom: auto;
+  }
 }
 
 @media (max-width: 640px) {
