@@ -7,7 +7,7 @@ interface Props {
 
 export function WelcomeStep({ onStart }: Props) {
   return (
-    <PageShell>
+    <PageShell decoVariant="hero" showBrand={false}>
       <p className={styles.eyebrow}>A working-style reflection</p>
 
       <h1 className={styles.headline}>

@@ -15,6 +15,8 @@ interface Props {
   onNext: () => void
   onBack: () => void
   isFirst: boolean
+  /** When true, the advance button reads "Submit" instead of "Next". */
+  isLast: boolean
 }
 
 export function QuestionStep({
@@ -30,6 +32,7 @@ export function QuestionStep({
   onNext,
   onBack,
   isFirst,
+  isLast,
 }: Props) {
   const progressPct = ((questionNumber - 1) / totalQuestions) * 100
 
@@ -55,8 +58,6 @@ export function QuestionStep({
     if (optionId === secondaryAnswerId) return 'secondary'
     return 'none'
   }
-
-  const isLastQuestion = questionNumber === totalQuestions
 
   return (
     <div className={styles.step}>
@@ -141,7 +142,7 @@ export function QuestionStep({
           onClick={onNext}
           disabled={primaryAnswerId === null}
         >
-          {isLastQuestion ? 'Submit' : 'Next'} →
+          {isLast ? 'Submit' : 'Next'} →
         </button>
       </footer>
     </div>

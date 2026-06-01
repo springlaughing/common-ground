@@ -1,3 +1,9 @@
+.headingBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 .heading {
   font-size: clamp(32px, 4.5vw, 52px);
   font-weight: 800;
@@ -6,20 +12,26 @@
   color: var(--color-text-primary);
 }
 
+.rule {
+  width: 40px;
+  height: 3px;
+  background: var(--color-accent);
+  border-radius: 2px;
+}
+
 .points {
   list-style: none;
+  padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 20px;
   max-width: 560px;
 }
 
 .point {
   display: flex;
   flex-direction: column;
-  gap: 3px;
-  padding-left: 16px;
-  border-left: 2.5px solid var(--color-accent);
+  gap: 4px;
 }
 
 .pointTitle {

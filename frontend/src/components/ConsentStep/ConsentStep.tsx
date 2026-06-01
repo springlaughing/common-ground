@@ -26,8 +26,11 @@ export function ConsentStep({ onAcknowledge, onBack }: Props) {
   const [agreed, setAgreed] = useState(false)
 
   return (
-    <PageShell onBack={onBack}>
-      <h1 className={styles.heading}>Before we begin</h1>
+    <PageShell onBack={onBack} decoVariant="hero" decoStyle="outline">
+      <div className={styles.headingBlock}>
+        <h1 className={styles.heading}>Before we begin</h1>
+        <div className={styles.rule} />
+      </div>
 
       <ul className={styles.points}>
         {POINTS.map(point => (

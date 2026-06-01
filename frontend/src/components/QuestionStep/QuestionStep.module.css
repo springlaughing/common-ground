@@ -60,7 +60,7 @@
 
 .content {
   flex: 1;
-  padding: 8px 40px 220px;
+  padding: 8px 40px 60px;
   max-width: 720px;
   width: 100%;
   align-self: center;
@@ -72,10 +72,10 @@
 }
 
 .question {
-  font-size: clamp(26px, 3.8vw, 42px);
-  font-weight: 800;
-  line-height: 1.15;
-  letter-spacing: -0.02em;
+  font-size: clamp(18px, 2.2vw, 28px);
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
   color: var(--color-text-primary);
 }
 
@@ -186,6 +186,7 @@
   pointer-events: none;
   overflow: hidden;
   z-index: 1;
+  opacity: 0.15;
 }
 
 .c,
@@ -193,26 +194,46 @@
   position: absolute;
   font-weight: 800;
   line-height: 0.7;
-  color: var(--color-accent);
+  color: transparent;
+  -webkit-text-stroke: 4px var(--color-accent);
   user-select: none;
 }
 
-/* lowercase, big but not capital — pulled in toward the text column, asymmetric */
 .c {
   font-family: var(--font-sans);
-  font-size: clamp(170px, 24vw, 380px);
-  left: 6%;
-  bottom: 8%;
+  font-size: clamp(200px, 20vw, 360px);
+  left: 15%;
+  bottom: 5%;
+  transform: rotate(-40deg);
 }
 
-/* unconventional g: serif double-story, italic, tilted, flanking the column higher up */
 .g {
-  font-family: Georgia, 'Times New Roman', serif;
-  font-style: italic;
-  font-size: clamp(200px, 30vw, 460px);
-  right: 7%;
-  bottom: 24%;
-  transform: rotate(7deg);
+  font-family: 'Book Antiqua', 'Palatino Linotype', Palatino, Georgia, serif;
+  font-size: clamp(260px, 26vw, 460px);
+  right: 10%;
+  top: 15%;
+  transform: rotate(0deg);
+}
+
+/* On mobile the page scrolls — fix letters to the viewport so they don't drift */
+@media (max-width: 900px) {
+  .deco {
+    position: fixed;
+  }
+
+  .c {
+    font-size: clamp(150px, 42vw, 260px);
+    left: -8%;
+    bottom: 15%;
+    top: auto;
+  }
+
+  .g {
+    font-size: clamp(170px, 48vw, 280px);
+    right: -8%;
+    top: 22%;
+    bottom: auto;
+  }
 }
 
 /* ── Footer ──────────────────────────────── */
@@ -257,6 +278,6 @@
 
 @media (max-width: 640px) {
   .header  { padding: 16px 20px; }
-  .content { padding: 8px 20px 200px; }
+  .content { padding: 8px 20px 80px; }
   .footer  { padding: 16px 20px 24px; }
 }
