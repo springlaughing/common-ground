@@ -1,0 +1,17 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/CommonGround.Api/CommonGround.Api.csproj" />
+    <Project Path="src/CommonGround.Modules.Audit/CommonGround.Modules.Audit.csproj" />
+    <Project Path="src/CommonGround.Modules.Comparisons/CommonGround.Modules.Comparisons.csproj" />
+    <Project Path="src/CommonGround.Modules.Privacy/CommonGround.Modules.Privacy.csproj" />
+    <Project Path="src/CommonGround.Modules.Questionnaires/CommonGround.Modules.Questionnaires.csproj" />
+    <Project Path="src/CommonGround.Modules.Reporting/CommonGround.Modules.Reporting.csproj" />
+    <Project Path="src/CommonGround.Modules.Responses/CommonGround.Modules.Responses.csproj" />
+    <Project Path="src/CommonGround.SharedKernel/CommonGround.SharedKernel.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/CommonGround.ArchitectureTests/CommonGround.ArchitectureTests.csproj" />
+    <Project Path="tests/CommonGround.IntegrationTests/CommonGround.IntegrationTests.csproj" />
+    <Project Path="tests/CommonGround.UnitTests/CommonGround.UnitTests.csproj" />
+  </Folder>
+</Solution>

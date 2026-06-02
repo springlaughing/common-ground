@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CommonGround.SharedKernel\CommonGround.SharedKernel.csproj" />
+    <ProjectReference Include="..\CommonGround.Modules.Questionnaires\CommonGround.Modules.Questionnaires.csproj" />
+    <ProjectReference Include="..\CommonGround.Modules.Responses\CommonGround.Modules.Responses.csproj" />
+    <ProjectReference Include="..\CommonGround.Modules.Reporting\CommonGround.Modules.Reporting.csproj" />
+    <ProjectReference Include="..\CommonGround.Modules.Privacy\CommonGround.Modules.Privacy.csproj" />
+    <ProjectReference Include="..\CommonGround.Modules.Audit\CommonGround.Modules.Audit.csproj" />
+    <ProjectReference Include="..\CommonGround.Modules.Comparisons\CommonGround.Modules.Comparisons.csproj" />
+  </ItemGroup>
+
+</Project>

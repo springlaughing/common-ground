@@ -9,10 +9,10 @@
 
 **Purpose**: Create project scaffolding and CI/CD infrastructure so the solution compiles and tests can run.
 
-- [ ] T001 Create .NET solution with all 9 project files (CommonGround.sln + src/ + tests/ csproj files) in `backend/`
-- [ ] T002 Configure backend build tooling (global.json, Directory.Build.props, Directory.Packages.props with all NuGet package versions, NuGet.config, .editorconfig) in `backend/`
+- [X] T001 Create .NET solution with all 9 project files (CommonGround.sln + src/ + tests/ csproj files) in `backend/`
+- [X] T002 Configure backend build tooling (global.json, Directory.Build.props, Directory.Packages.props with all NuGet package versions, NuGet.config, .editorconfig) in `backend/`
 - [ ] T003 [P] Scaffold React + TypeScript + Vite frontend (package.json with all dependencies, tsconfig.json, vite.config.ts, .eslintrc.json, Playwright config) in `frontend/`
-- [ ] T004 [P] Create GitHub Actions workflows and Dependabot config (.github/workflows/ci.yml, security.yml, release.yml, .github/dependabot.yml)
+- [X] T004 [P] Create GitHub Actions workflows and Dependabot config (.github/workflows/ci.yml, security.yml, release.yml, .github/dependabot.yml)
 
 ---
 
@@ -22,18 +22,18 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete.
 
-- [ ] T005 Create SharedKernel with domain primitives (IModule, IDomainException, Result<T>, cross-module interfaces: IQuestionnaireReader, IResponseReader, IReportingService) in `backend/src/CommonGround.SharedKernel/`
-- [ ] T006 [P] Create module stub projects with ModuleExtensions registration entry points (IServiceCollection extensions) in `backend/src/CommonGround.Modules.Questionnaires/`, `backend/src/CommonGround.Modules.Responses/`, `backend/src/CommonGround.Modules.Reporting/`, `backend/src/CommonGround.Modules.Privacy/`, `backend/src/CommonGround.Modules.Audit/`, `backend/src/CommonGround.Modules.Comparisons/`
-- [ ] T007 Create AppDbContext with EF Core entity configurations and DbSet<> properties for all entities in `backend/src/CommonGround.Api/Persistence/AppDbContext.cs`
-- [ ] T008 [P] Configure PostgreSQL connection string and EF Core registration (appsettings.json, appsettings.Development.json, Program.cs DI wiring) in `backend/src/CommonGround.Api/`
-- [ ] T009 Create initial schema migration with all tables:
+- [X] T005 Create SharedKernel with domain primitives (IModule, IDomainException, Result<T>, cross-module interfaces: IQuestionnaireReader, IResponseReader, IReportingService) in `backend/src/CommonGround.SharedKernel/`
+- [X] T006 [P] Create module stub projects with ModuleExtensions registration entry points (IServiceCollection extensions) in `backend/src/CommonGround.Modules.Questionnaires/`, `backend/src/CommonGround.Modules.Responses/`, `backend/src/CommonGround.Modules.Reporting/`, `backend/src/CommonGround.Modules.Privacy/`, `backend/src/CommonGround.Modules.Audit/`, `backend/src/CommonGround.Modules.Comparisons/`
+- [X] T007 Create AppDbContext with EF Core entity configurations and DbSet<> properties for all entities in `backend/src/CommonGround.Api/Persistence/AppDbContext.cs`
+- [X] T008 [P] Configure PostgreSQL connection string and EF Core registration (appsettings.json, appsettings.Development.json, Program.cs DI wiring) in `backend/src/CommonGround.Api/`
+- [X] T009 Create initial schema migration with all tables:
   - Questionnaires: `QuestionnaireVersion`, `Question` (with SectionIndex, no Dimension), `AnswerOption` (no ScoringValue), `DimensionWeight` (AnswerOptionId + DimensionId + Weight), `DimensionMaxScore` (QuestionnaireVersionId + DimensionId + MaxScore)
   - Responses: `ResponseSet`, `Answer` (PrimaryAnswerOptionId + nullable SecondaryAnswerOptionId), unique index on `(ResponseSetId, QuestionId)`
   - Reporting: `DimensionScore` (ResponseSetId + DimensionId + RawScore + NormalisedScore), unique index on `(ResponseSetId, DimensionId)`; `InsightSnippet` (DimensionId + Text); `DimensionGroup` (GroupId + Title + OrderIndex); `DimensionGroupMembership` (DimensionGroupId + DimensionId + OrderIndex)
   - Comparisons: `ComparisonSession`, `ComparisonParticipant`
   - Audit: `AuditEvent`
   in `backend/src/CommonGround.Api/`
-- [ ] T010 Create seed data migration reading from repository root files (`questionary.md`, `dimensions.json`, `reflection-groups.json`):
+- [X] T010 Create seed data migration reading from repository root files (`questionary.md`, `dimensions.json`, `reflection-groups.json`):
   - One active `QuestionnaireVersion` (v1.0)
   - 46 `Question` rows across 10 sections (SectionIndex 1–10, global OrderIndex)
   - 184 `AnswerOption` rows (4 per question, OrderIndex A–D)
@@ -42,10 +42,10 @@
   - 76 `InsightSnippet` rows from `reflection-groups.json` insights map
   - 10 `DimensionGroup` rows and 76 `DimensionGroupMembership` rows from `reflection-groups.json` groups array
   in `backend/src/CommonGround.Api/`
-- [ ] T011 Configure JWT HttpOnly cookie authentication middleware (cg_session cookie, HttpOnly + Secure + SameSite=Strict, 30-day Max-Age, JWT payload: sub=ResponseSetId) in `backend/src/CommonGround.Api/Program.cs`
-- [ ] T012 Add API security middleware (HTTPS redirect, security headers including Referrer-Policy: no-referrer, CORS restricted to frontend origin, rate limiting on POST endpoints) in `backend/src/CommonGround.Api/Program.cs`
-- [ ] T013 Create NetArchTest architecture boundary rules (no Modules.X → Modules.Y references; only CommonGround.Api may reference all modules; all cross-module access via SharedKernel interfaces) in `backend/tests/CommonGround.ArchitectureTests/`
-- [ ] T014 [P] Set up Testcontainers integration test base class (PostgreSQL container + WebApplicationFactory with test database) in `backend/tests/CommonGround.IntegrationTests/`
+- [X] T011 Configure JWT HttpOnly cookie authentication middleware (cg_session cookie, HttpOnly + Secure + SameSite=Strict, 30-day Max-Age, JWT payload: sub=ResponseSetId) in `backend/src/CommonGround.Api/Program.cs`
+- [X] T012 Add API security middleware (HTTPS redirect, security headers including Referrer-Policy: no-referrer, CORS restricted to frontend origin, rate limiting on POST endpoints) in `backend/src/CommonGround.Api/Program.cs`
+- [X] T013 Create NetArchTest architecture boundary rules (no Modules.X → Modules.Y references; only CommonGround.Api may reference all modules; all cross-module access via SharedKernel interfaces) in `backend/tests/CommonGround.ArchitectureTests/`
+- [X] T014 [P] Set up Testcontainers integration test base class (PostgreSQL container + WebApplicationFactory with test database) in `backend/tests/CommonGround.IntegrationTests/`
 - [ ] T015 [P] Create API types shared file reflecting current contracts:
   - `GetQuestionnaireResponse` (id, versionNumber, questions with sectionIndex + orderIndex + answerOptions)
   - `SubmitResponseRequest` (answers array: questionId + primaryAnswerOptionId + secondaryAnswerOptionId?)
@@ -70,24 +70,24 @@
 ### Implementation for User Story 1
 
 - [ ] T017 [P] [US1] Implement Questionnaire module entities (QuestionnaireVersion, Question, AnswerOption, DimensionWeight, DimensionMaxScore) with EF Core configurations and IQuestionnaireReader implementation (GetActiveVersion, GetDimensionWeightsForOptions, GetDimensionMaxScores) in `backend/src/CommonGround.Modules.Questionnaires/`
-- [ ] T017b [P] [US1] Implement Reporting module entities (DimensionScore, InsightSnippet, DimensionGroup, DimensionGroupMembership) with EF Core configurations and IReportingService interface in `backend/src/CommonGround.Modules.Reporting/`
+- [X] T017b [P] [US1] Implement Reporting module entities (DimensionScore, InsightSnippet, DimensionGroup, DimensionGroupMembership) with EF Core configurations and IReportingService interface in `backend/src/CommonGround.Modules.Reporting/`
 - [ ] T018 [P] [US1] Implement Responses module entities (ResponseSet, Answer with PrimaryAnswerOptionId + nullable SecondaryAnswerOptionId) with EF Core configurations and IResponseRepository + IResponseReader implementations in `backend/src/CommonGround.Modules.Responses/`
 - [ ] T019 [P] [US1] Implement Privacy module (token generation via RandomNumberGenerator.GetBytes(32) + Base64url encoding, HMAC-SHA256 hashing with server secret, access code XXXX-XXXX-XXXX formatting) in `backend/src/CommonGround.Modules.Privacy/`
 - [ ] T020 [P] [US1] Implement Audit module (AuditEvent entity, IAuditLogger interface, EF Core append-only implementation — no raw answers/tokens in Metadata) in `backend/src/CommonGround.Modules.Audit/`
-- [ ] T021 [US1] Implement GET /api/questionnaire/current endpoint (query active QuestionnaireVersion; return questions ordered by OrderIndex with sectionIndex and answer options; dimension weights excluded from response) in `backend/src/CommonGround.Api/Controllers/QuestionnaireController.cs`
-- [ ] T022 [US1] Implement deterministic scoring engine:
+- [X] T021 [US1] Implement GET /api/questionnaire/current endpoint (query active QuestionnaireVersion; return questions ordered by OrderIndex with sectionIndex and answer options; dimension weights excluded from response) in `backend/src/CommonGround.Api/Controllers/QuestionnaireController.cs`
+- [X] T022 [US1] Implement deterministic scoring engine:
   - For each Answer: accumulate DimensionWeight contributions (Primary × 1.0, Secondary × 0.5 if present)
   - Normalise each raw score: NormalisedScore = RawScore / DimensionMaxScore (clamp 0.0–1.0)
   - Persist one DimensionScore row per dimension per ResponseSet
   in `backend/src/CommonGround.Modules.Reporting/ScoringEngine.cs`
-- [ ] T022b [US1] Implement reflection assembly service:
+- [X] T022b [US1] Implement reflection assembly service:
   - Load DimensionGroups and DimensionGroupMemberships (ordered)
   - For each group, collect DimensionScores where NormalisedScore ≥ 0.4 (display threshold)
   - For each qualifying dimension, fetch InsightSnippet.Text and compute strength = max(1, min(5, ceil(NormalisedScore × 5)))
   - Omit groups with no qualifying dimensions
   - Return grouped ReflectionDto
   in `backend/src/CommonGround.Modules.Reporting/ReflectionAssembler.cs`
-- [ ] T023 [US1] Implement POST /api/responses endpoint:
+- [X] T023 [US1] Implement POST /api/responses endpoint:
   - Validate: all 46 questions answered, no duplicate questionIds, each primaryAnswerOptionId belongs to its questionId, secondaryAnswerOptionId (if present) belongs to same question and differs from primary
   - Create ResponseSet + Answer rows
   - Run scoring engine (T022) → persist DimensionScore rows
@@ -96,13 +96,13 @@
   - Log questionnaire_completed + personal_reflection_generated audit events
   - Return 201 with reflection, privateResultLink=/me#TOKEN, accessCode
   in `backend/src/CommonGround.Api/Controllers/ResponsesController.cs`
-- [ ] T024 [US1] Unit tests for scoring engine and reflection assembler:
+- [X] T024 [US1] Unit tests for scoring engine and reflection assembler:
   - Scoring: primary-only answers accumulate at ×1.0; secondary contributions at ×0.5; negative weights reduce score; normalisation produces 0.0–1.0; same inputs produce same output
   - Reflection assembly: dimensions below threshold (< 0.4) are excluded; groups with no qualifying dimensions are omitted; strength maps correctly (e.g. 0.4 → 1, 1.0 → 5); insight text matches InsightSnippet for dimension
   - Edge cases: dimension with max score 0 handled safely; all answers secondary-only handled
   in `backend/tests/CommonGround.UnitTests/Reporting/`
 - [ ] T025 [US1] Stryker.NET mutation test configuration targeting scoring engine and reflection assembler in `backend/stryker-config.json`
-- [ ] T026 [US1] Integration tests for GET /api/questionnaire/current (200 with questions including sectionIndex, no dimension weights in response) and POST /api/responses:
+- [X] T026 [US1] Integration tests for GET /api/questionnaire/current (200 with questions including sectionIndex, no dimension weights in response) and POST /api/responses:
   - Valid submission → 201 with grouped reflection (≥1 group, each insight has text + strength 1–5)
   - Missing questions → 400 incomplete_answers
   - Duplicate questionIds → 400
