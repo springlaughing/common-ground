@@ -34,6 +34,10 @@ TestResults/
 *.trx
 *.coverage
 
+# Stryker.NET mutation testing output
+**/StrykerOutput/
+backend/StrykerOutput/
+
 # OS
 .DS_Store
 Thumbs.db

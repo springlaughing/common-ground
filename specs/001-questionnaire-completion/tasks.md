@@ -142,7 +142,7 @@ records the true state after a repo + git + CI audit.
   - Reflection assembly: dimensions below threshold (< 0.4) are excluded; groups with no qualifying dimensions are omitted; strength maps correctly (e.g. 0.4 → 1, 1.0 → 5); insight text matches InsightSnippet for dimension
   - Edge cases: dimension with max score 0 handled safely; all answers secondary-only handled
   in `backend/tests/CommonGround.UnitTests/Reporting/`
-- [ ] T025 [US1] Stryker.NET mutation test configuration targeting scoring engine and reflection assembler in `backend/stryker-config.json`
+- [~] T025 [US1] Stryker.NET mutation test configuration targeting scoring engine and reflection assembler in `backend/stryker-config.json` — config + tool manifest + classic-format `backend/Stryker.sln` + manual `mutation.yml` workflow all committed and ready, scoped to `ScoringEngine.cs` + `ReflectionAssembler.cs` with break threshold 60. **Blocked from running** by Stryker.NET 4.14.2 (latest, incl. prerelease) lacking .NET 10 SDK support (Buildalyzer returns 0 analyzable projects; cannot read `.slnx`). Promote to a required PR check once a compatible Stryker ships.
 - [X] T026 [US1] Integration tests for GET /api/questionnaire/current (200 with questions including sectionIndex, no dimension weights in response) and POST /api/responses:
   - Valid submission → 201 with grouped reflection (≥1 group, each insight has text + strength 1–5)
   - Missing questions → 400 incomplete_answers
