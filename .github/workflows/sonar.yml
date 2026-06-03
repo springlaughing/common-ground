@@ -10,11 +10,13 @@
 name: Sonar
 
 on:
+  # The SonarQube Cloud free tier analyzes only the main branch and pull
+  # requests (feature/"short-lived" branch analysis requires a paid plan), so
+  # there is no point scanning on feature-branch pushes — they upload but are
+  # not processed. This matches the constitution's "quality gate on every PR".
   push:
     branches:
       - main
-      - '001-*'
-      - 'feature/*'
   pull_request:
     branches:
       - main
