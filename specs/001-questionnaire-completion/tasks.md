@@ -151,8 +151,8 @@ records the true state after a repo + git + CI audit.
   - secondaryAnswerOptionId same as primary → 400
   - secondaryAnswerOptionId from different question → 400
   in `backend/tests/CommonGround.IntegrationTests/QuestionnaireFlowTests.cs`
-- [~] T027 [P] [US1] Implement ConsentStep component (privacy and consent explanation text, acknowledge button, cannot proceed until acknowledged) in `frontend/src/components/ConsentStep/`
-- [~] T028 [P] [US1] Implement QuestionStep component (question text, 4 answer options as radio-style cards with primary selection; optional secondary selection from remaining options once primary chosen; Next/Back buttons; selected options highlighted) in `frontend/src/components/QuestionStep/`
+- [X] T027 [P] [US1] Implement ConsentStep component (privacy and consent explanation text, acknowledge button, cannot proceed until acknowledged) in `frontend/src/components/ConsentStep/`
+- [X] T028 [P] [US1] Implement QuestionStep component (question text, 4 answer options as radio-style cards with primary selection; optional secondary selection from remaining options once primary chosen; Next/Back buttons; selected options highlighted) in `frontend/src/components/QuestionStep/`
 - [X] T029 [P] [US1] Implement ProgressIndicator component (global "X of 46" label with visual progress bar; section label "Section Y of 10") in `frontend/src/components/ProgressIndicator/`
 - [~] T030 [US1] Implement QuestionnairePage with step orchestration:
   - Fetch questionnaire on mount (GET /api/questionnaire/current)
@@ -161,7 +161,7 @@ records the true state after a repo + git + CI audit.
   - All 46 primary answers required before submit enabled
   - POST /api/responses on final submit; pass reflection + credentials to CredentialsDisplayStep
   in `frontend/src/pages/QuestionnairePage/`
-- [~] T031 [P] [US1] Component tests: ConsentStep blocks proceed until acknowledged; QuestionStep selects primary answer and calls onNext; QuestionStep allows optional secondary selection from remaining options; ProgressIndicator shows correct fraction and section label in `frontend/tests/components/`
+- [X] T031 [P] [US1] Component tests: ConsentStep blocks proceed until acknowledged; QuestionStep selects primary answer and calls onNext; QuestionStep allows optional secondary selection from remaining options; ProgressIndicator shows correct fraction and section label in `frontend/tests/components/`
 
 **Checkpoint**: Full questionnaire flow functional — user can complete all 46 questions and credentials are displayed.
 
@@ -203,7 +203,7 @@ records the true state after a repo + git + CI audit.
 
 - [~] T037 [US3] Implement CredentialsDisplay component: private result link section (label, clickable link, "bookmark this link to return to your results" explanation, copy-to-clipboard button); access code section (label, formatted XXXX-XXXX-XXXX display, "use this code to reuse your response in a future comparison — not for opening this page" explanation); shared privacy warning ("keep your access code private — anyone with it can reuse your response") in `frontend/src/components/CredentialsDisplay/`
 - [~] T038 [US3] Integrate CredentialsDisplay as the final step in QuestionnairePage after successful POST /api/responses (pass privateResultLink and accessCode from the 201 response body) in `frontend/src/pages/QuestionnairePage/`
-- [ ] T039 [US3] Component tests for CredentialsDisplay: both sections present with distinct labels; access code explanation mentions future comparison; private result link explanation mentions bookmarking; privacy warning text present; copy button copies the link to clipboard in `frontend/tests/components/CredentialsDisplay.test.tsx`
+- [X] T039 [US3] Component tests for CredentialsDisplay: both sections present with distinct labels; access code explanation mentions future comparison; private result link explanation mentions bookmarking; privacy warning text present; copy button copies the link to clipboard in `frontend/tests/components/CredentialsDisplay.test.tsx`
 
 **Checkpoint**: All 3 user stories independently functional — credentials screen is clear and unambiguous.
 
