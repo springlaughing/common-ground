@@ -5,13 +5,54 @@
 
 ---
 
+## Status Reconciliation (audited 2026-06-03)
+
+The original checkboxes drifted from reality — work was committed in large
+batches without per-task updates, so several implemented tasks were left
+unchecked and some checked tasks depend on unchecked ones. This section
+records the true state after a repo + git + CI audit.
+
+**Status legend** (used throughout this file):
+
+- `[X]` — complete to the constitution's Definition of Done (implemented, covered by tests, CI green)
+- `[~]` — implemented but **not** to DoD (built as a UI mock and/or has no tests)
+- `[ ]` — not started
+
+**Key findings:**
+
+1. **CI is green again** (run 26899162229, 2026-06-03). It was red on its
+   first-and-only prior run because CI calls `npm run type-check` but no such
+   script existed. The CI workflow itself only landed on 2026-06-02
+   (commit 1a6ca1d) — *after* all feature code — not during Setup as T004's
+   placement implies.
+2. **The frontend is a disconnected design mock.** `App.tsx` drives the flow
+   from hardcoded `DEMO_QUESTIONS` (2 of 46), `DEMO_REFLECTION`,
+   `DEMO_PRIVATE_LINK`, and `DEMO_ACCESS_CODE`. There is **no API client**
+   (T016) and **no call** to GET /api/questionnaire/current, POST /api/responses,
+   /api/session/start, or /api/me/reflection. The backend US1 endpoints exist
+   and are tested, but **US1 is not functional end-to-end** — the UI never
+   touches the API. Frontend components are therefore marked `[~]`.
+3. **Scope drift:** a `ComparisonPage` + comparison mock data were built, but
+   comparison is a *future* feature (this feature only stubs the tables).
+   `WelcomeStep`, `CompletionStep`, and `PageShell` were also added (not in the
+   plan, but reasonable additions).
+4. **Backend US1** (T017–T024, T026) is implemented and unit/integration tested;
+   those boxes are now checked. **US2 backend** (T032–T034: SessionController,
+   MeController) is **not started**.
+5. **Still missing (constitution-required):** Stryker mutation testing (T025),
+   frontend component/E2E tests (T031/T036/T039/T041/T042), coverage-threshold
+   enforcement + SonarCloud quality gate, and a PR + branch-protection workflow.
+   Tracked as remediation work.
+
+---
+
 ## Phase 1: Setup (Shared Infrastructure)
 
 **Purpose**: Create project scaffolding and CI/CD infrastructure so the solution compiles and tests can run.
 
 - [X] T001 Create .NET solution with all 9 project files (CommonGround.sln + src/ + tests/ csproj files) in `backend/`
 - [X] T002 Configure backend build tooling (global.json, Directory.Build.props, Directory.Packages.props with all NuGet package versions, NuGet.config, .editorconfig) in `backend/`
-- [ ] T003 [P] Scaffold React + TypeScript + Vite frontend (package.json with all dependencies, tsconfig.json, vite.config.ts, .eslintrc.json, Playwright config) in `frontend/`
+- [X] T003 [P] Scaffold React + TypeScript + Vite frontend (package.json with all dependencies, tsconfig.json, vite.config.ts, .eslintrc.json, Playwright config) in `frontend/`
 - [X] T004 [P] Create GitHub Actions workflows and Dependabot config (.github/workflows/ci.yml, security.yml, release.yml, .github/dependabot.yml)
 
 ---
@@ -46,7 +87,7 @@
 - [X] T012 Add API security middleware (HTTPS redirect, security headers including Referrer-Policy: no-referrer, CORS restricted to frontend origin, rate limiting on POST endpoints) in `backend/src/CommonGround.Api/Program.cs`
 - [X] T013 Create NetArchTest architecture boundary rules (no Modules.X → Modules.Y references; only CommonGround.Api may reference all modules; all cross-module access via SharedKernel interfaces) in `backend/tests/CommonGround.ArchitectureTests/`
 - [X] T014 [P] Set up Testcontainers integration test base class (PostgreSQL container + WebApplicationFactory with test database) in `backend/tests/CommonGround.IntegrationTests/`
-- [ ] T015 [P] Create API types shared file reflecting current contracts:
+- [X] T015 [P] Create API types shared file reflecting current contracts:
   - `GetQuestionnaireResponse` (id, versionNumber, questions with sectionIndex + orderIndex + answerOptions)
   - `SubmitResponseRequest` (answers array: questionId + primaryAnswerOptionId + secondaryAnswerOptionId?)
   - `SubmitResponseResult` (privateResultLink, accessCode, reflection)
@@ -69,11 +110,11 @@
 
 ### Implementation for User Story 1
 
-- [ ] T017 [P] [US1] Implement Questionnaire module entities (QuestionnaireVersion, Question, AnswerOption, DimensionWeight, DimensionMaxScore) with EF Core configurations and IQuestionnaireReader implementation (GetActiveVersion, GetDimensionWeightsForOptions, GetDimensionMaxScores) in `backend/src/CommonGround.Modules.Questionnaires/`
+- [X] T017 [P] [US1] Implement Questionnaire module entities (QuestionnaireVersion, Question, AnswerOption, DimensionWeight, DimensionMaxScore) with EF Core configurations and IQuestionnaireReader implementation (GetActiveVersion, GetDimensionWeightsForOptions, GetDimensionMaxScores) in `backend/src/CommonGround.Modules.Questionnaires/`
 - [X] T017b [P] [US1] Implement Reporting module entities (DimensionScore, InsightSnippet, DimensionGroup, DimensionGroupMembership) with EF Core configurations and IReportingService interface in `backend/src/CommonGround.Modules.Reporting/`
-- [ ] T018 [P] [US1] Implement Responses module entities (ResponseSet, Answer with PrimaryAnswerOptionId + nullable SecondaryAnswerOptionId) with EF Core configurations and IResponseRepository + IResponseReader implementations in `backend/src/CommonGround.Modules.Responses/`
-- [ ] T019 [P] [US1] Implement Privacy module (token generation via RandomNumberGenerator.GetBytes(32) + Base64url encoding, HMAC-SHA256 hashing with server secret, access code XXXX-XXXX-XXXX formatting) in `backend/src/CommonGround.Modules.Privacy/`
-- [ ] T020 [P] [US1] Implement Audit module (AuditEvent entity, IAuditLogger interface, EF Core append-only implementation — no raw answers/tokens in Metadata) in `backend/src/CommonGround.Modules.Audit/`
+- [X] T018 [P] [US1] Implement Responses module entities (ResponseSet, Answer with PrimaryAnswerOptionId + nullable SecondaryAnswerOptionId) with EF Core configurations and IResponseRepository + IResponseReader implementations in `backend/src/CommonGround.Modules.Responses/`
+- [X] T019 [P] [US1] Implement Privacy module (token generation via RandomNumberGenerator.GetBytes(32) + Base64url encoding, HMAC-SHA256 hashing with server secret, access code XXXX-XXXX-XXXX formatting) in `backend/src/CommonGround.Modules.Privacy/`
+- [X] T020 [P] [US1] Implement Audit module (AuditEvent entity, IAuditLogger interface, EF Core append-only implementation — no raw answers/tokens in Metadata) in `backend/src/CommonGround.Modules.Audit/`
 - [X] T021 [US1] Implement GET /api/questionnaire/current endpoint (query active QuestionnaireVersion; return questions ordered by OrderIndex with sectionIndex and answer options; dimension weights excluded from response) in `backend/src/CommonGround.Api/Controllers/QuestionnaireController.cs`
 - [X] T022 [US1] Implement deterministic scoring engine:
   - For each Answer: accumulate DimensionWeight contributions (Primary × 1.0, Secondary × 0.5 if present)
@@ -110,17 +151,17 @@
   - secondaryAnswerOptionId same as primary → 400
   - secondaryAnswerOptionId from different question → 400
   in `backend/tests/CommonGround.IntegrationTests/QuestionnaireFlowTests.cs`
-- [ ] T027 [P] [US1] Implement ConsentStep component (privacy and consent explanation text, acknowledge button, cannot proceed until acknowledged) in `frontend/src/components/ConsentStep/`
-- [ ] T028 [P] [US1] Implement QuestionStep component (question text, 4 answer options as radio-style cards with primary selection; optional secondary selection from remaining options once primary chosen; Next/Back buttons; selected options highlighted) in `frontend/src/components/QuestionStep/`
-- [ ] T029 [P] [US1] Implement ProgressIndicator component (global "X of 46" label with visual progress bar; section label "Section Y of 10") in `frontend/src/components/ProgressIndicator/`
-- [ ] T030 [US1] Implement QuestionnairePage with step orchestration:
+- [~] T027 [P] [US1] Implement ConsentStep component (privacy and consent explanation text, acknowledge button, cannot proceed until acknowledged) in `frontend/src/components/ConsentStep/`
+- [~] T028 [P] [US1] Implement QuestionStep component (question text, 4 answer options as radio-style cards with primary selection; optional secondary selection from remaining options once primary chosen; Next/Back buttons; selected options highlighted) in `frontend/src/components/QuestionStep/`
+- [X] T029 [P] [US1] Implement ProgressIndicator component (global "X of 46" label with visual progress bar; section label "Section Y of 10") in `frontend/src/components/ProgressIndicator/`
+- [~] T030 [US1] Implement QuestionnairePage with step orchestration:
   - Fetch questionnaire on mount (GET /api/questionnaire/current)
   - Steps: [ConsentStep, QuestionStep×46, CredentialsDisplayStep]
   - currentStepIndex state, answers map (questionId → {primaryAnswerOptionId, secondaryAnswerOptionId?})
   - All 46 primary answers required before submit enabled
   - POST /api/responses on final submit; pass reflection + credentials to CredentialsDisplayStep
   in `frontend/src/pages/QuestionnairePage/`
-- [ ] T031 [P] [US1] Component tests: ConsentStep blocks proceed until acknowledged; QuestionStep selects primary answer and calls onNext; QuestionStep allows optional secondary selection from remaining options; ProgressIndicator shows correct fraction and section label in `frontend/tests/components/`
+- [~] T031 [P] [US1] Component tests: ConsentStep blocks proceed until acknowledged; QuestionStep selects primary answer and calls onNext; QuestionStep allows optional secondary selection from remaining options; ProgressIndicator shows correct fraction and section label in `frontend/tests/components/`
 
 **Checkpoint**: Full questionnaire flow functional — user can complete all 46 questions and credentials are displayed.
 
@@ -137,7 +178,7 @@
 - [ ] T032 [US2] Implement POST /api/session/start endpoint (HMAC-SHA256 hash incoming token; look up ResponseSet by PrivateResultTokenHash; issue JWT cg_session cookie (sub=ResponseSetId, exp=30 days); return 200 empty body; return 401 if not found or IsDeleted=true) in `backend/src/CommonGround.Api/Controllers/SessionController.cs`
 - [ ] T033 [US2] Implement GET /api/me/reflection endpoint (require cg_session cookie; extract ResponseSetId from JWT sub; load DimensionScores for ResponseSet; assemble grouped ReflectionDto via reflection assembler (T022b); return grouped reflection + accessCodeAvailable=true if AccessCodeHash present; return 401 if no valid cookie; return 404 if IsDeleted=true) in `backend/src/CommonGround.Api/Controllers/MeController.cs`
 - [ ] T034 [US2] Integration tests for POST /api/session/start (valid token → 200 + cg_session cookie set; invalid token → 401) and GET /api/me/reflection (with cookie → 200 + grouped reflection with ≥1 group; without cookie → 401; soft-deleted response → 404) in `backend/tests/CommonGround.IntegrationTests/ReflectionAccessTests.cs`
-- [ ] T035 [US2] Implement ReflectionPage:
+- [~] T035 [US2] Implement ReflectionPage:
   - Read token from window.location.hash on mount
   - POST /api/session/start with token
   - GET /api/me/reflection
@@ -160,8 +201,8 @@
 
 ### Implementation for User Story 3
 
-- [ ] T037 [US3] Implement CredentialsDisplay component: private result link section (label, clickable link, "bookmark this link to return to your results" explanation, copy-to-clipboard button); access code section (label, formatted XXXX-XXXX-XXXX display, "use this code to reuse your response in a future comparison — not for opening this page" explanation); shared privacy warning ("keep your access code private — anyone with it can reuse your response") in `frontend/src/components/CredentialsDisplay/`
-- [ ] T038 [US3] Integrate CredentialsDisplay as the final step in QuestionnairePage after successful POST /api/responses (pass privateResultLink and accessCode from the 201 response body) in `frontend/src/pages/QuestionnairePage/`
+- [~] T037 [US3] Implement CredentialsDisplay component: private result link section (label, clickable link, "bookmark this link to return to your results" explanation, copy-to-clipboard button); access code section (label, formatted XXXX-XXXX-XXXX display, "use this code to reuse your response in a future comparison — not for opening this page" explanation); shared privacy warning ("keep your access code private — anyone with it can reuse your response") in `frontend/src/components/CredentialsDisplay/`
+- [~] T038 [US3] Integrate CredentialsDisplay as the final step in QuestionnairePage after successful POST /api/responses (pass privateResultLink and accessCode from the 201 response body) in `frontend/src/pages/QuestionnairePage/`
 - [ ] T039 [US3] Component tests for CredentialsDisplay: both sections present with distinct labels; access code explanation mentions future comparison; private result link explanation mentions bookmarking; privacy warning text present; copy button copies the link to clipboard in `frontend/tests/components/CredentialsDisplay.test.tsx`
 
 **Checkpoint**: All 3 user stories independently functional — credentials screen is clear and unambiguous.

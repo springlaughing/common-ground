@@ -18,10 +18,10 @@ runtime. This is the foundational feature; all other MVP features depend on it.
 
 ## Technical Context
 
-**Language/Version**: C# 13 / .NET 9 (backend), TypeScript 5 / React 18 (frontend)
+**Language/Version**: C# 14 / .NET 10 (backend), TypeScript 5 / React 18 (frontend)
 
 **Primary Dependencies**:
-- Backend: ASP.NET Core 9, EF Core 9 + Npgsql, xUnit, FluentAssertions, Moq,
+- Backend: ASP.NET Core 10, EF Core 10 + Npgsql, xUnit, FluentAssertions, Moq,
   Testcontainers.NET, NetArchTest, Stryker.NET, WireMock.Net
 - Frontend: React 18, TypeScript 5, Vite, React Testing Library, Playwright, ESLint
 
