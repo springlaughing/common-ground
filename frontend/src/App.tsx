@@ -1,113 +1,21 @@
-import { useState } from 'react'
+import { type CSSProperties, useEffect, useMemo, useState } from 'react'
 import { WelcomeStep } from './components/WelcomeStep/WelcomeStep'
 import { ConsentStep } from './components/ConsentStep/ConsentStep'
 import { QuestionStep } from './components/QuestionStep/QuestionStep'
 import { CompletionStep } from './components/CompletionStep/CompletionStep'
 import { ReflectionPage } from './pages/ReflectionPage/ReflectionPage'
 import { ComparisonPage } from './pages/ComparisonPage/ComparisonPage'
-import type { Question, ReflectionDto, ComparisonDto } from './types/api'
+import type {
+  AnswerSubmission,
+  ComparisonDto,
+  Question,
+  SubmitResponseRequest,
+  SubmitResponseResult,
+} from './types/api'
+import { ApiError, fetchCurrentQuestionnaire, submitResponses } from './services/questionnaireApi'
 
-const DEMO_QUESTIONS: Question[] = [
-  {
-    id: 'q-s1-1',
-    text: 'When starting work with someone new, what helps you feel ready to collaborate?',
-    sectionIndex: 1,
-    orderIndex: 1,
-    answerOptions: [
-      { id: 'q-s1-1-a', text: 'Written goals, context, and expectations — I need to understand what we are working toward before I can contribute. A document I can return to is more reliable than a conversation I have to remember.', orderIndex: 1 },
-      { id: 'q-s1-1-b', text: 'A live conversation to ask questions and calibrate — written context only tells me what someone decided to write down. A real exchange lets me test my understanding and surface what I did not know I needed to ask.', orderIndex: 2 },
-      { id: 'q-s1-1-c', text: 'Seeing examples or trying a small piece of real work — I learn more about how a collaboration works by doing something together than by discussing it first.', orderIndex: 3 },
-      { id: 'q-s1-1-d', text: 'Clear ownership and decision boundaries outlined somewhere, and discussion about them when needed — I can move quickly once I know who is accountable for what and where my judgment applies.', orderIndex: 4 },
-    ],
-  },
-  {
-    id: 'q-s8-4',
-    text: 'During a high-pressure or urgent situation, someone tells you that your tone, word choice, or communication style felt too intense, too blunt, or hard to receive. What is your instinct?',
-    sectionIndex: 8,
-    orderIndex: 4,
-    answerOptions: [
-      { id: 'q-s8-4-a', text: 'I take it seriously and adjust — if my delivery made it harder for someone to think clearly or act well, that is my problem to fix regardless of the pressure we were both under.', orderIndex: 1 },
-      { id: 'q-s8-4-b', text: 'I want to understand what specifically landed badly before I change anything — even under pressure, adjusting without understanding what went wrong usually does not help either of us.', orderIndex: 2 },
-      { id: 'q-s8-4-c', text: 'I acknowledge the reaction but do not automatically see it as something to fix — sometimes intensity reflects the situation honestly, and I think that can be said without apologizing for it.', orderIndex: 3 },
-      { id: 'q-s8-4-d', text: 'I notice whether it is a pattern or a one-off — pressure situations are not normal conditions, and a single reaction does not always mean I need to change how I communicate generally.', orderIndex: 4 },
-    ],
-  },
-]
-
-// Mock submission result — real snippet text from reflection-groups.json.
-// Only 4 of the 10 groups appear, demonstrating that groups below the display
-// threshold are omitted (FR-020).
-const DEMO_REFLECTION: ReflectionDto = {
-  groups: [
-    {
-      id: 'work_context_expectations_and_alignment',
-      title: 'Work context, expectations, and alignment',
-      insights: [
-        {
-          dimensionId: 'clarity_via_written_context',
-          title: 'Written records over memory',
-          strength: 4,
-          text: "You trust written records more than memory or conversation. Decisions that only exist in someone's head — or were said once in a meeting — are hard for you to rely on.",
-        },
-        {
-          dimensionId: 'upfront_clarity_need',
-          title: 'Clarity before commitment',
-          strength: 3,
-          text: 'You need goals, expectations, and the quality bar to be clear before you commit. Starting without that picture makes it hard to move with confidence.',
-        },
-      ],
-    },
-    {
-      id: 'how_you_plan_and_handle_change',
-      title: 'How you plan and handle change',
-      insights: [
-        {
-          dimensionId: 'iteration_preference',
-          title: 'Fixed, predictable planning cycles',
-          strength: 5,
-          text: 'Fixed cycles work well for you — a predictable cadence with clear moments to plan, deliver, and reflect. The rhythm itself helps you work at your best.',
-        },
-        {
-          dimensionId: 'planning_boundary_protection',
-          title: 'Protecting the plan from mid-cycle interruption',
-          strength: 4,
-          text: 'You need the plan to be protected from constant interruption. Collecting changes and handling them at the next planning point — rather than mid-flow — is how you stay productive and make commitments that mean something.',
-        },
-      ],
-    },
-    {
-      id: 'how_you_handle_feedback',
-      title: 'How you handle feedback',
-      insights: [
-        {
-          dimensionId: 'feedback_content_primacy_receiving',
-          title: 'Substance in feedback (receiving)',
-          strength: 4,
-          text: "When you receive feedback, you focus on the substance — even if the delivery was clumsy or harsh. You don't let style get in the way of hearing what might be a valid point.",
-        },
-      ],
-    },
-    {
-      id: 'what_gives_you_energy_and_meaning',
-      title: 'What gives you energy and meaning',
-      insights: [
-        {
-          dimensionId: 'craft_intrinsic_motivation',
-          title: 'Driven by the work itself',
-          strength: 5,
-          text: "The work itself is what drives you. Building something well, solving a hard problem, getting the details right — that's satisfying in its own right, independent of whether anyone notices or what it's ultimately for.",
-        },
-        {
-          dimensionId: 'focus_protection',
-          title: 'Protecting uninterrupted focus',
-          strength: 3,
-          text: "Uninterrupted focus time matters to you. Interruptions, unnecessary meetings, and constant context switching have a real cost — and you notice when that cost isn't justified by what they produce.",
-        },
-      ],
-    },
-  ],
-}
-
+// Comparison is a separate feature (not part of US1) and is not yet wired to the
+// API, so it still renders from demo data until the comparison endpoints exist.
 const DEMO_COMPARISON: ComparisonDto = {
   theirName: 'Jordan',
   summary: "You're closely aligned on planning rhythms and what motivates the work — both focused on craft and predictable cycles. The main gaps are communication format and how much mid-cycle flexibility each of you can absorb.",
@@ -200,16 +108,73 @@ const DEMO_COMPARISON: ComparisonDto = {
   ],
 }
 
-const DEMO_PRIVATE_LINK = '/me#a7F3kQ9xL2mNpR8vT4wYbZ'
-const DEMO_ACCESS_CODE = 'K7Q9-MP2D-W4T8'
-
 type AnswerState = { primary: string | null; secondary: string | null }
 type Stage = 'welcome' | 'consent' | 'questionnaire' | 'completion' | 'reflection' | 'comparison'
+
+const centered: CSSProperties = {
+  display: 'flex', alignItems: 'center', justifyContent: 'center',
+  minHeight: '100vh', padding: '2rem', textAlign: 'center', flexDirection: 'column', gap: '1rem',
+}
 
 export default function App() {
   const [stage, setStage] = useState<Stage>('welcome')
   const [idx, setIdx] = useState(0)
   const [answers, setAnswers] = useState<Record<string, AnswerState>>({})
+
+  const [questions, setQuestions] = useState<Question[]>([])
+  const [loadError, setLoadError] = useState<string | null>(null)
+  const [result, setResult] = useState<SubmitResponseResult | null>(null)
+  const [submitting, setSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState<string | null>(null)
+
+  // Load the active questionnaire once on mount.
+  useEffect(() => {
+    const controller = new AbortController()
+    fetchCurrentQuestionnaire(controller.signal)
+      .then(data => setQuestions(data.questions))
+      .catch((e: unknown) => {
+        if (e instanceof DOMException && e.name === 'AbortError') return
+        setLoadError(e instanceof Error ? e.message : 'Failed to load the questionnaire.')
+      })
+    return () => controller.abort()
+  }, [])
+
+  // "Section Y of N" — derived from the loaded questionnaire, not hardcoded.
+  const totalSections = useMemo(
+    () => questions.reduce((max, q) => Math.max(max, q.sectionIndex), 0) || 1,
+    [questions],
+  )
+
+  async function handleSubmit() {
+    if (submitting) return
+    setSubmitting(true)
+    setSubmitError(null)
+    try {
+      // The UI gates "Next/Submit" on a primary selection, so every question has one.
+      const request: SubmitResponseRequest = {
+        answers: questions.map((q): AnswerSubmission => {
+          const a = answers[q.id] ?? { primary: null, secondary: null }
+          const sub: AnswerSubmission = {
+            questionId: q.id,
+            primaryAnswerOptionId: a.primary as string,
+          }
+          if (a.secondary) sub.secondaryAnswerOptionId = a.secondary
+          return sub
+        }),
+      }
+      const res = await submitResponses(request)
+      setResult(res)
+      setStage('completion')
+    } catch (e: unknown) {
+      setSubmitError(
+        e instanceof ApiError
+          ? e.message
+          : 'Something went wrong submitting your answers. Please try again.',
+      )
+    } finally {
+      setSubmitting(false)
+    }
+  }
 
   if (stage === 'welcome') {
     return <WelcomeStep onStart={() => setStage('consent')} />
@@ -227,11 +192,11 @@ export default function App() {
   if (stage === 'completion') {
     return (
       <CompletionStep
-        privateResultLink={DEMO_PRIVATE_LINK}
-        accessCode={DEMO_ACCESS_CODE}
+        privateResultLink={result?.privateResultLink ?? ''}
+        accessCode={result?.accessCode ?? ''}
         onViewReflection={() => setStage('reflection')}
         onBack={() => {
-          setIdx(DEMO_QUESTIONS.length - 1)
+          setIdx(questions.length - 1)
           setStage('questionnaire')
         }}
       />
@@ -241,7 +206,7 @@ export default function App() {
   if (stage === 'reflection') {
     return (
       <ReflectionPage
-        reflection={DEMO_REFLECTION}
+        reflection={result?.reflection ?? { groups: [] }}
         onCompare={() => setStage('comparison')}
       />
     )
@@ -256,8 +221,22 @@ export default function App() {
     )
   }
 
-  const isLastQuestion = idx === DEMO_QUESTIONS.length - 1
-  const question = DEMO_QUESTIONS[idx]
+  // stage === 'questionnaire'
+  if (loadError) {
+    return (
+      <div style={centered}>
+        <p>{loadError}</p>
+        <button onClick={() => window.location.reload()}>Retry</button>
+      </div>
+    )
+  }
+
+  if (questions.length === 0) {
+    return <div style={centered}><p>Loading questionnaire…</p></div>
+  }
+
+  const isLastQuestion = idx === questions.length - 1
+  const question = questions[idx]
   const current = answers[question.id] ?? { primary: null, secondary: null }
 
   function handleSelectPrimary(optionId: string | null) {
@@ -278,26 +257,40 @@ export default function App() {
   }
 
   return (
-    <QuestionStep
-      question={question}
-      questionNumber={idx + 1}
-      totalQuestions={46}
-      sectionNumber={question.sectionIndex}
-      totalSections={10}
-      primaryAnswerId={current.primary}
-      secondaryAnswerId={current.secondary}
-      onSelectPrimary={handleSelectPrimary}
-      onSelectSecondary={handleSelectSecondary}
-      onNext={() => {
-        if (isLastQuestion) setStage('completion')
-        else setIdx(i => i + 1)
-      }}
-      onBack={() => {
-        if (idx === 0) setStage('consent')
-        else setIdx(i => i - 1)
-      }}
-      isFirst={idx === 0}
-      isLast={isLastQuestion}
-    />
+    <>
+      <QuestionStep
+        question={question}
+        questionNumber={idx + 1}
+        totalQuestions={questions.length}
+        sectionNumber={question.sectionIndex}
+        totalSections={totalSections}
+        primaryAnswerId={current.primary}
+        secondaryAnswerId={current.secondary}
+        onSelectPrimary={handleSelectPrimary}
+        onSelectSecondary={handleSelectSecondary}
+        onNext={() => {
+          if (isLastQuestion) void handleSubmit()
+          else setIdx(i => i + 1)
+        }}
+        onBack={() => {
+          if (idx === 0) setStage('consent')
+          else setIdx(i => i - 1)
+        }}
+        isFirst={idx === 0}
+        isLast={isLastQuestion}
+      />
+      {(submitting || submitError) && (
+        <div
+          role={submitError ? 'alert' : 'status'}
+          style={{
+            position: 'fixed', left: '50%', bottom: '1rem', transform: 'translateX(-50%)',
+            background: submitError ? '#b00020' : '#333', color: '#fff',
+            padding: '0.6rem 1rem', borderRadius: 8, maxWidth: '90%',
+          }}
+        >
+          {submitError ?? 'Submitting your answers…'}
+        </div>
+      )}
+    </>
   )
 }

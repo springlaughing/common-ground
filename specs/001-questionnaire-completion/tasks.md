@@ -96,7 +96,7 @@ records the true state after a repo + git + CI audit.
   - `InsightDto` (dimensionId, text, strength 1–5)
   - `GetMyReflectionResponse` (reflection, accessCodeAvailable)
   in `frontend/src/types/api.ts`
-- [ ] T016 [P] Create questionnaire API service client (fetchCurrentQuestionnaire, submitResponses, startSession, fetchMyReflection — all typed against api.ts) in `frontend/src/services/questionnaireApi.ts`
+- [X] T016 [P] Create questionnaire API service client (fetchCurrentQuestionnaire, submitResponses, startSession, fetchMyReflection — all typed against api.ts) in `frontend/src/services/questionnaireApi.ts`
 
 **Checkpoint**: Foundation ready — all module stubs compile, schema migrates, seed data loads, architecture tests pass.
 
