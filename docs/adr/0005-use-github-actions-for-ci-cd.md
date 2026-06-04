@@ -2,7 +2,8 @@
 
 ## Status
 
-Accepted
+Accepted — *Decision* reconciled with the as-built pipeline on 2026-06-04
+(implemented items are separated from planned ones).
 
 ## Context
 
@@ -28,44 +29,49 @@ Use **GitHub Actions** as the CI/CD platform.
 
 ### Workflow structure
 
-Four workflow files under `.github/workflows/`:
+Workflows under `.github/workflows/`. The descriptions below reflect what is
+**implemented as of 2026-06-04**; items marked *(planned)* are intended but not yet
+built.
 
-**`ci.yml`** — runs on every PR and push to main:
-- Build solution
-- Run unit tests (xUnit) and publish `.trx` results
-- Run integration tests (xUnit + Testcontainers) and publish results
-- Run architecture tests
-- Collect coverage with Coverlet and publish HTML/XML artifacts
-- Send coverage to SonarCloud
-- Evaluate SonarCloud quality gate — PR fails if gate does not pass
-- Run ESLint and TypeScript compiler check on frontend
-- Run frontend tests (React Testing Library, Playwright)
+**`ci.yml`** — runs on push to `main` / `001-*` / `feature/*` and PRs to `main`:
+- Backend job *"Backend (.NET 10)"*: restore → build (`--configuration Release`) →
+  `dotnet test` with `XPlat Code Coverage` collection, against `CommonGround.slnx`
+- Frontend job *"Frontend (React)"*: `npm ci` → type-check → ESLint → Vitest → build
+- *(planned)* publish `.trx` and coverage as artifacts; split unit / integration /
+  architecture into separate reported steps
 
-**`security.yml`** — runs on every PR and on a nightly schedule:
-- CodeQL analysis for C# and TypeScript
-- Dependency review (GitHub Dependency Review Action)
-- Secret scanning is enabled at the repository level via GitHub Advanced Security
+**`sonar.yml`** — SonarCloud quality gate via the MSBuild-integrated .NET scanner; one
+analysis covering C# (dotnet-coverage `vscoveragexml`) + TypeScript (Vitest lcov). Runs
+on push/PR to `main` **only** — the SonarCloud free tier analyzes just `main` + PRs.
+Requires the `SONAR_TOKEN` secret and "Automatic Analysis" disabled.
 
-**`release.yml`** — runs on version tags:
-- Full build and test suite
-- Generate SBOM in CycloneDX format (`sbom.cdx.json`)
-- Upload build artifact and SBOM as release assets
-- Create GitHub artifact attestation linking the artifact to repo, commit SHA,
-  workflow run, and build environment
-- Publish release notes
+**`security.yml`** — CodeQL analysis for C# and JS/TS, on push/PR to `main` and a weekly
+(Monday) schedule.
+- *(planned)* Dependency Review action. Secret scanning is a repository-level setting,
+  not a workflow.
 
-**`deploy.yml`** — runs after a successful release or manually:
-- Deploy to target environment
-- Record commit SHA, artifact version, timestamp, and environment
-- Run smoke tests against the deployed instance
-- Require manual approval for production via GitHub Environment protection rules
+**`release.yml`** — on `v*` tags: build + `dotnet publish` the backend and create a
+GitHub release with auto-generated notes.
+- *(planned)* SBOM in CycloneDX format, build-artifact upload as a release asset, and
+  GitHub artifact attestation linking the build to repo + commit SHA + workflow run +
+  environment. *(These are the provenance pieces relevant to CRA/SLSA — see "Future
+  options".)*
+
+**`mutation.yml`** — Stryker.NET mutation testing for the deterministic scoring engine
+(target ≥ 60%, the constitution's critical-business-logic gate). Currently **manual
+(`workflow_dispatch`) and blocked**: Stryker 4.14.2 cannot design-time-build .NET 10
+projects or read `.slnx`. Config (`backend/stryker-config.json`), a classic
+`backend/Stryker.sln`, and the pinned tool manifest are committed and ready; promote to
+a required PR check once a .NET 10-compatible Stryker ships.
 
 ### Supporting configuration
 
-- **`dependabot.yml`** — Dependabot configured for NuGet (.NET) and npm (frontend),
-  weekly update schedule
-- **`CODEOWNERS`** — defines who must review changes to critical paths
-- Branch protection on `main`: require PR, require CI pass, require review
+- **`dependabot.yml`** — Dependabot for NuGet (.NET) and npm (frontend), weekly schedule
+- Branch protection on `main`: PR required; required checks = *"Backend (.NET 10)"* +
+  *"Frontend (React)"*; conversation resolution required; force-push and deletion
+  disabled; **0 required approvals** (solo project — review is self-review)
+- *(planned)* `CODEOWNERS`; a `deploy.yml` deployment workflow with GitHub Environment
+  approval and deployment records
 
 ### Quality gate thresholds (SonarCloud)
 
@@ -75,15 +81,6 @@ Four workflow files under `.github/workflows/`:
 - Duplicated lines on new code ≤ 3%
 - Maintainability and security ratings acceptable
 
-### Mutation testing (Stryker.NET)
-
-Mutation testing is slow and is not run on every PR. It runs:
-- On the `main` branch after merge
-- Nightly via scheduled workflow
-- Manually before a release
-
-Results are published as workflow artifacts.
-
 ## Consequences
 
 ### Positive
@@ -91,8 +88,9 @@ Results are published as workflow artifacts.
 - GitHub Actions is natively integrated — no separate CI service to configure or
   authenticate.
 - Free for public repositories; generous free minutes for private repositories.
-- The full evidence chain (test reports, coverage, quality gate, SBOM, attestation,
-  deployment record) is produced and stored as GitHub artifacts and release assets.
+- The implemented evidence chain — build, tests, coverage collection, SonarCloud quality
+  gate, and CodeQL — runs on every PR to `main`. The remaining provenance pieces (SBOM,
+  artifact attestation, deployment records) are planned (see Decision) to complete it.
 - Dependabot and CodeQL are GitHub-native — no additional tools or accounts needed
   for dependency and security scanning.
 - GitHub Environments provide deployment approval records out of the box.
