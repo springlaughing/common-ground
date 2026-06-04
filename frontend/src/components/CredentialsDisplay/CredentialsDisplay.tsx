@@ -29,10 +29,9 @@ function CopyButton({ value, label }: Readonly<{ value: string; label: string }>
 }
 
 export function CredentialsDisplay({ privateResultLink, accessCode }: Readonly<Props>) {
-  const fullLink =
-    typeof globalThis.window === 'undefined'
-      ? privateResultLink
-      : `${globalThis.location.origin}${privateResultLink}`
+  const fullLink = 'window' in globalThis
+    ? `${globalThis.location.origin}${privateResultLink}`
+    : privateResultLink
 
   return (
     <div className={styles.root}>
