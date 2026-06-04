@@ -1,0 +1,43 @@
+# Design assets (local reference only)
+images/
+
+# .NET
+backend/src/**/bin/
+backend/src/**/obj/
+backend/tests/**/bin/
+backend/tests/**/obj/
+*.user
+.vs/
+*.suo
+
+# EF Core migrations (keep source, ignore snapshots drift)
+# backend/**/Migrations/
+
+# Environment and secrets
+.env
+.env.local
+.env.*.local
+appsettings.Local.json
+appsettings.Development.Local.json
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+frontend/coverage/
+frontend/playwright-report/
+frontend/test-results/
+*.tsbuildinfo
+
+# Test results
+TestResults/
+*.trx
+*.coverage
+
+# Stryker.NET mutation testing output
+**/StrykerOutput/
+backend/StrykerOutput/
+
+# OS
+.DS_Store
+Thumbs.db

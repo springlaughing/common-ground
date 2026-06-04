@@ -1,0 +1,384 @@
+{
+  "dimensions": [
+    {
+      "id": "upfront_clarity_need",
+      "description": "Needs clear goals, expectations, and success criteria — including quality bar, definition of done, and what matters most right now — made clear up front, before committing to action",
+      "first_appears": "S1 Q1"
+    },
+    {
+      "id": "clarity_via_written_context",
+      "description": "Treats written documentation — summaries, notes, decisions, a kept-up-to-date plan — as the reliable source of truth for alignment; prefers important things written down and easy to return to, rather than living only in conversation or memory",
+      "first_appears": "S1 Q1"
+    },
+    {
+      "id": "clarity_via_artifact_context",
+      "description": "Gets context best from real examples — code, tickets, past work, existing standards — rather than abstract descriptions; trusts the actual work as the clearest guide, and likes context to live next to what it describes",
+      "first_appears": "S1 Q3"
+    },
+    {
+      "id": "verbal_alignment_preference",
+      "description": "Prefers live conversation over writing — for aligning, understanding, and working things out; values real-time back-and-forth, where you can test understanding, read tone, and ask follow-up questions, over written exchange",
+      "first_appears": "S1 Q1"
+    },
+    {
+      "id": "learning_by_doing",
+      "description": "Figures things out by trying something real — starting small, exploring, and learning through progress — rather than by reading or discussing about it first",
+      "first_appears": "S1 Q1"
+    },
+    {
+      "id": "ambiguity_tolerance",
+      "description": "Comfortable moving forward with incomplete information or undefined constraints; does not need everything pinned down to start, and is at ease refining as things become clearer",
+      "first_appears": "S1 Q1"
+    },
+    {
+      "id": "ownership_boundary_clarity",
+      "description": "Needs clear definition of who owns which decisions and responsibilities — including where their own judgment and authority apply; unclear ownership leads to duplication, dropped work, and confusion over who to go to",
+      "first_appears": "S1 Q1"
+    },
+    {
+      "id": "visibility_preference",
+      "description": "Values work being visible as it happens — seeing others' progress, blockers, and state, and keeping their own work open rather than hidden until it is finished; prefers a live view and transparency over periodic summaries or working out of sight",
+      "first_appears": "S1 Q2"
+    },
+    {
+      "id": "social_context_need",
+      "description": "Needs to understand team norms, roles, and interpersonal context — whether to integrate into a new team or to make well-informed decisions about situations involving multiple people",
+      "first_appears": "S1 Q3"
+    },
+    {
+      "id": "explicit_alignment_need",
+      "description": "Needs explicit shared agreement before acting — checks understanding rather than running on unspoken assumptions, and wants the people affected genuinely on board first",
+      "first_appears": "S1 Q4"
+    },
+    {
+      "id": "risk_transparency_need",
+      "description": "Expects risks, gaps, and problems — including in their own work — to be surfaced early and openly rather than held back; would rather raise something uncertain than let it become a surprise",
+      "first_appears": "S1 Q4"
+    },
+    {
+      "id": "scheduled_communication_preference",
+      "description": "Prefers alignment and updates at predictable, structured moments rather than continuously; values a regular rhythm people can prepare for, sometimes for the consistency itself",
+      "first_appears": "S2 Q1"
+    },
+    {
+      "id": "focus_protection",
+      "description": "Values protecting uninterrupted work time; sensitive to interruptions, unnecessary meetings, and context switching that pull focus without enough payoff",
+      "first_appears": "S2 Q1"
+    },
+    {
+      "id": "immediate_alignment_preference",
+      "description": "Prefers addressing misalignment, blockers, or issues as soon as they appear rather than waiting for a better moment; would rather raise or resolve something now than let it sit",
+      "first_appears": "S2 Q1"
+    },
+    {
+      "id": "iteration_preference",
+      "description": "Prefers fixed delivery cycles (like sprints) with dedicated moments to plan, review, and reflect; a predictable cadence helps them work well",
+      "first_appears": "S3 Q1"
+    },
+    {
+      "id": "flow_preference",
+      "description": "Prefers continuous work pulled from a prioritized backlog, without fixed cycles or waiting for the next one to start; plans just enough to begin and lets the rest emerge",
+      "first_appears": "S3 Q1"
+    },
+    {
+      "id": "upfront_planning_preference",
+      "description": "Prefers clarifying full scope, dependencies, milestones, and risks before beginning execution; wants the whole picture mapped out to move confidently",
+      "first_appears": "S3 Q1"
+    },
+    {
+      "id": "adaptive_planning_preference",
+      "description": "Prefers starting with a rough direction and refining the plan progressively as work progresses and more is learned, rather than committing to a full plan up front",
+      "first_appears": "S3 Q2"
+    },
+    {
+      "id": "evidence_based_planning_preference",
+      "description": "Prefers grounding plans in small experiments or observable signals before committing to a direction — would rather test an assumption than commit to it untested, especially when uncertainty or risk is high",
+      "first_appears": "S3 Q2"
+    },
+    {
+      "id": "participatory_decision_preference",
+      "description": "Expects to be involved in decisions that affect their work before they are finalized — wants a genuine say and a chance to weigh in, not just to be informed after the fact",
+      "first_appears": "S3 Q3"
+    },
+    {
+      "id": "planning_boundary_protection",
+      "description": "Expects changes to be batched into planning points rather than introduced mid-flow; protects work in progress from a constant stream of reprioritization",
+      "first_appears": "S3 Q3"
+    },
+    {
+      "id": "capacity_protection",
+      "description": "Expects new work to require an explicit trade-off against existing commitments — if something is added, something else should be dropped or deprioritized, not piled on top",
+      "first_appears": "S3 Q4"
+    },
+    {
+      "id": "sustainable_pace_preference",
+      "description": "Values a sustainable workload and resists scope or pace inflation; protective of not overcommitting or burning out",
+      "first_appears": "S3 Q4"
+    },
+    {
+      "id": "tradeoff_visibility",
+      "description": "Expects trade-offs, alternatives considered, and what is being given up to be made explicit",
+      "first_appears": "S3 Q4"
+    },
+    {
+      "id": "change_tolerance",
+      "description": "Comfortable accepting scope or plan changes without needing extensive process or justification; values being able to respond to something important without friction",
+      "first_appears": "S3 Q4"
+    },
+    {
+      "id": "pragmatic_completion_preference",
+      "description": "Considers work done when the core problem is solved reliably; treats follow-up items as not always a gate, and values steady progress over waiting for perfect",
+      "first_appears": "S4 Q1"
+    },
+    {
+      "id": "external_validation_need",
+      "description": "Needs a peer review or external check before fully trusting a handoff or considering work complete; another set of eyes is what makes the work feel sound",
+      "first_appears": "S4 Q1"
+    },
+    {
+      "id": "impact_calibration_preference",
+      "description": "Prefers assessing severity, actual impact, and the full picture before reacting; values proportionate, considered responses over immediate alarm",
+      "first_appears": "S4 Q2"
+    },
+    {
+      "id": "autonomous_problem_resolution",
+      "description": "Prefers resolving problems independently before involving others; when in a leading role, encourages direct resolution between parties first before intervening — avoids creating unnecessary noise or dependency",
+      "first_appears": "S4 Q2"
+    },
+    {
+      "id": "root_cause_orientation",
+      "description": "Prioritizes understanding why a problem happened — looking at patterns and root causes, not just the surface fix — to prevent it recurring",
+      "first_appears": "S4 Q2"
+    },
+    {
+      "id": "quality_protection_preference",
+      "description": "Protects the quality bar even under deadline pressure; treats some quality risks as non-negotiable, even if it means pushing back on scope or timeline",
+      "first_appears": "S4 Q3"
+    },
+    {
+      "id": "accountability_preference",
+      "description": "Prioritizes owning and fixing a problem over explaining or questioning it; when something goes wrong, the instinct is to take responsibility and repair rather than justify",
+      "first_appears": "S4 Q5"
+    },
+    {
+      "id": "critical_feedback_validation",
+      "description": "Validates whether a concern reflects a real gap before accepting it; does not treat every finding as a problem by default, and examines the concern itself before acting on it",
+      "first_appears": "S4 Q5"
+    },
+    {
+      "id": "feedback_content_primacy_giving",
+      "description": "When giving feedback, prioritizes accuracy and substance over delivery style; believes valid concerns should not be dismissed due to discomfort",
+      "first_appears": "S5 Q1"
+    },
+    {
+      "id": "feedback_delivery_awareness_giving",
+      "description": "When giving feedback, believes delivery style is essential to effectiveness; adjusts how feedback is given so the other person can actually use it",
+      "first_appears": "S5 Q1"
+    },
+    {
+      "id": "feedback_content_primacy_receiving",
+      "description": "When receiving feedback, extracts useful signal even from poor delivery; does not let style get in the way of hearing the concern",
+      "first_appears": "S5 Q2"
+    },
+    {
+      "id": "feedback_delivery_awareness_receiving",
+      "description": "When receiving feedback, needs delivery to be appropriate before being able to process the concern; style affects ability to engage",
+      "first_appears": "S5 Q2"
+    },
+    {
+      "id": "communication_norm_alignment",
+      "description": "Prefers to explicitly agree on shared norms for how concerns, feedback, and tension are handled — fixing the pattern, not just resolving the immediate instance",
+      "first_appears": "S5 Q1"
+    },
+    {
+      "id": "private_feedback_preference",
+      "description": "Prefers to raise concerns privately first; treats public discussion of problems as a last resort",
+      "first_appears": "S5 Q3"
+    },
+    {
+      "id": "dignity_in_feedback_need",
+      "description": "Needs public feedback to be handled respectfully and without embarrassment; dignity is a precondition for engagement",
+      "first_appears": "S5 Q4"
+    },
+    {
+      "id": "relational_repair_need",
+      "description": "Needs repair after a difficult or public exchange — often a private follow-up conversation — so the relationship stays intact, separately from resolving the issue itself",
+      "first_appears": "S5 Q4"
+    },
+    {
+      "id": "autonomous_pace_preference",
+      "description": "Expects to manage their own work tempo and rhythm without regular monitoring; frequent purposeless check-ins feel like distrust",
+      "first_appears": "S6 Q1"
+    },
+    {
+      "id": "autonomous_execution_preference",
+      "description": "Expects to decide how to execute the work they own, and to make trade-offs within that scope without seeking approval for every step; detailed direction on owned work feels like a lack of trust in their judgment",
+      "first_appears": "S6 Q1"
+    },
+    {
+      "id": "support_over_control_preference",
+      "description": "Accepts oversight when it comes from a place of support; rejects oversight that feels driven by anxiety, distrust, or a need to approve every step",
+      "first_appears": "S6 Q1"
+    },
+    {
+      "id": "unblocking_support_need",
+      "description": "Needs access to guidance or decision help when blocked; unavailable support on important decisions feels like abandonment",
+      "first_appears": "S6 Q2"
+    },
+    {
+      "id": "proactive_feedback_need",
+      "description": "Needs ongoing calibrating signals, feedback, and encouragement — not just to hear something when it goes wrong; values genuine two-way exchange over working in silence",
+      "first_appears": "S6 Q2"
+    },
+    {
+      "id": "directive_support_preference",
+      "description": "When blocked or unsure, prefers a concrete decision or recommendation over collaborative exploration; wants to be unblocked, not facilitated",
+      "first_appears": "S6 Q3"
+    },
+    {
+      "id": "help_seeking_safety_need",
+      "description": "Needs to be able to ask for support without it being interpreted as a lack of competence; psychological safety to seek help is part of healthy ownership",
+      "first_appears": "S6 Q4"
+    },
+    {
+      "id": "visible_result_need",
+      "description": "Needs time and effort — whether a meeting, a difficult conversation, or a solo workday — to produce something concrete and visible: a decision, next step, resolution, or real progress; effort without a tangible result is hard to justify",
+      "first_appears": "S7 Q3"
+    },
+    {
+      "id": "relational_connection_need",
+      "description": "Values regular human connection and team cohesion beyond just getting tasks done; familiarity, rhythm, and the relationships themselves matter independently of output",
+      "first_appears": "S7 Q3"
+    },
+    {
+      "id": "calm_urgency_preference",
+      "description": "Needs urgency communicated calmly and factually; does not want stress, anxiety, or pressure to be performed — clarity over dramatisation",
+      "first_appears": "S8 Q1"
+    },
+    {
+      "id": "pressure_driven_motivation",
+      "description": "Galvanized by high-pressure, consequence-laden, or accountability-based urgency communication; responds to stress-driven framing",
+      "first_appears": "S8 Q2"
+    },
+    {
+      "id": "positive_motivation_preference",
+      "description": "Motivated by positive, encouraging, and purpose-driven framing; responds to excitement and support rather than pressure or consequences",
+      "first_appears": "S8 Q2"
+    },
+    {
+      "id": "autonomous_motivation",
+      "description": "Self-motivated and does not need external motivational input; finds speeches or pep talks distracting rather than helpful, and draws drive from within rather than from others",
+      "first_appears": "S8 Q2"
+    },
+    {
+      "id": "direct_conflict_approach",
+      "description": "Addresses interpersonal friction directly with the person involved, even when uncomfortable; prefers to name and work through things early rather than avoid them or route around them",
+      "first_appears": "S8 Q3"
+    },
+    {
+      "id": "communication_friction_tolerance",
+      "description": "Genuinely absorbs uncomfortable communication styles without needing to address them; personal discomfort is not sufficient reason to escalate",
+      "first_appears": "S8 Q3"
+    },
+    {
+      "id": "team_impact_orientation",
+      "description": "Uses team impact rather than personal discomfort as the threshold for action; what matters is the effect on the team and the work, not how something feels personally",
+      "first_appears": "S8 Q3"
+    },
+    {
+      "id": "conflict_avoidance_tendency",
+      "description": "Avoids direct confrontation of uncomfortable patterns; needs distance and processing time before deciding whether to act",
+      "first_appears": "S8 Q3"
+    },
+    {
+      "id": "indirect_conflict_processing",
+      "description": "Processes interpersonal friction by naming it to a trusted third party rather than raising it directly with the person involved",
+      "first_appears": "S8 Q3"
+    },
+    {
+      "id": "tension_deescalation_preference",
+      "description": "Believes interpersonal tension needs time and space to settle before a direct conversation can be productive; engaging while tension is still active tends to produce reactions rather than resolution",
+      "first_appears": "S9 Q1"
+    },
+    {
+      "id": "issue_escalation_preference",
+      "description": "Readily involves higher authority when a problem exceeds what the direct parties can resolve; treats escalation as a legitimate and timely tool rather than a last resort",
+      "first_appears": "S9 Q2"
+    },
+    {
+      "id": "mutual_understanding_need",
+      "description": "In difficult conversations, prioritizes both perspectives being genuinely heard over reaching a concrete outcome or agreement; needs acknowledgment before being able to move on",
+      "first_appears": "S9 Q3"
+    },
+    {
+      "id": "shared_accountability_preference",
+      "description": "In difficult conversations, expects both parties to acknowledge their part rather than one person identifying the problem and the other owning the fix — for example, if a deadline was missed, both the person who missed it and the person who set unclear expectations should own something",
+      "first_appears": "S9 Q3"
+    },
+    {
+      "id": "facilitation_openness",
+      "description": "Views structured facilitation as a legitimate tool for resolving conflict — whether as a participant open to third-party help, or as a leader actively stepping in to bring conflicting parties together in a structured way",
+      "first_appears": "S9 Q4"
+    },
+    {
+      "id": "proactive_conflict_culture_preference",
+      "description": "Believes conflict resolves more reliably when a team builds deliberate habits — such as retrospectives that include interpersonal health, explicit norms for raising concerns, or regular check-ins where naming tension is normalized — rather than relying on ad-hoc intervention after something breaks",
+      "first_appears": "S9 Q5"
+    },
+    {
+      "id": "craft_intrinsic_motivation",
+      "description": "Motivated primarily by the quality and difficulty of the work itself; finds genuine satisfaction in building things well and solving hard problems, independent of external recognition or purpose",
+      "first_appears": "S10 Q1"
+    },
+    {
+      "id": "purpose_driven_motivation",
+      "description": "Needs to understand why work matters and how it connects to a meaningful outcome; motivation drops significantly when work feels disconnected from purpose or when the reason behind a task is unclear",
+      "first_appears": "S10 Q1"
+    },
+    {
+      "id": "autonomy_driven_motivation",
+      "description": "Motivated primarily by being given real ownership and the freedom to make decisions; without genuine trust and responsibility, work loses its meaning",
+      "first_appears": "S10 Q1"
+    },
+    {
+      "id": "relational_driven_motivation",
+      "description": "Motivated primarily by the people, team, and shared experience of building something together; relationships matter more as a source of drive than the work itself",
+      "first_appears": "S10 Q1"
+    },
+    {
+      "id": "pressure_recognition_need",
+      "description": "Values being seen and acknowledged during difficult or pressured periods more than routine praise; recognition when things are hard feels more meaningful than being praised when things are easy",
+      "first_appears": "S10 Q3"
+    },
+    {
+      "id": "learning_orientation",
+      "description": "Finds a workday worthwhile when understanding of the problem, system, or people has genuinely improved; values insight and better mental models as an end in themselves, even without visible output",
+      "first_appears": "S10 Q5"
+    },
+    {
+      "id": "delivery_reflection_priority",
+      "description": "Believes process, planning, and delivery reliability are important enough to examine as a team; considers operational execution the core topic for retrospectives",
+      "first_appears": "S3 Q7"
+    },
+    {
+      "id": "technical_reflection_priority",
+      "description": "Believes technical quality, incidents, and maintainability deserve regular team reflection; considers soundness as important as delivery speed",
+      "first_appears": "S3 Q7"
+    },
+    {
+      "id": "interpersonal_reflection_priority",
+      "description": "Believes collaboration patterns and communication habits are worth examining as a team, even when they feel less urgent than delivery; expects friction here to eventually show up in the work",
+      "first_appears": "S3 Q7"
+    },
+    {
+      "id": "safety_reflection_priority",
+      "description": "Believes team safety, pressure, and how people are treated are foundational reflection topics; thinks problems hidden by unsafe culture are the hardest to fix later",
+      "first_appears": "S3 Q7"
+    },
+    {
+      "id": "improvement_satisfaction",
+      "description": "Finds quiet satisfaction in leaving things better than they were found — cleaner code, clearer process, a resolved disagreement; enjoys small steady improvements for their own sake, without needing recognition or a big visible result",
+      "first_appears": "S10 Q5"
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+# Mutation testing (Stryker.NET) for the deterministic scoring engine.
+#
+# Constitution Principle VII requires mutation testing on the comparison/scoring
+# engine (the critical business logic), target score >= 60% (break threshold).
+#
+# STATUS (2026-06-03): staged as a MANUAL workflow, not yet a required PR check.
+# The latest Stryker.NET (4.14.2, including the --prerelease channel) cannot
+# design-time-build .NET 10 projects — its bundled Buildalyzer returns 0
+# analyzable projects, and it cannot enumerate the new .slnx solution format.
+# A minimal classic-format backend/Stryker.sln + scoped backend/stryker-config.json
+# are committed and ready. Once a .NET 10-compatible Stryker ships:
+#   1. bump the version in backend/.config/dotnet-tools.json
+#   2. add `pull_request` to the triggers below and make this a required check.
+
+name: Mutation
+
+on:
+  workflow_dispatch:
+
+jobs:
+  mutation:
+    name: Stryker (scoring engine)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Restore tools
+        working-directory: backend
+        run: dotnet tool restore
+
+      - name: Run mutation tests
+        working-directory: backend
+        run: dotnet stryker

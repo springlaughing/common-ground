@@ -1,0 +1,21 @@
+{
+  "stryker-config": {
+    "solution": "Stryker.sln",
+    "project": "CommonGround.Modules.Reporting.csproj",
+    "mutate": [
+      "**/ScoringEngine.cs",
+      "**/ReflectionAssembler.cs"
+    ],
+    "thresholds": {
+      "high": 80,
+      "low": 65,
+      "break": 60
+    },
+    "reporters": [
+      "html",
+      "json",
+      "progress"
+    ],
+    "mutation-level": "Standard"
+  }
+}

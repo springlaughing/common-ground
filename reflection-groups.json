@@ -1,0 +1,314 @@
+{
+  "groups": [
+    {
+      "id": "work_context_expectations_and_alignment",
+      "title": "Work context, expectations, and alignment",
+      "dimensions": [
+        "upfront_clarity_need",
+        "clarity_via_written_context",
+        "clarity_via_artifact_context",
+        "learning_by_doing",
+        "ambiguity_tolerance",
+        "explicit_alignment_need",
+        "social_context_need",
+        "visibility_preference"
+      ]
+    },
+    {
+      "id": "how_you_use_live_collaboration",
+      "title": "How you use live collaboration",
+      "dimensions": [
+        "verbal_alignment_preference",
+        "scheduled_communication_preference",
+        "immediate_alignment_preference",
+        "focus_protection",
+        "visible_result_need",
+        "relational_connection_need"
+      ]
+    },
+    {
+      "id": "how_you_plan_and_handle_change",
+      "title": "How you plan and handle change",
+      "dimensions": [
+        "iteration_preference",
+        "flow_preference",
+        "upfront_planning_preference",
+        "adaptive_planning_preference",
+        "evidence_based_planning_preference",
+        "participatory_decision_preference",
+        "planning_boundary_protection",
+        "capacity_protection",
+        "sustainable_pace_preference",
+        "tradeoff_visibility",
+        "change_tolerance"
+      ]
+    },
+    {
+      "id": "how_you_hold_ownership_and_use_support",
+      "title": "How you hold ownership and use support",
+      "dimensions": [
+        "ownership_boundary_clarity",
+        "autonomous_pace_preference",
+        "autonomous_execution_preference",
+        "support_over_control_preference",
+        "unblocking_support_need",
+        "proactive_feedback_need",
+        "directive_support_preference",
+        "help_seeking_safety_need",
+        "autonomous_problem_resolution"
+      ]
+    },
+    {
+      "id": "how_you_approach_quality_and_risk",
+      "title": "How you approach quality and risk",
+      "dimensions": [
+        "risk_transparency_need",
+        "pragmatic_completion_preference",
+        "external_validation_need",
+        "impact_calibration_preference",
+        "root_cause_orientation",
+        "quality_protection_preference",
+        "accountability_preference",
+        "critical_feedback_validation"
+      ]
+    },
+    {
+      "id": "how_you_handle_feedback",
+      "title": "How you handle feedback",
+      "dimensions": [
+        "feedback_content_primacy_giving",
+        "feedback_delivery_awareness_giving",
+        "feedback_content_primacy_receiving",
+        "feedback_delivery_awareness_receiving",
+        "communication_norm_alignment",
+        "private_feedback_preference",
+        "dignity_in_feedback_need",
+        "relational_repair_need"
+      ]
+    },
+    {
+      "id": "how_you_respond_to_pressure_and_urgency",
+      "title": "How you respond to pressure and urgency",
+      "dimensions": [
+        "calm_urgency_preference",
+        "pressure_driven_motivation",
+        "positive_motivation_preference",
+        "autonomous_motivation",
+        "pressure_recognition_need"
+      ]
+    },
+    {
+      "id": "how_you_handle_conflict_and_tension",
+      "title": "How you handle conflict and tension",
+      "dimensions": [
+        "direct_conflict_approach",
+        "communication_friction_tolerance",
+        "team_impact_orientation",
+        "conflict_avoidance_tendency",
+        "indirect_conflict_processing",
+        "tension_deescalation_preference",
+        "issue_escalation_preference",
+        "mutual_understanding_need",
+        "shared_accountability_preference",
+        "facilitation_openness",
+        "proactive_conflict_culture_preference"
+      ]
+    },
+    {
+      "id": "what_gives_you_energy_and_meaning",
+      "title": "What gives you energy and meaning",
+      "dimensions": [
+        "craft_intrinsic_motivation",
+        "purpose_driven_motivation",
+        "autonomy_driven_motivation",
+        "relational_driven_motivation",
+        "learning_orientation",
+        "improvement_satisfaction"
+      ]
+    },
+    {
+      "id": "what_you_think_teams_should_reflect_on",
+      "title": "What you think teams should reflect on",
+      "dimensions": [
+        "delivery_reflection_priority",
+        "technical_reflection_priority",
+        "interpersonal_reflection_priority",
+        "safety_reflection_priority"
+      ]
+    }
+  ],
+  "dimensionTitles": {
+    "upfront_clarity_need": "Clarity before commitment",
+    "clarity_via_written_context": "Written records over memory",
+    "clarity_via_artifact_context": "Real examples over descriptions",
+    "learning_by_doing": "Learning through doing",
+    "ambiguity_tolerance": "Starting before all the answers are in",
+    "explicit_alignment_need": "Explicit agreement before acting",
+    "social_context_need": "Context about people, not just the work",
+    "visibility_preference": "Keeping work visible as it happens",
+
+    "verbal_alignment_preference": "Live conversation over written exchange",
+    "scheduled_communication_preference": "Predictable communication rhythm",
+    "immediate_alignment_preference": "Addressing issues now, not at the next meeting",
+    "focus_protection": "Protecting uninterrupted focus",
+    "visible_result_need": "Effort that produces something concrete",
+    "relational_connection_need": "Connection that matters beyond the output",
+
+    "iteration_preference": "Fixed, predictable planning cycles",
+    "flow_preference": "Continuous flow over fixed sprints",
+    "upfront_planning_preference": "Full picture before starting",
+    "adaptive_planning_preference": "Starting rough and refining as you learn",
+    "evidence_based_planning_preference": "Testing assumptions before committing to a plan",
+    "participatory_decision_preference": "Involved before decisions are made",
+    "planning_boundary_protection": "Protecting the plan from mid-cycle interruption",
+    "capacity_protection": "If something is added, something comes off",
+    "sustainable_pace_preference": "Resisting overcommitment and scope inflation",
+    "tradeoff_visibility": "Decisions need visible trade-offs, not just outcomes",
+    "change_tolerance": "Absorbing scope changes without much friction",
+
+    "ownership_boundary_clarity": "Knowing who owns what",
+    "autonomous_pace_preference": "Check-ins that don't help feel like monitoring",
+    "autonomous_execution_preference": "When you own it, you decide how it gets done",
+    "support_over_control_preference": "Support, not control",
+    "unblocking_support_need": "Access to help when stuck",
+    "proactive_feedback_need": "Ongoing signals, not silence between problems",
+    "directive_support_preference": "Concrete answers when stuck, not guided exploration",
+    "help_seeking_safety_need": "Asking for help without it counting against you",
+    "autonomous_problem_resolution": "Resolving problems before involving others",
+
+    "risk_transparency_need": "Surfacing risks before they become surprises",
+    "pragmatic_completion_preference": "Done when the core problem is solved",
+    "external_validation_need": "A second pair of eyes catches what you miss",
+    "impact_calibration_preference": "Assessing actual impact before reacting",
+    "root_cause_orientation": "Fixing the cause, not just the symptom",
+    "quality_protection_preference": "Quality holds even when deadlines push back",
+    "accountability_preference": "Own it and fix it — explanation comes second",
+    "critical_feedback_validation": "Questioning whether critical feedback reflects a real gap",
+
+    "feedback_content_primacy_giving": "When giving feedback, accuracy over comfort",
+    "feedback_delivery_awareness_giving": "How you give feedback matters as much as what you say",
+    "feedback_content_primacy_receiving": "Focusing on substance, not how feedback is delivered",
+    "feedback_delivery_awareness_receiving": "How feedback lands affects whether you can use it",
+    "communication_norm_alignment": "Friction is a signal to agree on how things work",
+    "private_feedback_preference": "Private before public",
+    "dignity_in_feedback_need": "Public criticism blocks engagement with the concern",
+    "relational_repair_need": "Relationship repair after conflict, separately from the issue",
+
+    "calm_urgency_preference": "Urgency needs calm, clear communication — not drama",
+    "pressure_driven_motivation": "High stakes and real pressure sharpen focus",
+    "positive_motivation_preference": "Encouragement and purpose over pressure",
+    "autonomous_motivation": "Self-driven — external pushes mostly get in the way",
+    "pressure_recognition_need": "Recognition means most when things are hard",
+
+    "direct_conflict_approach": "Addressing friction directly and early",
+    "communication_friction_tolerance": "Letting friction go unless it affects the work",
+    "team_impact_orientation": "Acting when it affects the team, not just personal comfort",
+    "conflict_avoidance_tendency": "Needing time to process before acting on tension",
+    "indirect_conflict_processing": "Talking tension through before raising it directly",
+    "tension_deescalation_preference": "Letting both sides settle before engaging",
+    "issue_escalation_preference": "Escalation as a legitimate tool, not a failure",
+    "mutual_understanding_need": "Both perspectives need to be heard before moving on",
+    "shared_accountability_preference": "Accountability in conflict is usually shared",
+    "facilitation_openness": "Structured facilitation as a real option",
+    "proactive_conflict_culture_preference": "Building habits for conflict before things break",
+
+    "craft_intrinsic_motivation": "Driven by the work itself",
+    "purpose_driven_motivation": "Needing to understand why the work matters",
+    "autonomy_driven_motivation": "Real ownership makes work meaningful",
+    "relational_driven_motivation": "The people make work worth doing",
+    "learning_orientation": "Understanding something better is enough for a good day",
+    "improvement_satisfaction": "Leaving things better than you found them",
+
+    "delivery_reflection_priority": "Delivery and execution deserve dedicated reflection time",
+    "technical_reflection_priority": "Technical quality deserves a seat when teams reflect",
+    "interpersonal_reflection_priority": "Collaboration patterns are worth examining regularly",
+    "safety_reflection_priority": "Whether people feel safe to be honest is foundational"
+  },
+  "insights": {
+    "upfront_clarity_need": "You need goals, expectations, and the quality bar to be clear before you commit. Starting without that picture makes it hard to move with confidence.",
+    "clarity_via_written_context": "You trust written records more than memory or conversation. Decisions that only exist in someone's head — or were said once in a meeting — are hard for you to rely on.",
+    "clarity_via_artifact_context": "Real examples tell you more than descriptions do. You'd rather look at past code, a ticket, or an existing standard than read an explanation of how things work.",
+    "learning_by_doing": "You figure things out by doing them. A small real experiment tells you more than any amount of reading or discussing upfront.",
+    "ambiguity_tolerance": "You're comfortable starting before everything is settled. Not having all the answers yet doesn't stop you from moving — you'd rather begin and refine than wait for full certainty.",
+    "explicit_alignment_need": "You need explicit agreement before moving forward. Acting on assumptions that nobody actually confirmed makes you uncomfortable — you'd rather check and align than assume and discover a mismatch later.",
+    "social_context_need": "Context about people matters to you as much as context about the work. Understanding who does what, how the team operates, and what the dynamics are helps you make better decisions and settle in faster.",
+    "visibility_preference": "You prefer work to be visible as it happens. Knowing where things are — what's moving, what's blocked, what others are working on — helps you coordinate and gives you confidence the picture is accurate.",
+
+    "verbal_alignment_preference": "Live conversation works better for you than written exchange. You can test your understanding, catch what's unsaid, and ask the follow-up that unlocks the real point — in a way a message thread rarely can.",
+    "scheduled_communication_preference": "You work better with a predictable communication rhythm. Knowing when alignment happens lets you prepare — and the consistency itself has value, even when there isn't much to discuss.",
+    "immediate_alignment_preference": "When something needs addressing, you'd rather deal with it now than wait. Letting a misalignment or blocker sit until the next scheduled moment feels like unnecessary drag.",
+    "focus_protection": "Uninterrupted focus time matters to you. Interruptions, unnecessary meetings, and constant context switching have a real cost — and you notice when that cost isn't justified by what they produce.",
+    "visible_result_need": "You need effort to produce something you can point to. A meeting without a decision, a conversation without resolution, or a day without real progress is hard for you to justify — the output is what makes the time feel well spent.",
+    "relational_connection_need": "The relationships at work matter to you independently of the output. Regular connection, familiarity, and team rhythm are worth time on their own — not everything needs to produce a deliverable to be worth doing.",
+
+    "iteration_preference": "Fixed cycles work well for you — a predictable cadence with clear moments to plan, deliver, and reflect. The rhythm itself helps you work at your best.",
+    "flow_preference": "You prefer pulling the next thing from a clear backlog and keeping work moving continuously. Waiting for the next sprint to start, or planning more than you need to begin, adds friction you'd rather not have.",
+    "upfront_planning_preference": "You want the full picture before you start executing. Knowing the scope, the dependencies, and where the risks are lets you move with confidence rather than discovering surprises mid-way.",
+    "adaptive_planning_preference": "You'd rather start with a rough direction and refine as you learn than commit to a full plan before you understand the problem. Too much upfront planning creates false certainty that gets in the way.",
+    "evidence_based_planning_preference": "When something is uncertain or risky, you'd rather run a small experiment than commit to a plan built on untested assumptions. What you learn from a real test is worth more than what you can reason from the outside.",
+    "participatory_decision_preference": "When a decision affects your work, you expect to be part of it before it's made — not told about it afterward. Being informed after the fact, when the direction is already set, doesn't feel like involvement.",
+    "planning_boundary_protection": "You need the plan to be protected from constant interruption. Collecting changes and handling them at the next planning point — rather than mid-flow — is how you stay productive and make commitments that mean something.",
+    "capacity_protection": "If something new is added, something else needs to come off. You expect that trade-off to be made explicitly — piling work on top of existing commitments without acknowledging the cost isn't acceptable to you.",
+    "sustainable_pace_preference": "Sustainable pace matters to you. You resist scope inflation and overcommitment — not because you're averse to hard work, but because you know that burning out helps nobody.",
+    "tradeoff_visibility": "When a decision is made, you want to know what was considered and what's being given up. A decision without visible trade-offs feels incomplete — you need to understand the cost, not just the outcome.",
+    "change_tolerance": "You can absorb changes to scope or direction without much friction. When something important comes up, you'd rather respond to it than protect the original plan for its own sake.",
+
+    "ownership_boundary_clarity": "You need to know who owns what. Unclear boundaries around decisions and responsibilities create the conditions for things to be dropped or duplicated — and for confusion when something needs resolving.",
+    "autonomous_pace_preference": "You manage your own tempo. Repeated check-ins that don't change anything or help the work feel like monitoring rather than support — and that erodes trust over time.",
+    "autonomous_execution_preference": "Once you own something, you expect to decide how to do it. Detailed direction on work that's already yours signals that your judgment isn't trusted — and that makes ownership feel hollow.",
+    "support_over_control_preference": "You can work well with oversight when it genuinely supports you. What you can't work with is oversight driven by anxiety or a need to approve every step — that's control, not support, and the difference is felt.",
+    "unblocking_support_need": "You need to be able to get help when you're stuck. Not being able to reach guidance on important decisions — or having that support be consistently unavailable — leaves you feeling unsupported in a way that undermines ownership.",
+    "proactive_feedback_need": "You need more than silence broken only by problems. Ongoing signals — calibration, encouragement, genuine exchange — help you stay oriented and engaged. Working without that feedback loop starts to feel like working in isolation.",
+    "directive_support_preference": "When you're stuck, you want a concrete answer or recommendation — not a facilitated exploration of the options. The value of support in that moment is getting unblocked, not having someone think through it with you.",
+    "help_seeking_safety_need": "You need to be able to ask for help without it counting against you. If seeking support signals weakness or incompetence, people stop asking — and that's when problems grow quietly until they're too big to miss.",
+    "autonomous_problem_resolution": "Your instinct is to resolve problems yourself before bringing others in. Involving people too early creates noise and dependency — and most things can be resolved without escalating if you give them a fair attempt first.",
+
+    "risk_transparency_need": "You'd rather raise a risk early than let it become a surprise. Problems held back until they're urgent are harder to deal with — and you hold yourself to the same standard you expect from others.",
+    "pragmatic_completion_preference": "You consider work done when the core problem is solved reliably. Follow-up items and edge cases matter, but they shouldn't always block a handoff — steady progress beats waiting for perfect.",
+    "external_validation_need": "Another set of eyes makes the work feel solid. You trust a handoff more when someone else has reviewed it — not because you doubt your own judgment, but because a second perspective is how you catch what you can't see yourself.",
+    "impact_calibration_preference": "Your instinct when something goes wrong is to assess before reacting. Understanding the actual severity and impact — not just the immediate alarm — leads to more proportionate, useful responses.",
+    "root_cause_orientation": "A fix that doesn't address the cause isn't really a fix. You want to understand why something happened — the pattern, the underlying condition — so the same problem doesn't come back.",
+    "quality_protection_preference": "You protect the quality bar even when deadlines push back. Some risks aren't worth accepting regardless of the pressure — and you're willing to push back on scope or timeline rather than ship something that compromises what matters.",
+    "accountability_preference": "When something goes wrong, your instinct is to own it and fix it. Explaining why it happened or questioning whether it's your problem comes second — repair comes first.",
+    "critical_feedback_validation": "You don't treat every piece of critical feedback as a problem by default. Before accepting a concern, you examine whether it actually reflects a real gap — the concern itself can be worth questioning.",
+
+    "feedback_content_primacy_giving": "When you give feedback, what matters most is that the concern is accurate and useful — not how comfortable it is to receive. A valid point shouldn't be dismissed just because it was hard to hear.",
+    "feedback_delivery_awareness_giving": "Feedback only works if the other person can actually use it. When you give feedback, how you deliver it is as important as what you're saying — getting the substance right means nothing if the delivery makes it impossible to hear.",
+    "feedback_content_primacy_receiving": "When you receive feedback, you focus on the substance — even if the delivery was clumsy or harsh. You don't let style get in the way of hearing what might be a valid point.",
+    "feedback_delivery_awareness_receiving": "How feedback is delivered affects whether you can actually process it. If the delivery is inappropriate or unclear, engaging with the concern becomes genuinely harder — it's not a preference, it's how you work.",
+    "communication_norm_alignment": "When a feedback or communication pattern creates friction, your instinct is to agree on how things should work going forward — not just resolve the immediate incident and move on. The pattern itself is what needs fixing.",
+    "private_feedback_preference": "Your default is to raise concerns privately. Bringing a problem into a public or group context before trying to resolve it one-on-one feels like a last resort — and often the wrong first move.",
+    "dignity_in_feedback_need": "If feedback is raised in front of others, how it's handled matters enormously to you. Being criticised or embarrassed publicly makes it hard to engage with the concern itself — dignity is a precondition, not a preference.",
+    "relational_repair_need": "After a difficult exchange, you need the relationship to be repaired separately from the issue being resolved. A follow-up conversation — acknowledging what happened and resetting — is what lets you move forward without it hanging over everything.",
+
+    "calm_urgency_preference": "When things are urgent, you need the communication to be calm and clear — not dramatic. Performed stress or anxiety doesn't help you move faster; an unambiguous statement of what matters most does.",
+    "pressure_driven_motivation": "High stakes and direct accountability actually sharpen your focus. When the pressure is real and communicated as such, you respond — that kind of urgency is a driver for you, not just noise.",
+    "positive_motivation_preference": "Encouragement and purpose work better than pressure for you. When someone frames the work as exciting or meaningful and makes clear they're behind you, that's what moves you — not consequences or urgency.",
+    "autonomous_motivation": "You don't need external motivation. Pep talks and deadline speeches mostly get in the way — you already know what needs doing and you drive yourself. What you need is clarity and space, not a push.",
+    "pressure_recognition_need": "Recognition matters most to you when things are hard. Being seen during a pressured or difficult stretch means more than routine praise when everything is going smoothly — that's when acknowledgment actually lands.",
+
+    "direct_conflict_approach": "When there's friction, you address it directly with the person — even when it's uncomfortable. Naming it early, before it has time to harden, is better than working around it or waiting for it to resolve itself.",
+    "communication_friction_tolerance": "You can absorb uncomfortable communication styles without needing to address them every time. Feeling personally bothered isn't enough reason to escalate — you let things go unless they're genuinely affecting something that matters.",
+    "team_impact_orientation": "Your threshold for acting on friction is team impact, not personal discomfort. How something makes you feel isn't the measure — what matters is whether it's affecting the team or the work.",
+    "conflict_avoidance_tendency": "Direct confrontation of uncomfortable patterns isn't your first instinct. You need time and distance to process before you can decide whether and how to act — engaging before you've had that space usually doesn't go well.",
+    "indirect_conflict_processing": "When something is bothering you interpersonally, your instinct is to talk it through with someone you trust — not raise it directly with the person involved, at least not first. Naming it out loud helps you figure out what you actually think.",
+    "tension_deescalation_preference": "You believe tense conversations rarely go well while the tension is still running high. Giving both people time to settle produces better conversations — engaging while it's still active tends to produce reactions, not resolution.",
+    "issue_escalation_preference": "Escalation is a legitimate tool to you, not a last resort. When a problem exceeds what the people involved can resolve — because of scope, authority, or a repeated pattern — bringing someone with more authority in is the right call, not a failure.",
+    "mutual_understanding_need": "In difficult conversations, what matters most to you is that both perspectives are genuinely heard — not just that a decision gets made. You need acknowledgment before you can move on, even if no clear agreement is reached.",
+    "shared_accountability_preference": "Difficult conversations feel more honest when both people own something. One person diagnosing the problem while the other takes all the responsibility doesn't sit right with you — real accountability is usually shared.",
+    "facilitation_openness": "You see structured facilitation as a real option for resolving conflict — not a sign that things have gone badly wrong. Whether you're participating or leading, bringing a third party in to structure the conversation can be the most effective path forward.",
+    "proactive_conflict_culture_preference": "You believe conflict is easier to handle when teams build habits for it before something breaks. Retrospectives that include how people are doing, norms for raising concerns, regular check-ins where tension can be named — these are what make a team safe to be honest in.",
+
+    "craft_intrinsic_motivation": "The work itself is what drives you. Building something well, solving a hard problem, getting the details right — that's satisfying in its own right, independent of whether anyone notices or what it's ultimately for.",
+    "purpose_driven_motivation": "You need to understand why what you're doing matters. When the purpose is clear and the work connects to something meaningful, you're engaged. When you can't see that connection, motivation is genuinely harder to sustain.",
+    "autonomy_driven_motivation": "Real ownership is what makes work meaningful to you. Being trusted with a problem and given the freedom to solve it your way is energizing. Without that, even interesting work starts to feel hollow.",
+    "relational_driven_motivation": "The people are what make work worth doing for you. The team, the shared experience of building something together, the relationships that form in the process — these matter more as a source of energy than the work itself.",
+    "learning_orientation": "A day where you understand something better feels well spent — even without visible output. Improved mental models, new insight, a clearer picture of the system or the people: these are worth a day on their own.",
+    "improvement_satisfaction": "You find quiet satisfaction in leaving things better than you found them. A cleaner codebase, a clearer process, a resolved tension — small steady improvement in the right direction is enough, without needing a big visible result or recognition.",
+
+    "delivery_reflection_priority": "You think the most important thing a team can examine is whether it can execute and deliver reliably. Process, planning, and delivery flow deserve dedicated reflection time — operational health is the foundation everything else rests on.",
+    "technical_reflection_priority": "You think technical quality deserves a seat at the table when a team reflects. Incidents, maintainability, and soundness aren't secondary to delivery speed — they're what determines whether the team can keep delivering at all.",
+    "interpersonal_reflection_priority": "You think collaboration patterns and communication habits are worth examining — even when they feel less urgent than delivery. Left unexamined, friction here tends to show up in the work eventually.",
+    "safety_reflection_priority": "You think how people are treated and whether the team feels safe to be honest are foundational topics for reflection. Problems hidden by an unsafe culture are the hardest to fix — by the time they surface, they've usually already done damage."
+  }
+}
