@@ -92,7 +92,11 @@ builder.Services.AddCors(options =>
             .AllowCredentials());
 });
 
-// Rate limiting (T012) — POST endpoints
+// Rate limiting (T012) — POST endpoints. Permit limit is configurable so the
+// integration tests (which fire many POSTs in one window) can opt out.
+var postPermitLimit = int.TryParse(builder.Configuration["RateLimiting:PostPermitLimit"], out var limit)
+    ? limit
+    : 10;
 builder.Services.AddRateLimiter(options =>
 {
     options.AddPolicy("PostPolicy", _ =>
@@ -101,7 +105,7 @@ builder.Services.AddRateLimiter(options =>
             factory: _ => new FixedWindowRateLimiterOptions
             {
                 Window = TimeSpan.FromMinutes(1),
-                PermitLimit = 10,
+                PermitLimit = postPermitLimit,
                 QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
                 QueueLimit = 0,
             }));

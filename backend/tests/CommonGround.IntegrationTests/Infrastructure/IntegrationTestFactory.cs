@@ -37,6 +37,9 @@ public sealed class IntegrationTestFactory : WebApplicationFactory<Program>, IAs
                 ["Jwt:Audience"] = "CommonGround.Test",
                 ["Jwt:ExpiryDays"] = "1",
                 ["Privacy:HmacKey"] = TestHmacKey,
+                // Effectively disable the POST rate limiter so the many POSTs
+                // across the integration suite don't trip the shared window.
+                ["RateLimiting:PostPermitLimit"] = "1000000",
             });
         });
 
