@@ -108,10 +108,10 @@ var app = builder.Build();
 // Security headers (T012)
 app.Use(async (ctx, next) =>
 {
-    ctx.Response.Headers["X-Content-Type-Options"] = "nosniff";
-    ctx.Response.Headers["X-Frame-Options"] = "DENY";
+    ctx.Response.Headers.XContentTypeOptions = "nosniff";
+    ctx.Response.Headers.XFrameOptions = "DENY";
     ctx.Response.Headers["Referrer-Policy"] = "no-referrer";
-    ctx.Response.Headers["X-XSS-Protection"] = "0";
+    ctx.Response.Headers.XXSSProtection = "0";
     await next();
 });
 
@@ -122,7 +122,4 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
-app.Run();
-
-// Expose for integration tests
-public partial class Program { }
+await app.RunAsync();
