@@ -18,7 +18,7 @@ runtime. This is the foundational feature; all other MVP features depend on it.
 
 ## Technical Context
 
-**Language/Version**: C# 14 / .NET 10 (backend), TypeScript 5 / React 18 (frontend)
+**Language/Version**: C# 14 / .NET 10 (backend, [ADR-0006](../../docs/adr/0006-target-dotnet-10.md)), TypeScript 5 / React 18 (frontend)
 
 **Primary Dependencies**:
 - Backend: ASP.NET Core 10, EF Core 10 + Npgsql, xUnit, FluentAssertions, Moq,
@@ -57,7 +57,7 @@ questionnaire version
 | III. Deterministic Engine | Scoring engine uses versioned definitions + scoring rules + insight templates; no LLM at runtime; same inputs = same output | ✅ Pass | [ADR-0002](../../docs/adr/0002-use-deterministic-comparison-engine.md) |
 | IV. Modular Monolith | Backend split into Questionnaires, Responses, Reporting, Privacy, Audit, Comparisons modules; architecture tests enforce boundaries; ComparisonSession/ComparisonParticipant tables created now for group support | ✅ Pass | [ADR-0001](../../docs/adr/0001-use-modular-monolith.md) |
 | V. Explicit Consent | Consent explanation shown and acknowledged before questionnaire (FR-001, FR-002); audit event logged | ✅ Pass | — (spec FR-001/FR-002) |
-| VI. Accountless Identity | Private result link via fragment token; access code for reuse only; both hashed server-side; HttpOnly cookie session after first validation | ✅ Pass | [ADR-0003](../../docs/adr/0003-use-private-links-and-access-codes.md) |
+| VI. Accountless Identity | Private result link via fragment token; access code for reuse only; both hashed server-side; HttpOnly cookie session after first validation | ✅ Pass | [ADR-0003](../../docs/adr/0003-use-private-links-and-access-codes.md), [ADR-0007](../../docs/adr/0007-session-jwt-in-httponly-cookie.md) |
 | VII. DevSecOps | CI workflows, Dependabot, SonarCloud, branch protection set up in foundational phase before feature code | ✅ Pass | [ADR-0005](../../docs/adr/0005-use-github-actions-for-ci-cd.md) |
 
 No violations. No complexity justification required. All architecture decisions are

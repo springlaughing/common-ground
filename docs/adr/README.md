@@ -21,17 +21,19 @@ captured in a new ADR that *Supersedes* the old one (the old one is then marked
 | [0003](0003-use-private-links-and-access-codes.md) | Use private links and access codes instead of accounts | Accepted | Principles I & VI — Privacy-First, Accountless Identity | T011, T019, T023, T032, T033 |
 | [0004](0004-use-postgresql-with-ef-core.md) | Use PostgreSQL with EF Core | Accepted | Storage (supports all data persistence) | T007, T008, T009, T010, T014 |
 | [0005](0005-use-github-actions-for-ci-cd.md) | Use GitHub Actions for CI/CD | Accepted | Principle VII — Audit-Ready DevSecOps | T004 |
+| [0006](0006-target-dotnet-10.md) | Target .NET 10 (LTS) instead of .NET 9 | Accepted | Foundation — target framework / tooling | T001, T002 |
+| [0007](0007-session-jwt-in-httponly-cookie.md) | Carry the session as a JWT in an HttpOnly cookie | Accepted | Principles I & VI — Privacy-First, Accountless Identity | T011, T032, T033 |
 
 > Task IDs map to [`specs/001-questionnaire-completion/tasks.md`](../../specs/001-questionnaire-completion/tasks.md).
 > Constitution principles map to [`.specify/memory/constitution.md`](../../.specify/memory/constitution.md).
 
-## Planned / pending
+## Maintaining this log
 
-Decisions made during implementation that still need an ADR (tracked, not yet written):
-
-- **Target framework .NET 10** instead of the originally-planned .NET 9 — a deviation
-  from the spec/quickstart with downstream effects (e.g. Stryker.NET incompatibility).
-- **Session token mechanism** — JWT carried in an `HttpOnly; Secure; SameSite=Strict`
-  cookie (`cg_session`), token read from the cookie rather than the `Authorization`
-  header, plus the lazy configuration-key read that keeps the design testable. Currently
-  documented only implicitly across ADR-0003, `research.md`, and the constitution.
+- Write a new ADR for each significant or spec-deviating technical decision
+  (constitution §VII). Never edit an *Accepted* ADR's decision — supersede it with a new
+  ADR and mark the old one *Superseded by ADR-XXXX*. (Factual reconciliation of an ADR
+  with the as-built system is allowed and noted in its Status, as done for ADR-0005.)
+- Add each new ADR to the index table above, with the principle it realizes and the
+  tasks that implement it.
+- No outstanding undocumented decisions as of 2026-06-04 — the .NET 10 and session-cookie
+  decisions are now ADR-0006 and ADR-0007.
