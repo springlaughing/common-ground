@@ -1,5 +1,6 @@
 using System.Text;
 using System.Threading.RateLimiting;
+using CommonGround.Api.Auth;
 using CommonGround.Api.Persistence;
 using CommonGround.Modules.Audit;
 using CommonGround.Modules.Audit.Services;
@@ -41,6 +42,9 @@ builder.Services.AddScoped<IAuditLogger, EfAuditLogger>();
 
 // Controllers
 builder.Services.AddControllers();
+
+// Session JWT issuer (T032) — mints the cg_session cookie token
+builder.Services.AddScoped<SessionTokenIssuer>();
 
 // JWT authentication (T011) — key is read inside the lambda so test overrides apply
 builder.Services
@@ -88,19 +92,28 @@ builder.Services.AddCors(options =>
             .AllowCredentials());
 });
 
-// Rate limiting (T012) — POST endpoints
+// Rate limiting (T012) — POST endpoints. The permit limit is read lazily (per
+// request, from DI config) rather than eagerly: WebApplicationFactory applies
+// the integration-test config override AFTER Program.cs's inline reads run, so
+// an eager read would miss it (same reason the JWT key is read inside AddJwtBearer).
 builder.Services.AddRateLimiter(options =>
 {
-    options.AddPolicy("PostPolicy", _ =>
-        RateLimitPartition.GetFixedWindowLimiter(
+    options.AddPolicy("PostPolicy", httpContext =>
+    {
+        var permitLimit = int.TryParse(
+            httpContext.RequestServices.GetRequiredService<IConfiguration>()["RateLimiting:PostPermitLimit"],
+            out var limit) ? limit : 10;
+
+        return RateLimitPartition.GetFixedWindowLimiter(
             partitionKey: "global",
             factory: _ => new FixedWindowRateLimiterOptions
             {
                 Window = TimeSpan.FromMinutes(1),
-                PermitLimit = 10,
+                PermitLimit = permitLimit,
                 QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
                 QueueLimit = 0,
-            }));
+            });
+    });
 });
 
 var app = builder.Build();

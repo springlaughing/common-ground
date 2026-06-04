@@ -62,4 +62,20 @@ internal sealed class EfResponseRepository : IResponseRepository, IResponseReade
             rs.IsDeleted,
             !string.IsNullOrEmpty(rs.AccessCodeHash));
     }
+
+    public async Task<ResponseSetDto?> GetByTokenHashAsync(string privateResultTokenHash, CancellationToken ct = default)
+    {
+        var rs = await _db.Set<ResponseSet>()
+            .AsNoTracking()
+            .FirstOrDefaultAsync(r => r.PrivateResultTokenHash == privateResultTokenHash, ct);
+
+        if (rs is null)
+            return null;
+
+        return new ResponseSetDto(
+            rs.Id,
+            rs.QuestionnaireVersionId,
+            rs.IsDeleted,
+            !string.IsNullOrEmpty(rs.AccessCodeHash));
+    }
 }
