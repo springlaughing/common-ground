@@ -1,5 +1,6 @@
 using System.Text;
 using System.Threading.RateLimiting;
+using CommonGround.Api.Auth;
 using CommonGround.Api.Persistence;
 using CommonGround.Modules.Audit;
 using CommonGround.Modules.Audit.Services;
@@ -41,6 +42,9 @@ builder.Services.AddScoped<IAuditLogger, EfAuditLogger>();
 
 // Controllers
 builder.Services.AddControllers();
+
+// Session JWT issuer (T032) — mints the cg_session cookie token
+builder.Services.AddScoped<SessionTokenIssuer>();
 
 // JWT authentication (T011) — key is read inside the lambda so test overrides apply
 builder.Services
