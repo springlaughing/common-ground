@@ -92,23 +92,28 @@ builder.Services.AddCors(options =>
             .AllowCredentials());
 });
 
-// Rate limiting (T012) — POST endpoints. Permit limit is configurable so the
-// integration tests (which fire many POSTs in one window) can opt out.
-var postPermitLimit = int.TryParse(builder.Configuration["RateLimiting:PostPermitLimit"], out var limit)
-    ? limit
-    : 10;
+// Rate limiting (T012) — POST endpoints. The permit limit is read lazily (per
+// request, from DI config) rather than eagerly: WebApplicationFactory applies
+// the integration-test config override AFTER Program.cs's inline reads run, so
+// an eager read would miss it (same reason the JWT key is read inside AddJwtBearer).
 builder.Services.AddRateLimiter(options =>
 {
-    options.AddPolicy("PostPolicy", _ =>
-        RateLimitPartition.GetFixedWindowLimiter(
+    options.AddPolicy("PostPolicy", httpContext =>
+    {
+        var permitLimit = int.TryParse(
+            httpContext.RequestServices.GetRequiredService<IConfiguration>()["RateLimiting:PostPermitLimit"],
+            out var limit) ? limit : 10;
+
+        return RateLimitPartition.GetFixedWindowLimiter(
             partitionKey: "global",
             factory: _ => new FixedWindowRateLimiterOptions
             {
                 Window = TimeSpan.FromMinutes(1),
-                PermitLimit = postPermitLimit,
+                PermitLimit = permitLimit,
                 QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
                 QueueLimit = 0,
-            }));
+            });
+    });
 });
 
 var app = builder.Build();
