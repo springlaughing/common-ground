@@ -15,7 +15,7 @@ public sealed class IntegrationTestFactory : WebApplicationFactory<Program>, IAs
 {
     private const string TestHmacKey = "test-hmac-key-minimum-32-characters-xyz";
 
-    private readonly PostgreSqlContainer _db = new PostgreSqlBuilder()
+    private readonly PostgreSqlContainer _db = new PostgreSqlBuilder("postgres:16-alpine")
         .WithDatabase("commonground_test")
         .WithUsername("test")
         .WithPassword("test")
