@@ -22,7 +22,7 @@ public sealed class ScoringEngine
         CancellationToken ct = default)
     {
         // Collect all answer option IDs referenced in this submission
-        var optionIds = new List<Guid>(answers.Count * 2);
+        var optionIds = new List<Guid>();
         foreach (var answer in answers)
         {
             optionIds.Add(answer.PrimaryAnswerOptionId);

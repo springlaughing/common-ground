@@ -18,6 +18,10 @@ PostgreSQL available at `localhost:5432`, database `commonground_dev`.
 
 ## Run backend
 
+Secrets are not committed — provide them via environment variables (or `dotnet user-secrets`)
+before running: `ConnectionStrings__DefaultConnection` (full Postgres connection string,
+including the password), `Jwt__SecretKey`, and `Privacy__HmacKey`.
+
 ```bash
 cd backend
 dotnet restore

@@ -54,7 +54,7 @@ jobs:
       - name: Frontend install + coverage
         working-directory: frontend
         run: |
-          npm ci
+          npm ci --ignore-scripts
           npm run test:coverage
 
       - name: Begin SonarCloud analysis

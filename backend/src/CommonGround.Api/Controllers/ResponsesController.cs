@@ -83,7 +83,7 @@ public sealed class ResponsesController : ControllerBase
         IReadOnlyList<AnswerRequest> answers,
         ActiveQuestionnaireDto questionnaire)
     {
-        var seenQuestions = new HashSet<Guid>(answers.Count);
+        var seenQuestions = new HashSet<Guid>();
         foreach (var a in answers)
         {
             if (!seenQuestions.Add(a.QuestionId))
@@ -94,26 +94,37 @@ public sealed class ResponsesController : ControllerBase
         if (!requiredIds.SetEquals(seenQuestions))
             return new ValidationError("incomplete_answers", "All questions must be answered before submitting.");
 
-        var questionOptions = questionnaire.Questions
+        var optionsByQuestion = questionnaire.Questions
             .ToDictionary(q => q.Id, q => q.AnswerOptions.Select(o => o.Id).ToHashSet());
 
         foreach (var answer in answers)
         {
-            if (!questionOptions.TryGetValue(answer.QuestionId, out var validOptions))
-                return new ValidationError("invalid_question_id", "Answer references a question not in the active questionnaire.");
-
-            if (!validOptions.Contains(answer.PrimaryAnswerOptionId))
-                return new ValidationError("invalid_answer_option", "Primary answer option does not belong to the specified question.");
-
-            if (answer.SecondaryAnswerOptionId.HasValue)
-            {
-                if (!validOptions.Contains(answer.SecondaryAnswerOptionId.Value))
-                    return new ValidationError("invalid_answer_option", "Secondary answer option does not belong to the specified question.");
-
-                if (answer.SecondaryAnswerOptionId.Value == answer.PrimaryAnswerOptionId)
-                    return new ValidationError("duplicate_answer_option", "Secondary answer option must differ from the primary.");
-            }
+            var error = ValidateAnswerOptions(answer, optionsByQuestion);
+            if (error is not null)
+                return error;
         }
+
+        return null;
+    }
+
+    private static ValidationError? ValidateAnswerOptions(
+        AnswerRequest answer,
+        Dictionary<Guid, HashSet<Guid>> optionsByQuestion)
+    {
+        if (!optionsByQuestion.TryGetValue(answer.QuestionId, out var validOptions))
+            return new ValidationError("invalid_question_id", "Answer references a question not in the active questionnaire.");
+
+        if (!validOptions.Contains(answer.PrimaryAnswerOptionId))
+            return new ValidationError("invalid_answer_option", "Primary answer option does not belong to the specified question.");
+
+        if (!answer.SecondaryAnswerOptionId.HasValue)
+            return null;
+
+        if (!validOptions.Contains(answer.SecondaryAnswerOptionId.Value))
+            return new ValidationError("invalid_answer_option", "Secondary answer option does not belong to the specified question.");
+
+        if (answer.SecondaryAnswerOptionId.Value == answer.PrimaryAnswerOptionId)
+            return new ValidationError("duplicate_answer_option", "Secondary answer option must differ from the primary.");
 
         return null;
     }
