@@ -27,7 +27,9 @@ export function PageShell({
   decoStyle = 'filled',
   showBrand = true,
   children,
-}: Props) {
+}: Readonly<Props>) {
+  const outlineClass = decoStyle === 'outline' ? ` ${styles.outlineDeco}` : ''
+
   return (
     <div className={styles.shell}>
       <header className={styles.header}>
@@ -47,7 +49,7 @@ export function PageShell({
               viewport) and keep their relationship to the text at any size. */}
           {decoVariant === 'hero' && (
             <div
-              className={`${styles.heroDeco}${decoStyle === 'outline' ? ` ${styles.outlineDeco}` : ''}`}
+              className={`${styles.heroDeco}${outlineClass}`}
               aria-hidden="true"
             >
               <span className={styles.c}>c</span>
@@ -61,7 +63,7 @@ export function PageShell({
       {/* Subtle screens keep the viewport-corner deco. */}
       {decoVariant === 'default' && (
         <div
-          className={`${styles.deco}${decoStyle === 'outline' ? ` ${styles.outlineDeco}` : ''}`}
+          className={`${styles.deco}${outlineClass}`}
           aria-hidden="true"
         >
           <span className={styles.c}>c</span>
