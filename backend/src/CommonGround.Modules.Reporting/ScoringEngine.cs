@@ -36,28 +36,7 @@ public sealed class ScoringEngine
             .ToDictionary(g => g.Key, g => (IReadOnlyList<DimensionWeightDto>)g.ToList());
 
         // Accumulate: primary × 1.0, secondary × 0.5
-        var rawScores = new Dictionary<string, decimal>(StringComparer.Ordinal);
-        foreach (var answer in answers)
-        {
-            if (weightsByOption.TryGetValue(answer.PrimaryAnswerOptionId, out var primaryWeights))
-            {
-                foreach (var w in primaryWeights)
-                {
-                    rawScores.TryGetValue(w.DimensionId, out var cur);
-                    rawScores[w.DimensionId] = cur + w.Weight;
-                }
-            }
-
-            if (answer.SecondaryAnswerOptionId.HasValue &&
-                weightsByOption.TryGetValue(answer.SecondaryAnswerOptionId.Value, out var secondaryWeights))
-            {
-                foreach (var w in secondaryWeights)
-                {
-                    rawScores.TryGetValue(w.DimensionId, out var cur);
-                    rawScores[w.DimensionId] = cur + w.Weight * 0.5m;
-                }
-            }
-        }
+        var rawScores = AccumulateRawScores(answers, weightsByOption);
 
         var maxScores = await _questionnaireReader.GetDimensionMaxScoresAsync(questionnaireVersionId, ct);
 
@@ -83,5 +62,36 @@ public sealed class ScoringEngine
 
         await _db.SaveChangesAsync(ct);
         return dimensionScores;
+    }
+
+    private static Dictionary<string, decimal> AccumulateRawScores(
+        IReadOnlyList<ScoringInput> answers,
+        IReadOnlyDictionary<Guid, IReadOnlyList<DimensionWeightDto>> weightsByOption)
+    {
+        var rawScores = new Dictionary<string, decimal>(StringComparer.Ordinal);
+        foreach (var answer in answers)
+        {
+            AddWeights(rawScores, weightsByOption, answer.PrimaryAnswerOptionId, 1.0m);
+            if (answer.SecondaryAnswerOptionId.HasValue)
+                AddWeights(rawScores, weightsByOption, answer.SecondaryAnswerOptionId.Value, 0.5m);
+        }
+
+        return rawScores;
+    }
+
+    private static void AddWeights(
+        Dictionary<string, decimal> rawScores,
+        IReadOnlyDictionary<Guid, IReadOnlyList<DimensionWeightDto>> weightsByOption,
+        Guid optionId,
+        decimal factor)
+    {
+        if (!weightsByOption.TryGetValue(optionId, out var weights))
+            return;
+
+        foreach (var w in weights)
+        {
+            rawScores.TryGetValue(w.DimensionId, out var cur);
+            rawScores[w.DimensionId] = cur + w.Weight * factor;
+        }
     }
 }

@@ -49,24 +49,24 @@ public sealed class ReflectionAssembler : IReportingService
         var reflectionGroups = new List<ReflectionGroupDto>();
         foreach (var group in groups)
         {
-            var insights = new List<InsightDto>();
-            foreach (var membership in group.Memberships)
-            {
-                if (!scoreByDimension.TryGetValue(membership.DimensionId, out var normScore))
-                    continue;
-                if (normScore < DisplayThreshold)
-                    continue;
-                if (!snippetText.TryGetValue(membership.DimensionId, out var text))
-                    continue;
-
-                var strength = Math.Max(1, Math.Min(5, (int)Math.Ceiling(normScore * 5m)));
-                insights.Add(new InsightDto(membership.DimensionId, text, strength));
-            }
-
+            var insights = BuildInsights(group, scoreByDimension, snippetText);
             if (insights.Count > 0)
                 reflectionGroups.Add(new ReflectionGroupDto(group.GroupId, group.Title, insights));
         }
 
         return new ReflectionDto(reflectionGroups);
     }
+
+    private static List<InsightDto> BuildInsights(
+        DimensionGroup group,
+        Dictionary<string, decimal> scoreByDimension,
+        Dictionary<string, string> snippetText) =>
+        group.Memberships
+            .Where(m => scoreByDimension.GetValueOrDefault(m.DimensionId) >= DisplayThreshold
+                        && snippetText.ContainsKey(m.DimensionId))
+            .Select(m => new InsightDto(
+                m.DimensionId,
+                snippetText[m.DimensionId],
+                Math.Max(1, Math.Min(5, (int)Math.Ceiling(scoreByDimension[m.DimensionId] * 5m)))))
+            .ToList();
 }

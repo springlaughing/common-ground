@@ -83,12 +83,9 @@ public sealed class ResponsesController : ControllerBase
         IReadOnlyList<AnswerRequest> answers,
         ActiveQuestionnaireDto questionnaire)
     {
-        var seenQuestions = new HashSet<Guid>();
-        foreach (var a in answers)
-        {
-            if (!seenQuestions.Add(a.QuestionId))
-                return new ValidationError("duplicate_question_ids", "Each question must be answered exactly once.");
-        }
+        var seenQuestions = answers.Select(a => a.QuestionId).ToHashSet();
+        if (seenQuestions.Count != answers.Count)
+            return new ValidationError("duplicate_question_ids", "Each question must be answered exactly once.");
 
         var requiredIds = questionnaire.Questions.Select(q => q.Id).ToHashSet();
         if (!requiredIds.SetEquals(seenQuestions))
