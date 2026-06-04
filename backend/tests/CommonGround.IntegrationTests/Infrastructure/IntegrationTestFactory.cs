@@ -14,6 +14,14 @@ namespace CommonGround.IntegrationTests.Infrastructure;
 public sealed class IntegrationTestFactory : WebApplicationFactory<Program>, IAsyncLifetime
 {
     private const string TestHmacKey = "test-hmac-key-minimum-32-characters-xyz";
+    private const string TestJwtKey = "test-secret-key-minimum-32-characters-abc";
+
+    static IntegrationTestFactory()
+    {
+        // SessionTokenIssuer reads the JWT signing secret from the environment;
+        // set it so issued cg_session tokens validate against the same key.
+        Environment.SetEnvironmentVariable("Jwt__SecretKey", TestJwtKey);
+    }
 
     private readonly PostgreSqlContainer _db = new PostgreSqlBuilder("postgres:16-alpine")
         .WithDatabase("commonground_test")
@@ -32,7 +40,7 @@ public sealed class IntegrationTestFactory : WebApplicationFactory<Program>, IAs
             config.AddInMemoryCollection(new Dictionary<string, string?>
             {
                 ["ConnectionStrings:DefaultConnection"] = _db.GetConnectionString(),
-                ["Jwt:SecretKey"] = "test-secret-key-minimum-32-characters-abc",
+                ["Jwt:SecretKey"] = TestJwtKey,
                 ["Jwt:Issuer"] = "CommonGround.Test",
                 ["Jwt:Audience"] = "CommonGround.Test",
                 ["Jwt:ExpiryDays"] = "1",

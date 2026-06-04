@@ -18,8 +18,11 @@ public sealed class SessionTokenIssuer
 
     public (string Token, TimeSpan MaxAge) Issue(Guid responseSetId)
     {
-        var secret = _config["Jwt:SecretKey"]
-            ?? throw new InvalidOperationException("Jwt:SecretKey is required");
+        // Read the signing secret straight from the environment, never from a
+        // (committable) config file — per Sonar S6781 / secret-disclosure best
+        // practice. Non-secret settings (issuer/audience/expiry) stay in config.
+        var secret = Environment.GetEnvironmentVariable("Jwt__SecretKey")
+            ?? throw new InvalidOperationException("Jwt__SecretKey environment variable is required");
         var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret));
         var credentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
 
