@@ -50,17 +50,18 @@ questionnaire version
 
 *GATE: Must pass before Phase 0 research. Re-checked after Phase 1 design.*
 
-| Principle | Gate | Status |
-|-----------|------|--------|
-| I. Privacy-First | Raw answers not in logs or reports; tokens/codes hashed; audit events contain no raw answers (FR-014) | ✅ Pass |
-| II. Neutral Outputs | Personal reflection uses insight templates only; no overall score; insights framed as observations (FR-007, SC-004) | ✅ Pass |
-| III. Deterministic Engine | Scoring engine uses versioned definitions + scoring rules + insight templates; no LLM at runtime; same inputs = same output | ✅ Pass |
-| IV. Modular Monolith | Backend split into Questionnaires, Responses, Reporting, Privacy, Audit, Comparisons modules; architecture tests enforce boundaries; ComparisonSession/ComparisonParticipant tables created now for group support | ✅ Pass |
-| V. Explicit Consent | Consent explanation shown and acknowledged before questionnaire (FR-001, FR-002); audit event logged | ✅ Pass |
-| VI. Accountless Identity | Private result link via fragment token; access code for reuse only; both hashed server-side; HttpOnly cookie session after first validation | ✅ Pass |
-| VII. DevSecOps | CI workflows, Dependabot, SonarCloud, branch protection set up in foundational phase before feature code | ✅ Pass |
+| Principle | Gate | Status | Realized by |
+|-----------|------|--------|-------------|
+| I. Privacy-First | Raw answers not in logs or reports; tokens/codes hashed; audit events contain no raw answers (FR-014) | ✅ Pass | [ADR-0003](../../docs/adr/0003-use-private-links-and-access-codes.md) |
+| II. Neutral Outputs | Personal reflection uses insight templates only; no overall score; insights framed as observations (FR-007, SC-004) | ✅ Pass | [ADR-0002](../../docs/adr/0002-use-deterministic-comparison-engine.md) |
+| III. Deterministic Engine | Scoring engine uses versioned definitions + scoring rules + insight templates; no LLM at runtime; same inputs = same output | ✅ Pass | [ADR-0002](../../docs/adr/0002-use-deterministic-comparison-engine.md) |
+| IV. Modular Monolith | Backend split into Questionnaires, Responses, Reporting, Privacy, Audit, Comparisons modules; architecture tests enforce boundaries; ComparisonSession/ComparisonParticipant tables created now for group support | ✅ Pass | [ADR-0001](../../docs/adr/0001-use-modular-monolith.md) |
+| V. Explicit Consent | Consent explanation shown and acknowledged before questionnaire (FR-001, FR-002); audit event logged | ✅ Pass | — (spec FR-001/FR-002) |
+| VI. Accountless Identity | Private result link via fragment token; access code for reuse only; both hashed server-side; HttpOnly cookie session after first validation | ✅ Pass | [ADR-0003](../../docs/adr/0003-use-private-links-and-access-codes.md) |
+| VII. DevSecOps | CI workflows, Dependabot, SonarCloud, branch protection set up in foundational phase before feature code | ✅ Pass | [ADR-0005](../../docs/adr/0005-use-github-actions-for-ci-cd.md) |
 
-No violations. No complexity justification required.
+No violations. No complexity justification required. All architecture decisions are
+indexed in [`docs/adr/`](../../docs/adr/README.md).
 
 ---
 

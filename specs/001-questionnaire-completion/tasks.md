@@ -304,6 +304,7 @@ T035 + T035b — ReflectionPage + InsightCard (develop against mock API)
 
 - `[P]` = can run in parallel (different files, no incomplete dependencies)
 - `[US1/US2/US3]` = user story label for traceability to spec.md
+- Architecture decisions are recorded in [`docs/adr/`](../../docs/adr/README.md); the index maps each ADR to the tasks that implement it
 - Dimension weights are never returned in API responses — enforced in T021; verified in T026
 - Audit events must not contain raw answers, tokens, or access codes — enforced in T020 and T023; verified in T026
 - Private result token is delivered via URL fragment only — enforced in T023 (privateResultLink=/me#TOKEN); verified in T035 (reads window.location.hash)
