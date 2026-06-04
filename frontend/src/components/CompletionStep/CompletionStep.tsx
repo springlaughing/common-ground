@@ -9,7 +9,7 @@ interface Props {
   onBack?: () => void
 }
 
-export function CompletionStep({ privateResultLink, accessCode, onViewReflection, onBack }: Props) {
+export function CompletionStep({ privateResultLink, accessCode, onViewReflection, onBack }: Readonly<Props>) {
   return (
     <PageShell align="top" decoStyle="outline" onBack={onBack} backLabel="← Back">
       <p className={styles.eyebrow}>All done</p>

@@ -7,7 +7,7 @@ interface Props {
   sectionTotal: number
 }
 
-export function ProgressIndicator({ current, total, sectionCurrent, sectionTotal }: Props) {
+export function ProgressIndicator({ current, total, sectionCurrent, sectionTotal }: Readonly<Props>) {
   return (
     <div className={styles.root}>
       <span

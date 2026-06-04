@@ -22,7 +22,7 @@ const POINTS = [
   },
 ]
 
-export function ConsentStep({ onAcknowledge, onBack }: Props) {
+export function ConsentStep({ onAcknowledge, onBack }: Readonly<Props>) {
   const [agreed, setAgreed] = useState(false)
 
   return (
