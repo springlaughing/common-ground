@@ -5,7 +5,7 @@
 ## Prerequisites
 
 - Docker Desktop running
-- .NET 9 SDK installed
+- .NET 10 SDK installed
 - Node.js 20+ installed
 
 ## Start local database

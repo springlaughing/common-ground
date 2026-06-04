@@ -47,8 +47,14 @@ moving from an STS to an LTS baseline is a net improvement over the original pla
 - Being on the newest LTS means some ecosystem tooling lags briefly (the Stryker gap
   above is the concrete instance).
 - **Smart App Control (Windows) workaround:** local EF migrations must run with
-  `--configuration Release`, as SAC can block unsigned Debug build outputs.
-- The spec and quickstart still reference .NET 9 and should be updated for consistency.
+  `--configuration Release`, as SAC can block unsigned Debug build outputs. **Smart App Control (SAC)** is a Windows 11 security feature (22H2+) that blocks executables it doesn't trust. Unlike SmartScreen, it's aggressive: it allows apps that are either signed by a known publisher or have an established cloud reputation, and blocks anything unsigned/unknown outright. (It has three modes — Evaluation / On / Off — and once turned Off it can only be re-enabled by reinstalling Windows.)
+
+    - Why it bites EF migrations: dotnet ef database update doesn't just compile — it has to run your app's design-time host to load the DbContext. To do that, .NET produces a small native launcher (the apphost, CommonGround.Api.exe) and executes it. That freshly-built apphost is unsigned and has zero reputation, so SAC kills it → the migration fails with a vague access/blocked error rather than an EF error, which makes it confusing.
+
+    - Why --configuration Release was the workaround: it's an empirical fix — building/running through the Release output path avoided the SAC block in practice (different output binaries, and the migration flow ends up running an already-validated Release build rather than re-launching a just-built Debug apphost). 
+- *(Resolved 2026-06-04)* `quickstart.md` referenced .NET 9 and has been updated to
+  .NET 10; `spec.md` does not pin a framework version (the tech context lives in
+  `plan.md`), so no change was needed there.
 
 ## Alternatives considered
 
@@ -63,4 +69,3 @@ is structural.
 
 - Promote Stryker (`mutation.yml`) to a required PR check once a .NET 10-compatible
   release ships — bump the version in `backend/.config/dotnet-tools.json`.
-- Update `spec.md` and `quickstart.md` to .NET 10.
