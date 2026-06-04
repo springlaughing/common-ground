@@ -2,6 +2,12 @@ import type { Question } from '../../types/api'
 import { ProgressIndicator } from '../ProgressIndicator/ProgressIndicator'
 import styles from './QuestionStep.module.css'
 
+function choiceSuffix(state: 'primary' | 'secondary' | 'none'): string {
+  if (state === 'primary') return ' — your primary choice'
+  if (state === 'secondary') return ' — your secondary choice'
+  return ''
+}
+
 interface Props {
   question: Question
   questionNumber: number
@@ -33,7 +39,7 @@ export function QuestionStep({
   onBack,
   isFirst,
   isLast,
-}: Props) {
+}: Readonly<Props>) {
   const progressPct = ((questionNumber - 1) / totalQuestions) * 100
 
   function handleCardClick(optionId: string) {
@@ -62,25 +68,18 @@ export function QuestionStep({
   return (
     <div className={styles.step}>
       {/* Top progress bar — full width */}
-      <div
-        className={styles.progressBar}
-        role="progressbar"
-        aria-valuenow={Math.round(progressPct)}
-        aria-valuemin={0}
-        aria-valuemax={100}
-        aria-label={`${Math.round(progressPct)}% complete`}
-      >
+      <div className={styles.progressBar} aria-hidden="true">
         <div className={styles.progressFill} style={{ width: `${progressPct}%` }} />
       </div>
 
       {/* Header: back link left, brand right */}
       <header className={styles.header}>
-        {!isFirst ? (
+        {isFirst ? (
+          <span />
+        ) : (
           <button className={styles.backLink} onClick={onBack}>
             ← Previous
           </button>
-        ) : (
-          <span />
         )}
         <span className={styles.brand}>common ground</span>
       </header>
@@ -96,7 +95,7 @@ export function QuestionStep({
 
         <h1 className={styles.question}>{question.text}</h1>
 
-        <div className={styles.cards} role="group" aria-label="Answer options">
+        <fieldset className={styles.cards} aria-label="Answer options">
           {question.answerOptions.map(option => {
             const state = getState(option.id)
             return (
@@ -109,7 +108,7 @@ export function QuestionStep({
                 ].filter(Boolean).join(' ')}
                 onClick={() => handleCardClick(option.id)}
                 aria-pressed={state !== 'none'}
-                aria-label={`${option.text}${state === 'primary' ? ' — your primary choice' : state === 'secondary' ? ' — your secondary choice' : ''}`}
+                aria-label={`${option.text}${choiceSuffix(state)}`}
               >
                 <span className={styles.dot} aria-hidden="true">
                   {state === 'primary' && '1'}
@@ -119,7 +118,7 @@ export function QuestionStep({
               </button>
             )
           })}
-        </div>
+        </fieldset>
 
         {primaryAnswerId !== null && (
           <p className={styles.hint}>

@@ -226,7 +226,7 @@ export default function App() {
     return (
       <div style={centered}>
         <p>{loadError}</p>
-        <button onClick={() => window.location.reload()}>Retry</button>
+        <button onClick={() => globalThis.location.reload()}>Retry</button>
       </div>
     )
   }

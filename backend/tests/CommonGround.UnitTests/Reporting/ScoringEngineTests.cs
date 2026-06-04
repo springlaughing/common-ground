@@ -25,13 +25,13 @@ public sealed class ScoringEngineTests
 
         reader.Setup(r => r.GetDimensionWeightsForOptionsAsync(
                 It.IsAny<IEnumerable<Guid>>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new List<DimensionWeightDto> { new(optionId, "dim_a", 5) });
+            .ReturnsAsync([new(optionId, "dim_a", 5)]);
 
         reader.Setup(r => r.GetDimensionMaxScoresAsync(versionId, It.IsAny<CancellationToken>()))
             .ReturnsAsync(new Dictionary<string, decimal> { ["dim_a"] = 5m });
 
         var scores = await engine.ScoreAsync(responseSetId, versionId,
-            new List<ScoringInput> { new(optionId, null) });
+            [new(optionId, null)]);
 
         scores.Should().ContainSingle(s => s.DimensionId == "dim_a")
             .Which.Should().Match<Modules.Reporting.Entities.DimensionScore>(
@@ -49,18 +49,17 @@ public sealed class ScoringEngineTests
 
         reader.Setup(r => r.GetDimensionWeightsForOptionsAsync(
                 It.IsAny<IEnumerable<Guid>>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new List<DimensionWeightDto>
-            {
+            .ReturnsAsync([
                 new(primaryId, "dim_a", 4),
                 new(secondaryId, "dim_a", 4),
-            });
+            ]);
 
         reader.Setup(r => r.GetDimensionMaxScoresAsync(versionId, It.IsAny<CancellationToken>()))
             .ReturnsAsync(new Dictionary<string, decimal> { ["dim_a"] = 10m });
 
         // primary 4 × 1.0 = 4, secondary 4 × 0.5 = 2  →  raw = 6
         var scores = await engine.ScoreAsync(Guid.NewGuid(), versionId,
-            new List<ScoringInput> { new(primaryId, secondaryId) });
+            [new(primaryId, secondaryId)]);
 
         scores.Should().ContainSingle(s => s.DimensionId == "dim_a")
             .Which.RawScore.Should().Be(6.0m);
@@ -77,18 +76,17 @@ public sealed class ScoringEngineTests
 
         reader.Setup(r => r.GetDimensionWeightsForOptionsAsync(
                 It.IsAny<IEnumerable<Guid>>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new List<DimensionWeightDto>
-            {
+            .ReturnsAsync([
                 new(optionA, "dim_a", 5),
                 new(optionB, "dim_a", -3),
-            });
+            ]);
 
         reader.Setup(r => r.GetDimensionMaxScoresAsync(versionId, It.IsAny<CancellationToken>()))
             .ReturnsAsync(new Dictionary<string, decimal> { ["dim_a"] = 5m });
 
         // 5 + (-3) = 2 raw
         var scores = await engine.ScoreAsync(Guid.NewGuid(), versionId,
-            new List<ScoringInput> { new(optionA, null), new(optionB, null) });
+            [new(optionA, null), new(optionB, null)]);
 
         scores.Should().ContainSingle(s => s.DimensionId == "dim_a")
             .Which.RawScore.Should().Be(2.0m);
@@ -104,13 +102,13 @@ public sealed class ScoringEngineTests
 
         reader.Setup(r => r.GetDimensionWeightsForOptionsAsync(
                 It.IsAny<IEnumerable<Guid>>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new List<DimensionWeightDto> { new(optionId, "dim_a", 10) });
+            .ReturnsAsync([new(optionId, "dim_a", 10)]);
 
         reader.Setup(r => r.GetDimensionMaxScoresAsync(versionId, It.IsAny<CancellationToken>()))
             .ReturnsAsync(new Dictionary<string, decimal> { ["dim_a"] = 5m });
 
         var scores = await engine.ScoreAsync(Guid.NewGuid(), versionId,
-            new List<ScoringInput> { new(optionId, null) });
+            [new(optionId, null)]);
 
         scores.Should().ContainSingle(s => s.DimensionId == "dim_a")
             .Which.NormalisedScore.Should().Be(1.0m);
@@ -126,13 +124,13 @@ public sealed class ScoringEngineTests
 
         reader.Setup(r => r.GetDimensionWeightsForOptionsAsync(
                 It.IsAny<IEnumerable<Guid>>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new List<DimensionWeightDto> { new(optionId, "dim_a", -5) });
+            .ReturnsAsync([new(optionId, "dim_a", -5)]);
 
         reader.Setup(r => r.GetDimensionMaxScoresAsync(versionId, It.IsAny<CancellationToken>()))
             .ReturnsAsync(new Dictionary<string, decimal> { ["dim_a"] = 5m });
 
         var scores = await engine.ScoreAsync(Guid.NewGuid(), versionId,
-            new List<ScoringInput> { new(optionId, null) });
+            [new(optionId, null)]);
 
         scores.Should().ContainSingle(s => s.DimensionId == "dim_a")
             .Which.NormalisedScore.Should().Be(0.0m);

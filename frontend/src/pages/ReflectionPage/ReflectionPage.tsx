@@ -6,7 +6,7 @@ interface Props {
   onCompare?: () => void
 }
 
-function DimensionDots({ strength }: { strength: number }) {
+function DimensionDots({ strength }: Readonly<{ strength: number }>) {
   return (
     <div className={styles.dots} role="img" aria-label={`Strength ${strength} out of 5`}>
       {[1, 2, 3, 4, 5].map(i => (
@@ -16,7 +16,7 @@ function DimensionDots({ strength }: { strength: number }) {
   )
 }
 
-export function ReflectionPage({ reflection, onCompare }: Props) {
+export function ReflectionPage({ reflection, onCompare }: Readonly<Props>) {
   return (
     <div className={styles.page}>
       <header className={styles.header}>

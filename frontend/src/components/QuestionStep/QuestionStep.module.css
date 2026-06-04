@@ -85,6 +85,11 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  /* Rendered as a <fieldset> grouping the answer options — reset its UA chrome. */
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-inline-size: 0;
 }
 
 .card {

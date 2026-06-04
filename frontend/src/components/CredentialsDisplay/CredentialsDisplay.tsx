@@ -8,7 +8,7 @@ interface Props {
   accessCode: string
 }
 
-function CopyButton({ value, label }: { value: string; label: string }) {
+function CopyButton({ value, label }: Readonly<{ value: string; label: string }>) {
   const [copied, setCopied] = useState(false)
 
   async function copy() {
@@ -28,9 +28,10 @@ function CopyButton({ value, label }: { value: string; label: string }) {
   )
 }
 
-export function CredentialsDisplay({ privateResultLink, accessCode }: Props) {
-  const fullLink =
-    typeof window !== 'undefined' ? `${window.location.origin}${privateResultLink}` : privateResultLink
+export function CredentialsDisplay({ privateResultLink, accessCode }: Readonly<Props>) {
+  const fullLink = 'window' in globalThis
+    ? `${globalThis.location.origin}${privateResultLink}`
+    : privateResultLink
 
   return (
     <div className={styles.root}>

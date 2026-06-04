@@ -5,7 +5,7 @@ interface Props {
   onStart: () => void
 }
 
-export function WelcomeStep({ onStart }: Props) {
+export function WelcomeStep({ onStart }: Readonly<Props>) {
   return (
     <PageShell decoVariant="hero" showBrand={false}>
       <p className={styles.eyebrow}>A working-style reflection</p>

@@ -9,28 +9,30 @@ interface Props {
 const isAligned = (i: ComparisonInsightDto) =>
   i.yourStrength !== null && i.theirStrength !== null && Math.abs(i.yourStrength - i.theirStrength) <= 1
 
-function DotStrength({ label, strength, variant }: { label: string; strength: number | null; variant: 'you' | 'them' }) {
+function DotStrength({ label, strength, variant }: Readonly<{ label: string; strength: number | null; variant: 'you' | 'them' }>) {
+  const labelClass = variant === 'you' ? styles.dotLabelYou : styles.dotLabelThem
+  const filledClass = variant === 'you' ? styles.dotFilledYou : styles.dotFilledThem
   return (
     <div className={styles.dotRow}>
-      <span className={`${styles.dotLabel} ${variant === 'you' ? styles.dotLabelYou : styles.dotLabelThem}`}>
+      <span className={`${styles.dotLabel} ${labelClass}`}>
         {label}
       </span>
       <div className={styles.dots}>
-        {strength !== null
-          ? [1, 2, 3, 4, 5].map(i => (
+        {strength === null
+          ? <span className={styles.dotAbsent}>—</span>
+          : [1, 2, 3, 4, 5].map(i => (
               <span
                 key={i}
-                className={`${styles.dot} ${i <= strength ? (variant === 'you' ? styles.dotFilledYou : styles.dotFilledThem) : styles.dotEmpty}`}
+                className={`${styles.dot} ${i <= strength ? filledClass : styles.dotEmpty}`}
               />
             ))
-          : <span className={styles.dotAbsent}>—</span>
         }
       </div>
     </div>
   )
 }
 
-function InsightCard({ insight, theirName }: { insight: ComparisonInsightDto; theirName: string }) {
+function InsightCard({ insight, theirName }: Readonly<{ insight: ComparisonInsightDto; theirName: string }>) {
   const aligned = isAligned(insight)
   const bothScored = insight.yourStrength !== null && insight.theirStrength !== null
   // When both scored the same dimension, the texts describe the same concept in different pronouns.
@@ -71,7 +73,7 @@ function InsightCard({ insight, theirName }: { insight: ComparisonInsightDto; th
   )
 }
 
-export function ComparisonPage({ comparison, onBack }: Props) {
+export function ComparisonPage({ comparison, onBack }: Readonly<Props>) {
   const allInsights = comparison.groups.flatMap(g => g.insights)
   const alignedInsights = allInsights.filter(isAligned)
   const differsInsights = allInsights.filter(i => !isAligned(i))
