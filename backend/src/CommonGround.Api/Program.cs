@@ -11,6 +11,7 @@ using CommonGround.Modules.Reporting;
 using CommonGround.Modules.Responses;
 using CommonGround.SharedKernel.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
@@ -92,6 +93,17 @@ builder.Services.AddCors(options =>
             .AllowCredentials());
 });
 
+// Forwarded headers — Render (and any reverse proxy) terminates TLS at its edge and
+// forwards the original scheme/client IP in X-Forwarded-*. Honor them so the app sees
+// the request as https (correct redirects, scheme-aware behavior, real client IPs).
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+{
+    options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+    // The platform's proxy is the only hop in front of us; trust its forwarded headers.
+    options.KnownIPNetworks.Clear();
+    options.KnownProxies.Clear();
+});
+
 // Rate limiting (T012) — POST endpoints. The permit limit is read lazily (per
 // request, from DI config) rather than eagerly: WebApplicationFactory applies
 // the integration-test config override AFTER Program.cs's inline reads run, so
@@ -129,6 +141,9 @@ if (app.Configuration.GetValue<bool>("RunMigrationsOnStartup"))
     await scope.ServiceProvider.GetRequiredService<AppDbContext>().Database.MigrateAsync();
 }
 
+// Honor X-Forwarded-* from the platform proxy before anything reads the scheme/IP.
+app.UseForwardedHeaders();
+
 // Security headers (T012)
 app.Use(async (ctx, next) =>
 {
@@ -140,10 +155,18 @@ app.Use(async (ctx, next) =>
 });
 
 app.UseHttpsRedirection();
+
+// Serve the built React SPA (wwwroot) from the same origin as the API, so the
+// cg_session cookie (SameSite=Strict) is first-party. Controllers match API routes
+// first; any other path falls back to index.html for client-side routing (e.g. /me).
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
 app.UseCors();
 app.UseRateLimiter();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+app.MapFallbackToFile("index.html");
 
 await app.RunAsync();
