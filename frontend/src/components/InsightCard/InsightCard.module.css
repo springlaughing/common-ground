@@ -26,8 +26,9 @@
   flex-shrink: 0;
 }
 
+/* "You" identity colour — the reflection is entirely about you. */
 .dotFilled {
-  background: var(--color-text-primary);
+  background: var(--color-accent-text);
 }
 
 .dotEmpty {
@@ -38,7 +39,7 @@
 .insightText {
   font-size: 15px;
   line-height: 1.55;
-  color: var(--color-text-secondary);
+  color: var(--color-text-body);
   max-width: 600px;
   margin: 0;
 }

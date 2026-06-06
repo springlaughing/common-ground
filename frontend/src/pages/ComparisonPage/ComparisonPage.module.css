@@ -82,8 +82,9 @@
   margin-bottom: 4px;
 }
 
+/* You = gold (brand identity colour), them = neutral black. */
 .legendYou {
-  color: var(--color-text-primary);
+  color: var(--color-accent-text);
 }
 
 .legendDash {
@@ -92,7 +93,7 @@
 }
 
 .legendThem {
-  color: var(--color-accent-text);
+  color: var(--color-text-primary);
 }
 
 /* ── Summary callout ─────────────────────── */
@@ -176,11 +177,11 @@
 }
 
 .dotLabelYou {
-  color: var(--color-text-primary);
+  color: var(--color-accent-text);
 }
 
 .dotLabelThem {
-  color: var(--color-accent-text);
+  color: var(--color-text-primary);
 }
 
 .dots {
@@ -198,11 +199,11 @@
 }
 
 .dotFilledYou {
-  background: var(--color-text-primary);
+  background: var(--color-accent-text);
 }
 
 .dotFilledThem {
-  background: var(--color-accent);
+  background: var(--color-text-primary);
 }
 
 .dotEmpty {
@@ -215,16 +216,6 @@
   color: var(--color-text-secondary);
   opacity: 0.4;
   line-height: 1;
-}
-
-/* ── Alignment badge ─────────────────────── */
-
-.alignBadge {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--color-accent-text);
 }
 
 /* ── Insight text ────────────────────────── */
@@ -250,17 +241,17 @@
 }
 
 .insightLabelYou {
-  color: var(--color-text-primary);
+  color: var(--color-accent-text);
 }
 
 .insightLabelThem {
-  color: var(--color-accent-text);
+  color: var(--color-text-primary);
 }
 
 .insightText {
   font-size: 15px;
   line-height: 1.55;
-  color: var(--color-text-secondary);
+  color: var(--color-text-body);
   max-width: 600px;
   margin: 0;
 }

@@ -9,6 +9,7 @@ import type {
   AnswerSubmission,
   ComparisonDto,
   Question,
+  ReflectionDto,
   SubmitResponseRequest,
   SubmitResponseResult,
 } from './types/api'
@@ -108,6 +109,74 @@ const DEMO_COMPARISON: ComparisonDto = {
   ],
 }
 
+// DEV-only sample reflection, used by the ?preview=reflection design harness below
+// so we can fine-tune the page without the backend or walking the questionnaire.
+// Strengths span 1–5 to exercise every dot state. Not referenced in production.
+const DEMO_REFLECTION: ReflectionDto = {
+  groups: [
+    {
+      id: 'work_context_expectations_and_alignment',
+      title: 'Work context, expectations, and alignment',
+      insights: [
+        {
+          dimensionId: 'clarity_via_written_context',
+          title: 'Written records over memory',
+          strength: 4,
+          text: "You trust written records more than memory or conversation. Decisions that only exist in someone's head — or were said once in a meeting — are hard for you to rely on.",
+        },
+        {
+          dimensionId: 'examples_over_description',
+          title: 'Real examples over descriptions',
+          strength: 3,
+          text: "Real examples tell you more than descriptions do. You'd rather look at past code, a ticket, or an existing standard than read an explanation of how things work.",
+        },
+        {
+          dimensionId: 'comfort_with_ambiguity',
+          title: 'Starting before everything is settled',
+          strength: 2,
+          text: "You're comfortable starting before everything is settled. Not having all the answers yet doesn't stop you from moving — you'd rather begin and refine than wait for full certainty.",
+        },
+      ],
+    },
+    {
+      id: 'how_you_plan_and_handle_change',
+      title: 'How you plan and handle change',
+      insights: [
+        {
+          dimensionId: 'iteration_preference',
+          title: 'Fixed, predictable planning cycles',
+          strength: 5,
+          text: 'Fixed cycles work well for you — a predictable cadence with clear moments to plan, deliver, and reflect. The rhythm itself helps you work at your best.',
+        },
+        {
+          dimensionId: 'planning_boundary_protection',
+          title: 'Protecting the plan from interruption',
+          strength: 4,
+          text: 'You need the plan protected from constant interruption. Collecting changes and handling them at the next planning point — rather than mid-flow — is how you stay productive.',
+        },
+      ],
+    },
+    {
+      id: 'what_gives_you_energy_and_meaning',
+      title: 'What gives you energy and meaning',
+      insights: [
+        {
+          dimensionId: 'craft_intrinsic_motivation',
+          title: 'Driven by the work itself',
+          strength: 5,
+          text: "The work itself is what drives you. Building something well, solving a hard problem, getting the details right — that's satisfying in its own right.",
+        },
+        {
+          dimensionId: 'focus_protection',
+          title: 'Protecting uninterrupted focus',
+          strength: 1,
+          text: "Uninterrupted focus time matters to you. Interruptions and constant context switching have a real cost — and you notice when that cost isn't justified.",
+        },
+      ],
+    },
+  ],
+}
+
 type AnswerState = { primary: string | null; secondary: string | null }
 type Stage = 'welcome' | 'consent' | 'questionnaire' | 'completion' | 'reflection' | 'comparison'
 
@@ -173,6 +242,31 @@ export default function App() {
       )
     } finally {
       setSubmitting(false)
+    }
+  }
+
+  // DEV-only design preview: render one page in isolation from demo data so we can
+  // fine-tune styling without the backend or walking the questionnaire. Try:
+  //   /?preview=reflection   ·   /?preview=comparison
+  // import.meta.env.DEV is statically false in production, so this whole block (and
+  // DEMO_REFLECTION) is stripped from the prod bundle.
+  if (import.meta.env.DEV) {
+    const preview = new URLSearchParams(globalThis.location.search).get('preview')
+    if (preview === 'reflection') {
+      return (
+        <ReflectionPage
+          reflection={DEMO_REFLECTION}
+          onCompare={() => { globalThis.location.search = '?preview=comparison' }}
+        />
+      )
+    }
+    if (preview === 'comparison') {
+      return (
+        <ComparisonPage
+          comparison={DEMO_COMPARISON}
+          onBack={() => { globalThis.location.search = '?preview=reflection' }}
+        />
+      )
     }
   }
 
