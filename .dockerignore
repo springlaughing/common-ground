@@ -1,0 +1,30 @@
+# Build context is the repo root (builds frontend/ + backend/). Keep it lean and
+# never ship local build output, deps, secrets, or VCS/tooling metadata into the image.
+
+# Dependencies & build output
+**/node_modules/
+**/bin/
+**/obj/
+frontend/dist/
+frontend/.vite/
+frontend/coverage/
+frontend/playwright-report/
+frontend/test-results/
+
+# Not needed to build/run the API image
+backend/tests/
+**/StrykerOutput/
+TestResults/
+**/*.user
+.vs/
+
+# VCS, CI, docs, design assets
+.git/
+.github/
+specs/
+images/
+
+# Local env / secrets
+.env
+.env.local
+.env.*.local
