@@ -6,7 +6,9 @@
 FROM node:22-alpine AS frontend
 WORKDIR /web
 COPY frontend/package.json frontend/package-lock.json ./
-RUN npm ci
+# --ignore-scripts: don't run package lifecycle scripts during install (S6505). Vite's
+# native deps (esbuild/rollup) ship as platform packages, so the build still works.
+RUN npm ci --ignore-scripts
 COPY frontend/ ./
 RUN npm run build
 
@@ -50,6 +52,7 @@ COPY --from=frontend /web/dist ./wwwroot
 EXPOSE 8080
 USER app
 
-# Bind Kestrel to the port the platform injects (Render/Cloud Run set $PORT), falling
-# back to 8080 locally. `exec` keeps dotnet as PID 1 so SIGTERM → graceful shutdown.
-ENTRYPOINT ["sh", "-c", "exec dotnet CommonGround.Api.dll --urls=http://0.0.0.0:${PORT:-8080}"]
+# Bind Kestrel to the port the platform injects (Render/Cloud Run set $PORT) via
+# ASPNETCORE_HTTP_PORTS, falling back to 8080 locally. No http:// literal (TLS is
+# terminated upstream). `exec` keeps dotnet as PID 1 so SIGTERM → graceful shutdown.
+ENTRYPOINT ["sh", "-c", "export ASPNETCORE_HTTP_PORTS=${PORT:-8080}; exec dotnet CommonGround.Api.dll"]
