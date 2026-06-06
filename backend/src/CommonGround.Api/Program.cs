@@ -118,6 +118,17 @@ builder.Services.AddRateLimiter(options =>
 
 var app = builder.Build();
 
+// Apply EF migrations (schema + baked seed data) on startup when explicitly opted in.
+// Off by default so the app never migrates a shared database unexpectedly; the
+// containerized local stack (`docker compose --profile full up`) enables it via
+// RunMigrationsOnStartup=true. For multi-instance deployments, prefer running
+// migrations as a discrete release step instead of enabling this on every replica.
+if (app.Configuration.GetValue<bool>("RunMigrationsOnStartup"))
+{
+    using var scope = app.Services.CreateScope();
+    await scope.ServiceProvider.GetRequiredService<AppDbContext>().Database.MigrateAsync();
+}
+
 // Security headers (T012)
 app.Use(async (ctx, next) =>
 {

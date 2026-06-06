@@ -41,10 +41,11 @@ indent_size = 2
 [*.md]
 trim_trailing_whitespace = false
 
-# Generated EF Core migration files — suppress false-positive analyzer rules
+# EF Core-scaffolded migration files are generated code. Mark them generated so
+# analyzer/SDK upgrades can't break the build on code we don't hand-write — rather
+# than chasing individual rules (CA1861, CA1707, …) as newer SDKs enable them.
 [**/Migrations/*.cs]
-dotnet_diagnostic.CA1861.severity = none
-dotnet_diagnostic.CA1707.severity = none
+generated_code = true
 
 # Test projects — xunit uses underscore-separated test names by convention
 [tests/**/*.cs]
