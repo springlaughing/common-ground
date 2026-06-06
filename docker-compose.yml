@@ -15,5 +15,27 @@ services:
       timeout: 5s
       retries: 5
 
+  # The API runs in a container only under the "full" profile, so the default
+  # `docker compose up -d` keeps starting just Postgres for the `dotnet run` dev loop.
+  # Run the whole stack with: `docker compose --profile full up --build`
+  # (requires a local .env — copy it from .env.example first).
+  backend:
+    profiles: ["full"]
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    depends_on:
+      postgres:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      # Apply migrations + seed on boot so a fresh database is usable immediately.
+      RunMigrationsOnStartup: "true"
+    # Container listens on 8080; mapped to 5148 to match the Vite dev proxy target.
+    ports:
+      - "5148:8080"
+
 volumes:
   postgres_data:
