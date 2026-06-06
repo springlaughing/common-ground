@@ -1,19 +1,10 @@
+import { InsightCard } from '../../components/InsightCard/InsightCard'
 import type { ReflectionDto } from '../../types/api'
 import styles from './ReflectionPage.module.css'
 
 interface Props {
   reflection: ReflectionDto
   onCompare?: () => void
-}
-
-function DimensionDots({ strength }: Readonly<{ strength: number }>) {
-  return (
-    <div className={styles.dots} role="img" aria-label={`Strength ${strength} out of 5`}>
-      {[1, 2, 3, 4, 5].map(i => (
-        <span key={i} className={`${styles.dot} ${i <= strength ? styles.dotFilled : styles.dotEmpty}`} />
-      ))}
-    </div>
-  )
 }
 
 export function ReflectionPage({ reflection, onCompare }: Readonly<Props>) {
@@ -37,11 +28,12 @@ export function ReflectionPage({ reflection, onCompare }: Readonly<Props>) {
             <h2 className={styles.groupTitle}>{group.title}</h2>
             <div className={styles.insights}>
               {group.insights.map(insight => (
-                <article key={insight.dimensionId} className={styles.insight}>
-                  <h3 className={styles.insightTitle}>{insight.title}</h3>
-                  <DimensionDots strength={insight.strength} />
-                  <p className={styles.insightText}>{insight.text}</p>
-                </article>
+                <InsightCard
+                  key={insight.dimensionId}
+                  title={insight.title}
+                  text={insight.text}
+                  strength={insight.strength}
+                />
               ))}
             </div>
           </section>

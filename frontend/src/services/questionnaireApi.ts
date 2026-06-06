@@ -21,19 +21,24 @@ export class ApiError extends Error {
   }
 }
 
-async function parse<T>(res: Response): Promise<T> {
-  if (!res.ok) {
-    let code: string | undefined
-    let message = `Request failed (${res.status})`
-    try {
-      const body = await res.json()
-      code = body.error
-      if (body.message) message = body.message
-    } catch {
-      // Non-JSON error body — keep the generic message.
-    }
-    throw new ApiError(res.status, message, code)
+/** Throw an ApiError carrying the backend's status + machine-readable code for a
+ *  non-2xx response. No-op on success, so it's safe to call before reading a body. */
+async function ensureOk(res: Response): Promise<void> {
+  if (res.ok) return
+  let code: string | undefined
+  let message = `Request failed (${res.status})`
+  try {
+    const body = await res.json()
+    code = body.error
+    if (body.message) message = body.message
+  } catch {
+    // Non-JSON error body — keep the generic message.
   }
+  throw new ApiError(res.status, message, code)
+}
+
+async function parse<T>(res: Response): Promise<T> {
+  await ensureOk(res)
   // 201/200 bodies are JSON; 204 (no content) returns undefined.
   if (res.status === 204) return undefined as T
   return res.json() as Promise<T>
@@ -61,7 +66,8 @@ export async function submitResponses(
 }
 
 /** US2 — validate a private result token (from the URL fragment) and start a session.
- *  Endpoint arrives with T032; typed here per T016. */
+ *  On success the backend sets the HttpOnly cg_session cookie and returns 200 with an
+ *  empty body, so we only verify success — there's nothing to parse. */
 export async function startSession(token: string): Promise<void> {
   const res = await fetch(`${BASE}/session/start`, {
     method: 'POST',
@@ -69,7 +75,7 @@ export async function startSession(token: string): Promise<void> {
     body: JSON.stringify({ token }),
     credentials: 'include',
   })
-  await parse<void>(res)
+  await ensureOk(res)
 }
 
 /** US2 — load the reflection for the current session (requires the cg_session cookie).

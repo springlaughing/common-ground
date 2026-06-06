@@ -175,10 +175,10 @@ records the true state after a repo + git + CI audit.
 
 ### Implementation for User Story 2
 
-- [ ] T032 [US2] Implement POST /api/session/start endpoint (HMAC-SHA256 hash incoming token; look up ResponseSet by PrivateResultTokenHash; issue JWT cg_session cookie (sub=ResponseSetId, exp=30 days); return 200 empty body; return 401 if not found or IsDeleted=true) in `backend/src/CommonGround.Api/Controllers/SessionController.cs`
-- [ ] T033 [US2] Implement GET /api/me/reflection endpoint (require cg_session cookie; extract ResponseSetId from JWT sub; load DimensionScores for ResponseSet; assemble grouped ReflectionDto via reflection assembler (T022b); return grouped reflection + accessCodeAvailable=true if AccessCodeHash present; return 401 if no valid cookie; return 404 if IsDeleted=true) in `backend/src/CommonGround.Api/Controllers/MeController.cs`
-- [ ] T034 [US2] Integration tests for POST /api/session/start (valid token → 200 + cg_session cookie set; invalid token → 401) and GET /api/me/reflection (with cookie → 200 + grouped reflection with ≥1 group; without cookie → 401; soft-deleted response → 404) in `backend/tests/CommonGround.IntegrationTests/ReflectionAccessTests.cs`
-- [~] T035 [US2] Implement ReflectionPage:
+- [X] T032 [US2] Implement POST /api/session/start endpoint (HMAC-SHA256 hash incoming token; look up ResponseSet by PrivateResultTokenHash; issue JWT cg_session cookie (sub=ResponseSetId, exp=30 days); return 200 empty body; return 401 if not found or IsDeleted=true) in `backend/src/CommonGround.Api/Controllers/SessionController.cs`
+- [X] T033 [US2] Implement GET /api/me/reflection endpoint (require cg_session cookie; extract ResponseSetId from JWT sub; load DimensionScores for ResponseSet; assemble grouped ReflectionDto via reflection assembler (T022b); return grouped reflection + accessCodeAvailable=true if AccessCodeHash present; return 401 if no valid cookie; return 404 if IsDeleted=true) in `backend/src/CommonGround.Api/Controllers/MeController.cs`
+- [X] T034 [US2] Integration tests for POST /api/session/start (valid token → 200 + cg_session cookie set; invalid token → 401) and GET /api/me/reflection (with cookie → 200 + grouped reflection with ≥1 group; without cookie → 401; soft-deleted response → 404) in `backend/tests/CommonGround.IntegrationTests/ReflectionAccessTests.cs`
+- [X] T035 [US2] Implement ReflectionPage:
   - Read token from window.location.hash on mount
   - POST /api/session/start with token
   - GET /api/me/reflection
@@ -186,8 +186,8 @@ records the true state after a repo + git + CI audit.
   - Show "result not available" on 401/404
   - Raw token cleared from component state after session established
   in `frontend/src/pages/ReflectionPage/`
-- [ ] T035b [P] [US2] Implement InsightCard component (insight text + 5-dot strength indicator where filled dots = strength value) in `frontend/src/components/InsightCard/`
-- [ ] T036 [US2] Component tests for ReflectionPage and InsightCard: ReflectionPage renders group titles and insights on success; shows not-available message on 401; InsightCard renders correct number of filled dots for each strength value 1–5 in `frontend/tests/components/`
+- [X] T035b [P] [US2] Implement InsightCard component (insight text + 5-dot strength indicator where filled dots = strength value) in `frontend/src/components/InsightCard/`
+- [X] T036 [US2] Component tests for ReflectionPage and InsightCard: ReflectionPage renders group titles and insights on success; shows not-available message on 401; InsightCard renders correct number of filled dots for each strength value 1–5 in `frontend/tests/components/`
 
 **Checkpoint**: Returning users can access their grouped personal reflection via their saved private result link.
 
