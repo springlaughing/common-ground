@@ -1,0 +1,35 @@
+name: Chore
+description: Maintenance, tooling, CI, docs, or ops work (no user-facing feature).
+labels: ["chore"]
+body:
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Motivation
+      description: What needs doing, and why?
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: What's included — and what's explicitly out of scope?
+    validations:
+      required: false
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance criteria
+      value: |
+        - [ ]
+        - [ ]
+    validations:
+      required: true
+  - type: checkboxes
+    id: dod
+    attributes:
+      label: Definition of Done (reminder)
+      options:
+        - label: Acceptance criteria met and verified
+        - label: CI / quality gate passes
+        - label: Docs updated if behavior changed
