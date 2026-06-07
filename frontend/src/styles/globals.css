@@ -12,10 +12,12 @@
   --color-bg: #ffffff;
   --color-text-primary: #111111;
   --color-text-secondary: #6b7280;
+  /* Darker slate for reflection/comparison body copy — more readable than -secondary */
+  --color-text-body: #374151;
 
-  /* Yellow used for: progress bar, decorative letters, secondary-selected card */
+  /* Bright yellow — decoration only: progress bar, decorative letters, secondary-selected card */
   --color-accent: #ffe000;
-  /* Readable amber for label text on white (same family, darker) */
+  /* Readable amber — brand accent text AND the "you" identity colour (dots + labels) */
   --color-accent-text: #a07800;
 
   --color-border: #e5e7eb;

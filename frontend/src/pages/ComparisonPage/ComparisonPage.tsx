@@ -33,7 +33,6 @@ function DotStrength({ label, strength, variant }: Readonly<{ label: string; str
 }
 
 function InsightCard({ insight, theirName }: Readonly<{ insight: ComparisonInsightDto; theirName: string }>) {
-  const aligned = isAligned(insight)
   const bothScored = insight.yourStrength !== null && insight.theirStrength !== null
   // When both scored the same dimension, the texts describe the same concept in different pronouns.
   // Show one text and let the dot positions communicate the intensity difference.
@@ -48,7 +47,6 @@ function InsightCard({ insight, theirName }: Readonly<{ insight: ComparisonInsig
         <DotStrength label="You" strength={insight.yourStrength} variant="you" />
         <DotStrength label={theirName} strength={insight.theirStrength} variant="them" />
       </div>
-      {aligned && <span className={styles.alignBadge}>● Similar intensity</span>}
       {showOneText ? (
         sharedText && <p className={styles.insightText}>{sharedText}</p>
       ) : (
