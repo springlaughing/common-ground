@@ -249,7 +249,10 @@ export default function App() {
   // fine-tune styling without the backend or walking the questionnaire. Try:
   //   /?preview=reflection   ·   /?preview=comparison
   // import.meta.env.DEV is statically false in production, so this whole block (and
-  // DEMO_REFLECTION) is stripped from the prod bundle.
+  // DEMO_REFLECTION) is stripped from the prod bundle. It's excluded from coverage
+  // (v8 ignore) rather than tested: it's dev scaffolding that never ships, so a test
+  // for it would only game the coverage gate without guarding any production behaviour.
+  /* v8 ignore start */
   if (import.meta.env.DEV) {
     const preview = new URLSearchParams(globalThis.location.search).get('preview')
     if (preview === 'reflection') {
@@ -269,6 +272,7 @@ export default function App() {
       )
     }
   }
+  /* v8 ignore stop */
 
   if (stage === 'welcome') {
     return <WelcomeStep onStart={() => setStage('consent')} />
