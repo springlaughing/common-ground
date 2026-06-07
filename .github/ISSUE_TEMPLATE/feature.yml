@@ -1,0 +1,53 @@
+name: Feature
+description: A user-facing capability or enhancement.
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        For sizeable features, prefer the Spec Kit flow
+        (`/speckit.specify` → `plan` → `tasks` → `taskstoissues`).
+        Use this form for a standalone enhancement, or to capture a feature
+        before specifying it.
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What should change, and why?
+    validations:
+      required: true
+  - type: textarea
+    id: user-story
+    attributes:
+      label: User story / motivation
+      placeholder: As a <user>, I want <capability> so that <benefit>.
+    validations:
+      required: false
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance criteria
+      description: Observable, testable conditions that define "done" for this work.
+      value: |
+        - [ ]
+        - [ ]
+    validations:
+      required: true
+  - type: textarea
+    id: constitution
+    attributes:
+      label: Constitution principles touched
+      description: >
+        Which principles in `.specify/memory/constitution.md` are relevant
+        (privacy-first, neutral outputs, deterministic engine, consent, …)?
+        Note any tension to resolve.
+    validations:
+      required: false
+  - type: checkboxes
+    id: dod
+    attributes:
+      label: Definition of Done (reminder)
+      options:
+        - label: Acceptance criteria will be covered by tests
+        - label: CI / quality gate will pass
+        - label: Docs / ADRs updated if behavior or a significant decision changes
