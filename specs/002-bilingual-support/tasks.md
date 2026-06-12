@@ -37,10 +37,10 @@ description: "Task list for 002-bilingual-support"
 
 ### Backend schema
 
-- [ ] T003 [P] Create `QuestionTranslation` and `AnswerOptionTranslation` entities (Id, FK, Locale, Text) in `backend/src/CommonGround.Modules.Questionnaires/Entities/` (#23)
-- [ ] T004 [P] Create `InsightSnippetTranslation`, `DimensionGroupTranslation`, and net-new `DimensionTitle` (DimensionId, Locale, Title) entities in `backend/src/CommonGround.Modules.Reporting/Entities/` (#24)
-- [ ] T005 [P] Add EF Core configurations with unique `(EntityId, Locale)` indexes for the five translation entities in `backend/src/CommonGround.Api/Persistence/Configurations/` (#25)
-- [ ] T006 Register the new entities on `AppDbContext` and create EF Core migration `AddLocalizationTranslations` (schema for the five tables; `SeedUp`/`SeedDown` seed-helper stubs) in `backend/src/CommonGround.Api/Persistence/Migrations/` (depends on T003–T005) (#26)
+- [x] T003 [P] Create `QuestionTranslation` and `AnswerOptionTranslation` entities (Id, FK, Locale, Text) in `backend/src/CommonGround.Modules.Questionnaires/Entities/` (#23)
+- [x] T004 [P] Create `InsightSnippetTranslation`, `DimensionGroupTranslation`, and net-new `DimensionTitle` (DimensionId, Locale, Title) entities in `backend/src/CommonGround.Modules.Reporting/Entities/` (#24)
+- [x] T005 [P] Add EF Core configurations with unique `(EntityId, Locale)` indexes for the five translation entities in `backend/src/CommonGround.Api/Persistence/Configurations/` (#25)
+- [x] T006 Register the new entities on `AppDbContext` and create EF Core migration `AddLocalizationTranslations` (schema for the five tables; `SeedUp`/`SeedDown` seed-helper stubs) in `backend/src/CommonGround.Api/Persistence/Migrations/` (depends on T003–T005) (#26)
 - [ ] T007 Architecture test asserting the new translation entities stay within their owning modules (Questionnaires / Reporting) and are reached only via SharedKernel interfaces, in `backend/tests/CommonGround.ArchitectureTests/` (#27)
 
 ### Backend locale resolution
