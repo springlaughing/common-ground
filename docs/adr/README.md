@@ -23,8 +23,10 @@ captured in a new ADR that *Supersedes* the old one (the old one is then marked
 | [0005](0005-use-github-actions-for-ci-cd.md) | Use GitHub Actions for CI/CD | Accepted | Principle VII — Audit-Ready DevSecOps | T004 |
 | [0006](0006-target-dotnet-10.md) | Target .NET 10 (LTS) instead of .NET 9 | Accepted | Foundation — target framework / tooling | T001, T002 |
 | [0007](0007-session-jwt-in-httponly-cookie.md) | Carry the session as a JWT in an HttpOnly cookie | Accepted | Principles I & VI — Privacy-First, Accountless Identity | T011, T032, T033 |
+| [0008](0008-localization-translation-tables.md) | Localize content via per-locale translation tables with an English base/fallback | Accepted | Principles I, II & III — Privacy-First, Neutral Outputs, Deterministic Engine | 002: T003–T006, T021, T034, T035, T039 |
 
-> Task IDs map to [`specs/001-questionnaire-completion/tasks.md`](../../specs/001-questionnaire-completion/tasks.md).
+> Task IDs map to [`specs/001-questionnaire-completion/tasks.md`](../../specs/001-questionnaire-completion/tasks.md),
+> except rows prefixed `002:`, which map to [`specs/002-bilingual-support/tasks.md`](../../specs/002-bilingual-support/tasks.md).
 > Constitution principles map to [`.specify/memory/constitution.md`](../../.specify/memory/constitution.md).
 
 ## Maintaining this log

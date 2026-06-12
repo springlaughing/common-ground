@@ -24,7 +24,7 @@ description: "Task list for 002-bilingual-support"
 
 **Purpose**: Decision record + test scaffolding that the rest of the work leans on.
 
-- [ ] T001 Write ADR-0008 (localization schema: per-locale translation tables with English base/fallback; locale-first net-new `DimensionTitle`; `?locale=` transport; no locale stored on `ResponseSet`) in `docs/adr/0008-localization-translation-tables.md` and link it in `docs/adr/README.md` (#21)
+- [x] T001 Write ADR-0008 (localization schema: per-locale translation tables with English base/fallback; locale-first net-new `DimensionTitle`; `?locale=` transport; no locale stored on `ResponseSet`) in `docs/adr/0008-localization-translation-tables.md` and link it in `docs/adr/README.md` (#21)
 - [ ] T002 [P] Create bilingual test fixtures (small EN+DE sample rows for questions, options, group titles, insight texts, dimension titles) for backend integration tests in `backend/tests/CommonGround.IntegrationTests/Fixtures/` and frontend in `frontend/tests/fixtures/` — so code/tests do not block on final German copy (#22)
 
 ---
