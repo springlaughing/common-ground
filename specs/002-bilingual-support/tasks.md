@@ -24,8 +24,8 @@ description: "Task list for 002-bilingual-support"
 
 **Purpose**: Decision record + test scaffolding that the rest of the work leans on.
 
-- [ ] T001 Write ADR-0008 (localization schema: per-locale translation tables with English base/fallback; locale-first net-new `DimensionTitle`; `?locale=` transport; no locale stored on `ResponseSet`) in `docs/adr/0008-localization-translation-tables.md` and link it in `docs/adr/README.md`
-- [ ] T002 [P] Create bilingual test fixtures (small EN+DE sample rows for questions, options, group titles, insight texts, dimension titles) for backend integration tests in `backend/tests/CommonGround.IntegrationTests/Fixtures/` and frontend in `frontend/tests/fixtures/` — so code/tests do not block on final German copy
+- [ ] T001 Write ADR-0008 (localization schema: per-locale translation tables with English base/fallback; locale-first net-new `DimensionTitle`; `?locale=` transport; no locale stored on `ResponseSet`) in `docs/adr/0008-localization-translation-tables.md` and link it in `docs/adr/README.md` (#21)
+- [ ] T002 [P] Create bilingual test fixtures (small EN+DE sample rows for questions, options, group titles, insight texts, dimension titles) for backend integration tests in `backend/tests/CommonGround.IntegrationTests/Fixtures/` and frontend in `frontend/tests/fixtures/` — so code/tests do not block on final German copy (#22)
 
 ---
 
@@ -37,25 +37,25 @@ description: "Task list for 002-bilingual-support"
 
 ### Backend schema
 
-- [ ] T003 [P] Create `QuestionTranslation` and `AnswerOptionTranslation` entities (Id, FK, Locale, Text) in `backend/src/CommonGround.Modules.Questionnaires/Entities/`
-- [ ] T004 [P] Create `InsightSnippetTranslation`, `DimensionGroupTranslation`, and net-new `DimensionTitle` (DimensionId, Locale, Title) entities in `backend/src/CommonGround.Modules.Reporting/Entities/`
-- [ ] T005 [P] Add EF Core configurations with unique `(EntityId, Locale)` indexes for the five translation entities in `backend/src/CommonGround.Api/Persistence/Configurations/`
-- [ ] T006 Register the new entities on `AppDbContext` and create EF Core migration `AddLocalizationTranslations` (schema for the five tables; `SeedUp`/`SeedDown` seed-helper stubs) in `backend/src/CommonGround.Api/Persistence/Migrations/` (depends on T003–T005)
-- [ ] T007 Architecture test asserting the new translation entities stay within their owning modules (Questionnaires / Reporting) and are reached only via SharedKernel interfaces, in `backend/tests/CommonGround.ArchitectureTests/`
+- [ ] T003 [P] Create `QuestionTranslation` and `AnswerOptionTranslation` entities (Id, FK, Locale, Text) in `backend/src/CommonGround.Modules.Questionnaires/Entities/` (#23)
+- [ ] T004 [P] Create `InsightSnippetTranslation`, `DimensionGroupTranslation`, and net-new `DimensionTitle` (DimensionId, Locale, Title) entities in `backend/src/CommonGround.Modules.Reporting/Entities/` (#24)
+- [ ] T005 [P] Add EF Core configurations with unique `(EntityId, Locale)` indexes for the five translation entities in `backend/src/CommonGround.Api/Persistence/Configurations/` (#25)
+- [ ] T006 Register the new entities on `AppDbContext` and create EF Core migration `AddLocalizationTranslations` (schema for the five tables; `SeedUp`/`SeedDown` seed-helper stubs) in `backend/src/CommonGround.Api/Persistence/Migrations/` (depends on T003–T005) (#26)
+- [ ] T007 Architecture test asserting the new translation entities stay within their owning modules (Questionnaires / Reporting) and are reached only via SharedKernel interfaces, in `backend/tests/CommonGround.ArchitectureTests/` (#27)
 
 ### Backend locale resolution
 
-- [ ] T008 [P] Unit test for locale resolution (`en`/`de` accepted, default `en`, unknown/empty → `en`) in `backend/tests/CommonGround.UnitTests/` — write first, must FAIL
-- [ ] T009 Implement `SupportedLocales` helper (accepted set, default, normalise/validate) in `backend/src/CommonGround.Api/Localization/SupportedLocales.cs` — make T008 pass
+- [ ] T008 [P] Unit test for locale resolution (`en`/`de` accepted, default `en`, unknown/empty → `en`) in `backend/tests/CommonGround.UnitTests/` — write first, must FAIL (#28)
+- [ ] T009 Implement `SupportedLocales` helper (accepted set, default, normalise/validate) in `backend/src/CommonGround.Api/Localization/SupportedLocales.cs` — make T008 pass (#29)
 
 ### Frontend i18n infrastructure
 
-- [ ] T010 [P] Component test for `LanguageContext` (default `en`, persists to `localStorage`, sets `document.documentElement.lang`) in `frontend/tests/components/` — write first, must FAIL
-- [ ] T011 Implement `LanguageContext` + provider in `frontend/src/i18n/LanguageContext.tsx` — make T010 pass
-- [ ] T012 [P] Add typed message catalogs `messages.en.ts` + `messages.de.ts` and a `useMessages` hook (TS strict: identical key sets enforced) in `frontend/src/i18n/`
-- [ ] T013 [P] Component test for `LanguageSwitcher` (renders both locales, keyboard-operable, `aria-label`, invokes locale change) in `frontend/tests/components/` — write first, must FAIL
-- [ ] T014 Implement accessible `LanguageSwitcher` in `frontend/src/components/LanguageSwitcher/LanguageSwitcher.tsx` — make T013 pass
-- [ ] T015 Extend the API client to send `?locale=<current>` on content calls in `frontend/src/services/questionnaireApi.ts`
+- [ ] T010 [P] Component test for `LanguageContext` (default `en`, persists to `localStorage`, sets `document.documentElement.lang`) in `frontend/tests/components/` — write first, must FAIL (#30)
+- [ ] T011 Implement `LanguageContext` + provider in `frontend/src/i18n/LanguageContext.tsx` — make T010 pass (#31)
+- [ ] T012 [P] Add typed message catalogs `messages.en.ts` + `messages.de.ts` and a `useMessages` hook (TS strict: identical key sets enforced) in `frontend/src/i18n/` (#32)
+- [ ] T013 [P] Component test for `LanguageSwitcher` (renders both locales, keyboard-operable, `aria-label`, invokes locale change) in `frontend/tests/components/` — write first, must FAIL (#33)
+- [ ] T014 Implement accessible `LanguageSwitcher` in `frontend/src/components/LanguageSwitcher/LanguageSwitcher.tsx` — make T013 pass (#34)
+- [ ] T015 Extend the API client to send `?locale=<current>` on content calls in `frontend/src/services/questionnaireApi.ts` (#35)
 
 **Checkpoint**: schema migrates, locale resolves with fallback, and the frontend can hold/switch a locale. User stories can begin.
 
@@ -69,20 +69,20 @@ description: "Task list for 002-bilingual-support"
 
 ### Tests for User Story 1 (write first, must FAIL)
 
-- [ ] T016 [P] [US1] Integration test: `GET /api/questionnaire/current?locale=de` returns German question/option text with **identical IDs and order** to `en` (Testcontainers) in `backend/tests/CommonGround.IntegrationTests/`
-- [ ] T017 [P] [US1] Integration test: `POST /api/responses?locale=de` returns reflection with German group titles + insight text, and the **same insights/order/strength** as `en` for identical answers (SC-003) in `backend/tests/CommonGround.IntegrationTests/`
-- [ ] T018 [P] [US1] Frontend test: full questionnaire + chrome (ConsentStep, ProgressIndicator, ReflectionPage) render in German when locale = `de` in `frontend/tests/components/`
+- [ ] T016 [P] [US1] Integration test: `GET /api/questionnaire/current?locale=de` returns German question/option text with **identical IDs and order** to `en` (Testcontainers) in `backend/tests/CommonGround.IntegrationTests/` (#36)
+- [ ] T017 [P] [US1] Integration test: `POST /api/responses?locale=de` returns reflection with German group titles + insight text, and the **same insights/order/strength** as `en` for identical answers (SC-003) in `backend/tests/CommonGround.IntegrationTests/` (#37)
+- [ ] T018 [P] [US1] Frontend test: full questionnaire + chrome (ConsentStep, ProgressIndicator, ReflectionPage) render in German when locale = `de` in `frontend/tests/components/` (#38)
 
 ### Implementation for User Story 1
 
-- [ ] T019 [US1] Questionnaire reader returns localized question/option text by locale with English fallback in `backend/src/CommonGround.Modules.Questionnaires/` (reader + SharedKernel DTO as needed)
-- [ ] T020 [US1] `QuestionnaireController` accepts `?locale=`, validates via `SupportedLocales`, passes to reader in `backend/src/CommonGround.Api/Controllers/QuestionnaireController.cs`
-- [ ] T021 [US1] `ReflectionAssembler` takes a `locale` param and localizes **insight text + group title** with English fallback; update `IReportingService.AssembleReflectionAsync` signature in `backend/src/CommonGround.Modules.Reporting/ReflectionAssembler.cs` and `backend/src/CommonGround.SharedKernel/Interfaces/IReportingService.cs` (per-insight `Title` added in US3)
-- [ ] T022 [US1] `ResponsesController` accepts `?locale=` and passes it to the assembler in `backend/src/CommonGround.Api/Controllers/ResponsesController.cs`
-- [ ] T023 [US1] Seed DE rows for questions/options (from `questionary_german.md`) and group titles + insight texts (from authored DE content; placeholder/fixture until finalized — see T045) into the `AddLocalizationTranslations` seed helper in `backend/src/CommonGround.Api/Persistence/Migrations/`
-- [ ] T024 [P] [US1] Mount `LanguageSwitcher` on the consent and question pages and make the questionnaire fetch use the current locale in `frontend/src/pages/QuestionnairePage/`
-- [ ] T025 [P] [US1] Localize UI chrome via `useMessages` in `ConsentStep`, `ProgressIndicator`, `QuestionStep`, `CredentialsDisplay`, and `ReflectionPage` (eyebrow/title/intro/footnote/buttons) under `frontend/src/`
-- [ ] T026 [US1] Render the reflection with localized group titles + insight text and a locale-aware fetch of the submit result in `frontend/src/pages/ReflectionPage/`
+- [ ] T019 [US1] Questionnaire reader returns localized question/option text by locale with English fallback in `backend/src/CommonGround.Modules.Questionnaires/` (reader + SharedKernel DTO as needed) (#39)
+- [ ] T020 [US1] `QuestionnaireController` accepts `?locale=`, validates via `SupportedLocales`, passes to reader in `backend/src/CommonGround.Api/Controllers/QuestionnaireController.cs` (#40)
+- [ ] T021 [US1] `ReflectionAssembler` takes a `locale` param and localizes **insight text + group title** with English fallback; update `IReportingService.AssembleReflectionAsync` signature in `backend/src/CommonGround.Modules.Reporting/ReflectionAssembler.cs` and `backend/src/CommonGround.SharedKernel/Interfaces/IReportingService.cs` (per-insight `Title` added in US3) (#41)
+- [ ] T022 [US1] `ResponsesController` accepts `?locale=` and passes it to the assembler in `backend/src/CommonGround.Api/Controllers/ResponsesController.cs` (#42)
+- [ ] T023 [US1] Seed DE rows for questions/options (from `questionary_german.md`) and group titles + insight texts (from authored DE content; placeholder/fixture until finalized — see T045) into the `AddLocalizationTranslations` seed helper in `backend/src/CommonGround.Api/Persistence/Migrations/` (#43)
+- [ ] T024 [P] [US1] Mount `LanguageSwitcher` on the consent and question pages and make the questionnaire fetch use the current locale in `frontend/src/pages/QuestionnairePage/` (#44)
+- [ ] T025 [P] [US1] Localize UI chrome via `useMessages` in `ConsentStep`, `ProgressIndicator`, `QuestionStep`, `CredentialsDisplay`, and `ReflectionPage` (eyebrow/title/intro/footnote/buttons) under `frontend/src/` (#45)
+- [ ] T026 [US1] Render the reflection with localized group titles + insight text and a locale-aware fetch of the submit result in `frontend/src/pages/ReflectionPage/` (#46)
 
 **Checkpoint**: a complete bilingual completion journey works end-to-end (MVP). Deployable.
 
@@ -96,12 +96,12 @@ description: "Task list for 002-bilingual-support"
 
 ### Tests for User Story 2 (write first, must FAIL)
 
-- [ ] T027 [P] [US2] Frontend test: select answers in `en`, switch to `de` mid-flow → selected option IDs preserved, question position unchanged, content now German in `frontend/tests/components/`
+- [ ] T027 [P] [US2] Frontend test: select answers in `en`, switch to `de` mid-flow → selected option IDs preserved, question position unchanged, content now German in `frontend/tests/components/` (#47)
 
 ### Implementation for User Story 2
 
-- [ ] T028 [US2] On locale change, re-fetch the questionnaire with the new locale and re-render while preserving in-progress answer selections (keyed by stable option IDs) and the current step in `frontend/src/pages/QuestionnairePage/`
-- [ ] T029 [US2] Ensure `LanguageSwitcher` reflects the active locale and the change is announced to assistive tech with no progress reset in `frontend/src/components/LanguageSwitcher/` and the questionnaire page
+- [ ] T028 [US2] On locale change, re-fetch the questionnaire with the new locale and re-render while preserving in-progress answer selections (keyed by stable option IDs) and the current step in `frontend/src/pages/QuestionnairePage/` (#48)
+- [ ] T029 [US2] Ensure `LanguageSwitcher` reflects the active locale and the change is announced to assistive tech with no progress reset in `frontend/src/components/LanguageSwitcher/` and the questionnaire page (#49)
 
 **Checkpoint**: US1 and US2 both work independently.
 
@@ -115,16 +115,16 @@ description: "Task list for 002-bilingual-support"
 
 ### Tests for User Story 3 (write first, must FAIL)
 
-- [ ] T030 [P] [US3] Unit test: `ReflectionAssembler` populates `InsightDto.Title` (localized, English fallback) in `backend/tests/CommonGround.UnitTests/`
-- [ ] T031 [P] [US3] Integration test: reflection in `en` and `de` has a non-empty title on every insight (SC-004) in `backend/tests/CommonGround.IntegrationTests/`
-- [ ] T032 [P] [US3] Frontend test: `InsightCard` shows a non-empty title in the active language with layout unchanged (title → dots → text) in `frontend/tests/components/`
+- [ ] T030 [P] [US3] Unit test: `ReflectionAssembler` populates `InsightDto.Title` (localized, English fallback) in `backend/tests/CommonGround.UnitTests/` (#50)
+- [ ] T031 [P] [US3] Integration test: reflection in `en` and `de` has a non-empty title on every insight (SC-004) in `backend/tests/CommonGround.IntegrationTests/` (#51)
+- [ ] T032 [P] [US3] Frontend test: `InsightCard` shows a non-empty title in the active language with layout unchanged (title → dots → text) in `frontend/tests/components/` (#52)
 
 ### Implementation for User Story 3
 
-- [ ] T033 [US3] Add `Title` to `InsightDto` in `backend/src/CommonGround.SharedKernel/Interfaces/IReportingService.cs`
-- [ ] T034 [US3] `ReflectionAssembler` joins `DimensionTitle` by locale (English fallback) and populates `InsightDto.Title` in `backend/src/CommonGround.Modules.Reporting/ReflectionAssembler.cs`
-- [ ] T035 [US3] Seed `DimensionTitle` rows — EN from `reflection-groups.json` `dimensionTitles`, DE from authored titles (placeholder/fixture until finalized — see T045) into the `AddLocalizationTranslations` seed helper in `backend/src/CommonGround.Api/Persistence/Migrations/`
-- [ ] T036 [US3] Confirm `InsightCard` renders the now-populated title (no layout/CSS change) and the title flows from the API through `frontend/src/types/api.ts` usage in `frontend/src/pages/ReflectionPage/`
+- [ ] T033 [US3] Add `Title` to `InsightDto` in `backend/src/CommonGround.SharedKernel/Interfaces/IReportingService.cs` (#53)
+- [ ] T034 [US3] `ReflectionAssembler` joins `DimensionTitle` by locale (English fallback) and populates `InsightDto.Title` in `backend/src/CommonGround.Modules.Reporting/ReflectionAssembler.cs` (#54)
+- [ ] T035 [US3] Seed `DimensionTitle` rows — EN from `reflection-groups.json` `dimensionTitles`, DE from authored titles (placeholder/fixture until finalized — see T045) into the `AddLocalizationTranslations` seed helper in `backend/src/CommonGround.Api/Persistence/Migrations/` (#55)
+- [ ] T036 [US3] Confirm `InsightCard` renders the now-populated title (no layout/CSS change) and the title flows from the API through `frontend/src/types/api.ts` usage in `frontend/src/pages/ReflectionPage/` (#56)
 
 **Checkpoint**: every insight has a localized title; comparison feature's row-label dependency is satisfied.
 
@@ -138,13 +138,13 @@ description: "Task list for 002-bilingual-support"
 
 ### Tests for User Story 4 (write first, must FAIL)
 
-- [ ] T037 [P] [US4] Integration test: `GET /api/me/reflection?locale=` returns the same insights/strengths re-rendered in the requested locale (en↔de) in `backend/tests/CommonGround.IntegrationTests/`
-- [ ] T038 [P] [US4] Frontend test: opening a saved reflection then switching language re-fetches and re-renders in `frontend/tests/components/`
+- [ ] T037 [P] [US4] Integration test: `GET /api/me/reflection?locale=` returns the same insights/strengths re-rendered in the requested locale (en↔de) in `backend/tests/CommonGround.IntegrationTests/` (#57)
+- [ ] T038 [P] [US4] Frontend test: opening a saved reflection then switching language re-fetches and re-renders in `frontend/tests/components/` (#58)
 
 ### Implementation for User Story 4
 
-- [ ] T039 [US4] `MeController` accepts `?locale=` and passes it to the assembler in `backend/src/CommonGround.Api/Controllers/MeController.cs`
-- [ ] T040 [US4] Mount `LanguageSwitcher` on the saved-reflection page and re-fetch `/api/me/reflection?locale=` on switch in `frontend/src/pages/ReflectionPage/MeReflection.tsx`
+- [ ] T039 [US4] `MeController` accepts `?locale=` and passes it to the assembler in `backend/src/CommonGround.Api/Controllers/MeController.cs` (#59)
+- [ ] T040 [US4] Mount `LanguageSwitcher` on the saved-reflection page and re-fetch `/api/me/reflection?locale=` on switch in `frontend/src/pages/ReflectionPage/MeReflection.tsx` (#60)
 
 **Checkpoint**: all four stories independently functional.
 
@@ -152,12 +152,12 @@ description: "Task list for 002-bilingual-support"
 
 ## Phase 7: Polish & Cross-Cutting Concerns
 
-- [ ] T041 [P] Playwright E2E: full German completion flow (consent → questions → reflection) in `frontend/tests/e2e/`
-- [ ] T042 [P] Playwright E2E: mid-flow language switch preserves answers, and `/me` language switch in `frontend/tests/e2e/`
-- [ ] T043 [P] Accessibility pass: `<html lang>` correct per locale; switcher keyboard + screen-reader operable; longer German strings do not overflow option/insight cards (WCAG 2.1 AA) across `frontend/src/`
-- [ ] T044 [P] Run [quickstart.md](quickstart.md) validation against SC-001…SC-007
-- [ ] T045 Finalize production DE seed once dimension titles (76), group titles (10), and insight texts (76) are authored and reviewed for neutrality (Principle II); review DE consent copy against consent-UX rules / no double negatives (Principle V); replace placeholders in `AddLocalizationTranslations`
-- [ ] T046 [P] Update README/docs for bilingual support and confirm the CI quality gate (coverage ≥ 80% on new code, SonarCloud) is green
+- [ ] T041 [P] Playwright E2E: full German completion flow (consent → questions → reflection) in `frontend/tests/e2e/` (#61)
+- [ ] T042 [P] Playwright E2E: mid-flow language switch preserves answers, and `/me` language switch in `frontend/tests/e2e/` (#62)
+- [ ] T043 [P] Accessibility pass: `<html lang>` correct per locale; switcher keyboard + screen-reader operable; longer German strings do not overflow option/insight cards (WCAG 2.1 AA) across `frontend/src/` (#63)
+- [ ] T044 [P] Run [quickstart.md](quickstart.md) validation against SC-001…SC-007 (#64)
+- [ ] T045 Finalize production DE seed once dimension titles (76), group titles (10), and insight texts (76) are authored and reviewed for neutrality (Principle II); review DE consent copy against consent-UX rules / no double negatives (Principle V); replace placeholders in `AddLocalizationTranslations` (#65)
+- [ ] T046 [P] Update README/docs for bilingual support and confirm the CI quality gate (coverage ≥ 80% on new code, SonarCloud) is green (#66)
 
 ---
 
