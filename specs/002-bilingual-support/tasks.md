@@ -50,12 +50,12 @@ description: "Task list for 002-bilingual-support"
 
 ### Frontend i18n infrastructure
 
-- [ ] T010 [P] Component test for `LanguageContext` (default `en`, persists to `localStorage`, sets `document.documentElement.lang`) in `frontend/tests/components/` — write first, must FAIL (#30)
-- [ ] T011 Implement `LanguageContext` + provider in `frontend/src/i18n/LanguageContext.tsx` — make T010 pass (#31)
-- [ ] T012 [P] Add typed message catalogs `messages.en.ts` + `messages.de.ts` and a `useMessages` hook (TS strict: identical key sets enforced) in `frontend/src/i18n/` (#32)
-- [ ] T013 [P] Component test for `LanguageSwitcher` (renders both locales, keyboard-operable, `aria-label`, invokes locale change) in `frontend/tests/components/` — write first, must FAIL (#33)
-- [ ] T014 Implement accessible `LanguageSwitcher` in `frontend/src/components/LanguageSwitcher/LanguageSwitcher.tsx` — make T013 pass (#34)
-- [ ] T015 Extend the API client to send `?locale=<current>` on content calls in `frontend/src/services/questionnaireApi.ts` (#35)
+- [x] T010 [P] Component test for `LanguageContext` (default `en`, persists to `localStorage`, sets `document.documentElement.lang`) in `frontend/tests/components/` — write first, must FAIL (#30)
+- [x] T011 Implement `LanguageContext` + provider in `frontend/src/i18n/LanguageContext.tsx` — make T010 pass (#31)
+- [x] T012 [P] Add typed message catalogs `messages.en.ts` + `messages.de.ts` and a `useMessages` hook (TS strict: identical key sets enforced) in `frontend/src/i18n/` (#32)
+- [x] T013 [P] Component test for `LanguageSwitcher` (renders both locales, keyboard-operable, `aria-label`, invokes locale change) in `frontend/tests/components/` — write first, must FAIL (#33)
+- [x] T014 Implement accessible `LanguageSwitcher` in `frontend/src/components/LanguageSwitcher/LanguageSwitcher.tsx` — make T013 pass (#34)
+- [x] T015 Extend the API client to send `?locale=<current>` on content calls in `frontend/src/services/questionnaireApi.ts` (#35)
 
 **Checkpoint**: schema migrates, locale resolves with fallback, and the frontend can hold/switch a locale. User stories can begin.
 

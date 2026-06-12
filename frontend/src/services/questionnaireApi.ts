@@ -9,6 +9,14 @@ import type {
 // vite.config.ts), and a reverse proxy will do the same in production.
 const BASE = '/api'
 
+/** Appends `?locale=` to a content endpoint when a locale is provided. Omitting it
+ *  lets the backend default to English (SupportedLocales). */
+function withLocale(path: string, locale?: string): string {
+  if (!locale) return path
+  const sep = path.includes('?') ? '&' : '?'
+  return `${path}${sep}locale=${encodeURIComponent(locale)}`
+}
+
 /** Error carrying the HTTP status and the backend's machine-readable error code. */
 export class ApiError extends Error {
   constructor(
@@ -47,16 +55,18 @@ async function parse<T>(res: Response): Promise<T> {
 /** US1 — load the active questionnaire (questions + options, no dimension weights). */
 export async function fetchCurrentQuestionnaire(
   signal?: AbortSignal,
+  locale?: string,
 ): Promise<GetQuestionnaireResponse> {
-  const res = await fetch(`${BASE}/questionnaire/current`, { signal })
+  const res = await fetch(withLocale(`${BASE}/questionnaire/current`, locale), { signal })
   return parse<GetQuestionnaireResponse>(res)
 }
 
 /** US1 — submit all answers; returns the private result link, access code, and reflection. */
 export async function submitResponses(
   request: SubmitResponseRequest,
+  locale?: string,
 ): Promise<SubmitResponseResult> {
-  const res = await fetch(`${BASE}/responses`, {
+  const res = await fetch(withLocale(`${BASE}/responses`, locale), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(request),
@@ -80,7 +90,7 @@ export async function startSession(token: string): Promise<void> {
 
 /** US2 — load the reflection for the current session (requires the cg_session cookie).
  *  Endpoint arrives with T033; typed here per T016. */
-export async function fetchMyReflection(): Promise<GetMyReflectionResponse> {
-  const res = await fetch(`${BASE}/me/reflection`, { credentials: 'include' })
+export async function fetchMyReflection(locale?: string): Promise<GetMyReflectionResponse> {
+  const res = await fetch(withLocale(`${BASE}/me/reflection`, locale), { credentials: 'include' })
   return parse<GetMyReflectionResponse>(res)
 }
