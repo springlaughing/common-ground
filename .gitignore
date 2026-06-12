@@ -20,6 +20,9 @@ backend/tests/**/obj/
 appsettings.Local.json
 appsettings.Development.Local.json
 
+# Node (any location, incl. stray root installs)
+node_modules/
+
 # Frontend
 frontend/node_modules/
 frontend/dist/
