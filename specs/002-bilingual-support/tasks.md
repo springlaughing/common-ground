@@ -41,12 +41,12 @@ description: "Task list for 002-bilingual-support"
 - [x] T004 [P] Create `InsightSnippetTranslation`, `DimensionGroupTranslation`, and net-new `DimensionTitle` (DimensionId, Locale, Title) entities in `backend/src/CommonGround.Modules.Reporting/Entities/` (#24)
 - [x] T005 [P] Add EF Core configurations with unique `(EntityId, Locale)` indexes for the five translation entities in `backend/src/CommonGround.Api/Persistence/Configurations/` (#25)
 - [x] T006 Register the new entities on `AppDbContext` and create EF Core migration `AddLocalizationTranslations` (schema for the five tables; `SeedUp`/`SeedDown` seed-helper stubs) in `backend/src/CommonGround.Api/Persistence/Migrations/` (depends on T003–T005) (#26)
-- [ ] T007 Architecture test asserting the new translation entities stay within their owning modules (Questionnaires / Reporting) and are reached only via SharedKernel interfaces, in `backend/tests/CommonGround.ArchitectureTests/` (#27)
+- [x] T007 Architecture test asserting the new translation entities stay within their owning modules (Questionnaires / Reporting) and are reached only via SharedKernel interfaces, in `backend/tests/CommonGround.ArchitectureTests/` (#27)
 
 ### Backend locale resolution
 
-- [ ] T008 [P] Unit test for locale resolution (`en`/`de` accepted, default `en`, unknown/empty → `en`) in `backend/tests/CommonGround.UnitTests/` — write first, must FAIL (#28)
-- [ ] T009 Implement `SupportedLocales` helper (accepted set, default, normalise/validate) in `backend/src/CommonGround.Api/Localization/SupportedLocales.cs` — make T008 pass (#29)
+- [x] T008 [P] Unit test for locale resolution (`en`/`de` accepted, default `en`, unknown/empty → `en`) in `backend/tests/CommonGround.UnitTests/` — write first, must FAIL (#28)
+- [x] T009 Implement `SupportedLocales` helper (accepted set, default, normalise/validate) in `backend/src/CommonGround.SharedKernel/Localization/SupportedLocales.cs` (moved from Api so unit tests can reference it without the web host) — make T008 pass (#29)
 
 ### Frontend i18n infrastructure
 
