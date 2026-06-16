@@ -19,6 +19,8 @@ interface Props {
   isFirst: boolean
   /** When true, the advance button reads "Submit" instead of "Next". */
   isLast: boolean
+  /** While the final submit is in flight: disables the button and shows a sending label. */
+  submitting?: boolean
 }
 
 export function QuestionStep({
@@ -35,6 +37,7 @@ export function QuestionStep({
   onBack,
   isFirst,
   isLast,
+  submitting = false,
 }: Readonly<Props>) {
   const m = useMessages()
   const progressPct = ((questionNumber - 1) / totalQuestions) * 100
@@ -144,9 +147,11 @@ export function QuestionStep({
         <button
           className={styles.nextBtn}
           onClick={onNext}
-          disabled={primaryAnswerId === null}
+          disabled={primaryAnswerId === null || submitting}
         >
-          {isLast ? m.question.submit : m.question.next} →
+          {submitting
+            ? m.question.submitting
+            : `${isLast ? m.question.submit : m.question.next} →`}
         </button>
       </footer>
     </div>

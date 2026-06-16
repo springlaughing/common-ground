@@ -7,10 +7,11 @@ export default defineConfig({
     proxy: {
       // Keep the SPA same-origin with the API: proxy /api to the backend so
       // there are no CORS or cookie-SameSite issues in dev, and it mirrors the
-      // reverse-proxy setup we'll use in production. Backend dev URL comes from
-      // launchSettings.json (http profile).
+      // reverse-proxy setup we'll use in production. Defaults to the local backend
+      // (launchSettings.json http profile); set VITE_API_TARGET to point elsewhere,
+      // e.g. the live Render API, to exercise the SPA without running a backend.
       '/api': {
-        target: 'http://localhost:5148',
+        target: process.env.VITE_API_TARGET ?? 'http://localhost:5148',
         changeOrigin: true,
         secure: false,
       },

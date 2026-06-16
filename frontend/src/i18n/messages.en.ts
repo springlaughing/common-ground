@@ -33,6 +33,7 @@ export const en: Messages = {
     previous: '← Previous',
     next: 'Next',
     submit: 'Submit',
+    submitting: 'Sending…',
     answerOptions: 'Answer options',
     primaryChoice: ' — your primary choice',
     secondaryChoice: ' — your secondary choice',
@@ -81,7 +82,6 @@ export const en: Messages = {
     loading: 'Loading questionnaire…',
     loadFailed: 'Failed to load the questionnaire.',
     retry: 'Retry',
-    submitting: 'Submitting your answers…',
     submitFailed: 'Something went wrong submitting your answers. Please try again.',
   },
 }

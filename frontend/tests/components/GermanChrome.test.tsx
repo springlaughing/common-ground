@@ -85,7 +85,7 @@ describe('US1 — UI chrome renders in German when locale = de', () => {
     }
     renderWithLocale(<ReflectionPage reflection={reflection} />, 'de')
 
-    expect(screen.getByText('Deine Reflexion')).toBeInTheDocument()
+    expect(screen.getByText('Dein Ergebnis')).toBeInTheDocument()
     expect(screen.getByText('Wie du arbeitest')).toBeInTheDocument()
     expect(screen.getByText('Wie du planst')).toBeInTheDocument()
   })

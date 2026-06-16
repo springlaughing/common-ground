@@ -1,4 +1,4 @@
-import { type CSSProperties, useEffect, useMemo, useState } from 'react'
+import { type CSSProperties, type ReactNode, useEffect, useMemo, useState } from 'react'
 import { WelcomeStep } from './components/WelcomeStep/WelcomeStep'
 import { ConsentStep } from './components/ConsentStep/ConsentStep'
 import { QuestionStep } from './components/QuestionStep/QuestionStep'
@@ -215,6 +215,12 @@ function AppInner() {
     return () => controller.abort()
   }, [locale, m])
 
+  // Each new question and each stage change starts at the top. The layouts scroll the
+  // window (no inner overflow container), so advancing otherwise lands mid-page.
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [idx, stage])
+
   // "Section Y of N" — derived from the loaded questionnaire, not hardcoded.
   const totalSections = useMemo(
     () => questions.reduce((max, q) => Math.max(max, q.sectionIndex), 0) || 1,
@@ -357,8 +363,38 @@ function AppInner() {
     }))
   }
 
+  // DEV-only: open the questionnaire with ?dev to reveal a button that auto-fills a
+  // valid answer for every question and jumps to the last one — so the submit, completion,
+  // and reflection polish can be tested without walking all 46. import.meta.env.DEV is
+  // statically false in production, so this is stripped from the prod bundle (and never
+  // tested — it's dev scaffolding, hence v8 ignore, matching the ?preview= harness above).
+  /* v8 ignore start */
+  let devSkip: ReactNode = null
+  if (import.meta.env.DEV && new URLSearchParams(globalThis.location.search).has('dev')) {
+    devSkip = (
+      <button
+        type="button"
+        onClick={() => {
+          setAnswers(Object.fromEntries(
+            questions.map(q => [q.id, { primary: q.answerOptions[0].id, secondary: null }]),
+          ))
+          setIdx(questions.length - 1)
+        }}
+        style={{
+          position: 'fixed', top: 8, left: 8, zIndex: 9999, fontSize: 12,
+          padding: '4px 8px', background: '#b00020', color: '#fff',
+          border: 'none', borderRadius: 6, cursor: 'pointer',
+        }}
+      >
+        dev: skip to last
+      </button>
+    )
+  }
+  /* v8 ignore stop */
+
   return (
     <>
+      {devSkip}
       <QuestionStep
         question={question}
         questionNumber={idx + 1}
@@ -379,17 +415,20 @@ function AppInner() {
         }}
         isFirst={idx === 0}
         isLast={isLastQuestion}
+        submitting={submitting}
       />
-      {(submitting || submitError) && (
+      {/* The submitting state lives on the footer button (QuestionStep); only a failure
+          surfaces here, as a toast that won't overlap the button on mobile. */}
+      {submitError && (
         <div
-          role={submitError ? 'alert' : 'status'}
+          role="alert"
           style={{
             position: 'fixed', left: '50%', bottom: '1rem', transform: 'translateX(-50%)',
-            background: submitError ? '#b00020' : '#333', color: '#fff',
+            background: '#b00020', color: '#fff',
             padding: '0.6rem 1rem', borderRadius: 8, maxWidth: '90%',
           }}
         >
-          {submitError ?? m.status.submitting}
+          {submitError}
         </div>
       )}
     </>
