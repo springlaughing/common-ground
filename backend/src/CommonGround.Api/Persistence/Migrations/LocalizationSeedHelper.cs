@@ -109,6 +109,42 @@ internal static class LocalizationSeedHelper
     internal static void SeedDimensionTitlesDown(MigrationBuilder mb) =>
         mb.Sql("""DELETE FROM "DimensionTitles" """);
 
+    // ── Polish (post-MVP): re-sync reworded de question texts ─────────────────
+    // Four S9 questions were reworded after the MVP shipped (gender-neutral phrasing
+    // and a clearer S9Q3). The de rows already exist in prod from SeedUp, so this is
+    // an in-place UPDATE rather than an insert. Up pulls the current generated text
+    // (single source of truth = LocalizationSeedData); Down restores the MVP wording.
+
+    private static readonly (int Section, int Q)[] RewordedQuestions =
+        { (9, 1), (9, 3), (9, 4), (9, 6) };
+
+    internal static void UpdateRewordedQuestionsUp(MigrationBuilder mb)
+    {
+        foreach (var (section, q) in RewordedQuestions)
+        {
+            var seed = LocalizationSeedData.Questions.Single(x => x.Section == section && x.Q == q);
+            UpdateQuestionText(mb, section, q, seed.Text);
+        }
+    }
+
+    internal static void UpdateRewordedQuestionsDown(MigrationBuilder mb)
+    {
+        UpdateQuestionText(mb, 9, 1,
+            "Du bemerkst Spannung zwischen dir und einer Kollegin oder einem Kollegen. Was ist dir zuerst am wichtigsten?");
+        UpdateQuestionText(mb, 9, 3,
+            "Wenn ein schwieriges Gespräch nötig ist, was soll es vor allem hervorbringen?");
+        UpdateQuestionText(mb, 9, 4,
+            "Wenn sich Spannung oder Konflikt zwischen dir und einer Kollegin oder einem Kollegen nicht von selbst löst, würdest du dir jemanden zur Moderation wünschen, und wer sollte das sein?");
+        UpdateQuestionText(mb, 9, 6,
+            "Du bist in einer Führungsrolle, und ein Teammitglied kommt zu dir und sagt, es sei in einem Konflikt mit einer Kollegin oder einem Kollegen. Was ist dein Instinkt?");
+    }
+
+    private static void UpdateQuestionText(MigrationBuilder mb, int section, int q, string text) =>
+        mb.Sql($"""
+            UPDATE "QuestionTranslations" SET "Text" = {Esc(text)}
+            WHERE "Id" = '{SeedDataHelper.G($"qt.{Locale}.s{section}q{q}")}'
+            """);
+
     // ── Helpers ───────────────────────────────────────────────────────────────
 
     private static void DeleteLocale(MigrationBuilder mb, string table) =>

@@ -115,16 +115,16 @@ description: "Task list for 002-bilingual-support"
 
 ### Tests for User Story 3 (write first, must FAIL)
 
-- [ ] T030 [P] [US3] Unit test: `ReflectionAssembler` populates `InsightDto.Title` (localized, English fallback) in `backend/tests/CommonGround.UnitTests/` (#50)
-- [ ] T031 [P] [US3] Integration test: reflection in `en` and `de` has a non-empty title on every insight (SC-004) in `backend/tests/CommonGround.IntegrationTests/` (#51)
-- [ ] T032 [P] [US3] Frontend test: `InsightCard` shows a non-empty title in the active language with layout unchanged (title → dots → text) in `frontend/tests/components/` (#52)
+- [x] T030 [P] [US3] Unit test: `ReflectionAssembler` populates `InsightDto.Title` (localized, English fallback) in `backend/tests/CommonGround.UnitTests/` (#50)
+- [x] T031 [P] [US3] Integration test: reflection in `en` and `de` has a non-empty title on every insight (SC-004) in `backend/tests/CommonGround.IntegrationTests/` (#51)
+- [x] T032 [P] [US3] Frontend test: `InsightCard` shows a non-empty title in the active language with layout unchanged (title → dots → text) in `frontend/tests/components/` (#52)
 
 ### Implementation for User Story 3
 
-- [ ] T033 [US3] Add `Title` to `InsightDto` in `backend/src/CommonGround.SharedKernel/Interfaces/IReportingService.cs` (#53)
-- [ ] T034 [US3] `ReflectionAssembler` joins `DimensionTitle` by locale (English fallback) and populates `InsightDto.Title` in `backend/src/CommonGround.Modules.Reporting/ReflectionAssembler.cs` (#54)
-- [ ] T035 [US3] Seed `DimensionTitle` rows — EN from `reflection-groups.json` `dimensionTitles`, DE from authored titles (placeholder/fixture until finalized — see T045) into the `AddLocalizationTranslations` seed helper in `backend/src/CommonGround.Api/Persistence/Migrations/` (#55)
-- [ ] T036 [US3] Confirm `InsightCard` renders the now-populated title (no layout/CSS change) and the title flows from the API through `frontend/src/types/api.ts` usage in `frontend/src/pages/ReflectionPage/` (#56)
+- [x] T033 [US3] Add `Title` to `InsightDto` in `backend/src/CommonGround.SharedKernel/Interfaces/IReportingService.cs` (#53)
+- [x] T034 [US3] `ReflectionAssembler` joins `DimensionTitle` by locale (English fallback) and populates `InsightDto.Title` in `backend/src/CommonGround.Modules.Reporting/ReflectionAssembler.cs` (#54)
+- [x] T035 [US3] Seed `DimensionTitle` rows — EN from `reflection-groups.json` `dimensionTitles`, DE from authored titles, via `LocalizationSeedHelper.SeedDimensionTitlesUp` in the hand-authored `20260616140000_SeedDimensionTitles` migration in `backend/src/CommonGround.Api/Persistence/Migrations/` (#55)
+- [x] T036 [US3] Confirm `InsightCard` renders the now-populated title (no layout/CSS change) and the title flows from the API through `frontend/src/types/api.ts` usage in `frontend/src/pages/ReflectionPage/` (#56)
 
 **Checkpoint**: every insight has a localized title; comparison feature's row-label dependency is satisfied.
 

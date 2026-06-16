@@ -43,6 +43,10 @@ public sealed class ReflectionAssembler : IReportingService
             .Where(s => qualifyingIds.Contains(s.DimensionId))
             .ToDictionaryAsync(s => s.DimensionId, s => s.Text, StringComparer.Ordinal, ct);
 
+        // Per-insight titles are locale-first (US3): one row per (dimension, locale),
+        // English being the fallback. Loaded for every locale, not just non-default.
+        var titleByDimension = await LoadDimensionTitlesAsync(locale, qualifyingIds, ct);
+
         var groups = await _db.Set<DimensionGroup>()
             .AsNoTracking()
             .Include(g => g.Memberships.OrderBy(m => m.OrderIndex))
@@ -59,7 +63,7 @@ public sealed class ReflectionAssembler : IReportingService
         var reflectionGroups = new List<ReflectionGroupDto>();
         foreach (var group in groups)
         {
-            var insights = BuildInsights(group, scoreByDimension, snippetText);
+            var insights = BuildInsights(group, scoreByDimension, snippetText, titleByDimension);
             if (insights.Count > 0)
                 reflectionGroups.Add(new ReflectionGroupDto(
                     group.GroupId,
@@ -94,15 +98,48 @@ public sealed class ReflectionAssembler : IReportingService
             groupTitle[t.DimensionGroupId] = t.Title;
     }
 
+    /// <summary>
+    /// Loads per-dimension titles for the qualifying insights. Titles are locale-first:
+    /// the English ("en") row is the fallback, overridden by the requested locale where
+    /// a row exists. Returns a map keyed by dimension id.
+    /// </summary>
+    private async Task<Dictionary<string, string>> LoadDimensionTitlesAsync(
+        string locale,
+        List<string> qualifyingIds,
+        CancellationToken ct)
+    {
+        var rows = await _db.Set<DimensionTitle>()
+            .AsNoTracking()
+            .Where(t => qualifyingIds.Contains(t.DimensionId)
+                        && (t.Locale == SupportedLocales.Default || t.Locale == locale))
+            .ToListAsync(ct);
+
+        var byDimension = new Dictionary<string, string>(StringComparer.Ordinal);
+        foreach (var t in rows.Where(t => t.Locale == SupportedLocales.Default))
+            byDimension[t.DimensionId] = t.Title;
+        if (locale != SupportedLocales.Default)
+            foreach (var t in rows.Where(t => t.Locale == locale))
+                byDimension[t.DimensionId] = t.Title;
+        return byDimension;
+    }
+
     private static List<InsightDto> BuildInsights(
         DimensionGroup group,
         Dictionary<string, decimal> scoreByDimension,
-        Dictionary<string, string> snippetText) =>
+        Dictionary<string, string> snippetText,
+        Dictionary<string, string> titleByDimension) =>
         group.Memberships
             .Where(m => scoreByDimension.GetValueOrDefault(m.DimensionId) >= DisplayThreshold
                         && snippetText.ContainsKey(m.DimensionId))
+            // Strongest first within each group. Ties fall back to the group-definition
+            // order (OrderIndex), so ordering is deterministic and locale-invariant
+            // (scores don't depend on locale). The strength dots already convey "more",
+            // so this just surfaces the existing order.
+            .OrderByDescending(m => scoreByDimension[m.DimensionId])
+            .ThenBy(m => m.OrderIndex)
             .Select(m => new InsightDto(
                 m.DimensionId,
+                titleByDimension.GetValueOrDefault(m.DimensionId, string.Empty),
                 snippetText[m.DimensionId],
                 Math.Max(1, Math.Min(5, (int)Math.Ceiling(scoreByDimension[m.DimensionId] * 5m)))))
             .ToList();

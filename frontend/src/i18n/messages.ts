@@ -33,6 +33,8 @@ export interface Messages {
     previous: string
     next: string
     submit: string
+    /** Footer button label while the final submit is in flight. */
+    submitting: string
     answerOptions: string
     primaryChoice: string
     secondaryChoice: string
@@ -78,7 +80,6 @@ export interface Messages {
     loading: string
     loadFailed: string
     retry: string
-    submitting: string
     submitFailed: string
   }
 }

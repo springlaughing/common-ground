@@ -14,5 +14,6 @@ public record ReflectionGroupDto(
 
 public record InsightDto(
     string DimensionId,
+    string Title,
     string Text,
     int Strength);

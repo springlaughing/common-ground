@@ -42,6 +42,13 @@
   color: var(--color-text-primary);
 }
 
+/* Switcher + brand sit together at the header's end; keep them from crowding. */
+.headerEnd {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
 /* ── Centered content ────────────────────── */
 
 .content {

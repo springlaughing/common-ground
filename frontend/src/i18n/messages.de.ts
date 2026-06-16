@@ -18,7 +18,7 @@ export const de: Messages = {
   consent: {
     heading: 'Bevor wir beginnen',
     collectTitle: 'Was wir erfassen',
-    collectText: 'Nur deine Antworten auf den Fragebogen. Kein Name, keine E-Mail, kein Konto.',
+    collectText: 'Nur deine Antworten auf den Fragebogen. Kein Name, keine E-Mail, kein Account.',
     useTitle: 'Wofür wir es verwenden',
     useText:
       'Um eine private Reflexion über deinen Arbeitsstil zu erstellen. Deine einzelnen ' +
@@ -35,6 +35,7 @@ export const de: Messages = {
     previous: '← Zurück',
     next: 'Weiter',
     submit: 'Absenden',
+    submitting: 'Wird gesendet…',
     answerOptions: 'Antwortoptionen',
     primaryChoice: ' — deine erste Wahl',
     secondaryChoice: ' — deine zweite Wahl',
@@ -68,12 +69,11 @@ export const de: Messages = {
     copyCodeAria: 'Zugangscode kopieren',
   },
   reflection: {
-    eyebrow: 'Deine Reflexion',
+    eyebrow: 'Dein Ergebnis',
     title: 'Wie du arbeitest',
     intro:
-      'Basierend auf deinen Antworten. Das sind Beobachtungen dazu, wie du tendenziell ' +
-      'arbeitest — keine Punktzahl, keine Bewertung, und nichts hier ist besser oder ' +
-      'schlechter als sein Gegenteil.',
+      'Deine Antworten zeichnen ein Bild davon, wie du arbeitest — ohne Punktzahl, ohne ' +
+      'Bewertung. Es geht nicht um richtig oder falsch, sondern darum, was zu dir passt.',
     footnote:
       'Hier werden nur die Muster gezeigt, die deine Antworten klar erkennen lassen — ' +
       'deshalb tauchen manche Themen vielleicht nicht auf.',
@@ -86,7 +86,6 @@ export const de: Messages = {
     loading: 'Fragebogen wird geladen…',
     loadFailed: 'Der Fragebogen konnte nicht geladen werden.',
     retry: 'Erneut versuchen',
-    submitting: 'Deine Antworten werden gesendet…',
     submitFailed: 'Beim Senden deiner Antworten ist etwas schiefgelaufen. Bitte versuche es erneut.',
   },
 }

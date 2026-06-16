@@ -380,7 +380,7 @@ D. Ich achte darauf, ob es ein Muster oder ein Einzelfall ist — Drucksituation
 
 ## Abschnitt 9: Umgang mit Konflikt und Spannung
 
-**Q1 Du bemerkst Spannung zwischen dir und einer Kollegin oder einem Kollegen. Was ist dir zuerst am wichtigsten?**
+**Q1 Du bemerkst Spannung zwischen dir und einer Person, mit der du zusammenarbeitest. Was ist dir zuerst am wichtigsten?**
 
 A. Verstehen, worin die Meinungsverschiedenheit eigentlich besteht — das Gefühl von Spannung ist nicht immer ein verlässliches Signal dafür, was wirklich falsch läuft, und ich möchte wissen, womit ich es tatsächlich zu tun habe, bevor ich darauf reagiere.
 
@@ -400,7 +400,7 @@ C. Wenn sich dasselbe Muster ohne Besserung wiederholt — ein einzelner Vorfall
 
 D. Nur wenn die Beteiligten es wirklich versucht haben und es allein nicht verantwortungsvoll lösen können — Eskalation sollte das letzte Mittel sein, keine Abkürzung um ein schwieriges Gespräch herum.
 
-**Q3 Wenn ein schwieriges Gespräch nötig ist, was soll es vor allem hervorbringen?**
+**Q3 Wenn ein schwieriges Gespräch nötig ist, was soll dabei vor allem herauskommen?**
 
 A. Eine klare Entscheidung oder Lösung — schwere Gespräche kann ich gut führen, wenn sie mit etwas Konkretem enden. Mehrdeutigkeit nach einem schwierigen Austausch ist für mich schwerer als das Gespräch selbst.
 
@@ -410,7 +410,7 @@ C. Dass die Beziehung intakt und arbeitsfähig bleibt — das Ergebnis zählt, a
 
 D. Dass beide einen Teil der Verantwortung übernehmen — Gespräche sind für mich ehrlicher, wenn niemand nur gibt oder nur nimmt. Geteilte Verantwortung verändert die Dynamik völlig.
 
-**Q4 Wenn sich Spannung oder Konflikt zwischen dir und einer Kollegin oder einem Kollegen nicht von selbst löst, würdest du dir jemanden zur Moderation wünschen, und wer sollte das sein?**
+**Q4 Wenn sich Spannung oder Konflikt zwischen dir und einer Person, mit der du zusammenarbeitest, nicht von selbst löst, würdest du dir jemanden zur Moderation wünschen, und wer sollte das sein?**
 
 A. Ja — eine neutrale Person auf Augenhöhe, die uns beide kennt und genug Kontext hat, um zu helfen, ohne Partei zu ergreifen.
 
@@ -430,7 +430,7 @@ C. Oft löst es sich von selbst, wenn Menschen genug Raum und Zeit bekommen — 
 
 D. Es lässt sich verlässlicher lösen, wenn das Team regelmäßige Praktiken hat, um Spannungen früh und sicher anzusprechen — nicht erst, wenn etwas zerbricht. Ohne solche Gewohnheiten warten Menschen zu lange oder vermeiden es ganz.
 
-**Q6 Du bist in einer Führungsrolle, und ein Teammitglied kommt zu dir und sagt, es sei in einem Konflikt mit einer Kollegin oder einem Kollegen. Was ist dein Instinkt?**
+**Q6 Du bist in einer Führungsrolle, und ein Teammitglied kommt zu dir und sagt, es sei in einem Konflikt mit jemandem im Team. Was ist dein Instinkt?**
 
 A. Ich höre zuerst zu und frage, was die beiden schon versucht haben — ich möchte die Situation verstehen, bevor ich etwas tue, und sie dabei unterstützen, es direkt zu lösen, wenn das noch möglich ist.
 
