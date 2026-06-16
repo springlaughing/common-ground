@@ -108,6 +108,34 @@ public sealed class LocalizationFlowTests : IntegrationTestBase
         }
     }
 
+    // ─── T031 (US3) — every reflection insight carries a localized title ──────
+
+    [Fact]
+    public async Task Submit_EveryInsight_HasNonEmptyTitle_LocalizedPerLocale()
+    {
+        var questionnaire = await GetQuestionnaire("en");
+        var request = BuildAllPrimaryAnswers(questionnaire);
+
+        var enReflection = await SubmitAndGetReflection(request, "en");
+        var deReflection = await SubmitAndGetReflection(request, "de");
+
+        var enInsights = AllInsights(enReflection);
+        var deInsights = AllInsights(deReflection);
+
+        enInsights.Should().NotBeEmpty();
+
+        // Every insight has a title in both locales (the seed + en fallback cover all).
+        enInsights.Should().OnlyContain(i => !string.IsNullOrWhiteSpace(i.GetProperty("title").GetString()));
+        deInsights.Should().OnlyContain(i => !string.IsNullOrWhiteSpace(i.GetProperty("title").GetString()));
+
+        // Localized: at least one title differs between de and en for the same dimension.
+        var enTitleByDim = enInsights.ToDictionary(
+            i => i.GetProperty("dimensionId").GetString()!,
+            i => i.GetProperty("title").GetString()!);
+        deInsights.Should().Contain(de =>
+            de.GetProperty("title").GetString() != enTitleByDim[de.GetProperty("dimensionId").GetString()!]);
+    }
+
     // ─── Polish — post-MVP reword of the Section 9 conflict questions ─────────
     // A data migration (RewordGermanConflictQuestions) updates the live de rows in
     // place; this proves the new wording is what the API serves.
@@ -158,6 +186,11 @@ public sealed class LocalizationFlowTests : IntegrationTestBase
         }
         return new SubmitResponseRequest(answers);
     }
+
+    private static List<JsonElement> AllInsights(JsonElement reflection) =>
+        reflection.GetProperty("groups").EnumerateArray()
+            .SelectMany(g => g.GetProperty("insights").EnumerateArray())
+            .ToList();
 
     // A locale-invariant fingerprint of the reflection: ordered (groupId, [(dimensionId, strength)]).
     private static List<(string Group, List<(string Dimension, int Strength)> Insights)> Shape(JsonElement reflection) =>

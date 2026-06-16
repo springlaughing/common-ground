@@ -211,6 +211,52 @@ public sealed class ReflectionAssemblerTests
     }
 
     [Fact]
+    public async Task Insight_Title_Uses_Requested_Locale_With_English_Fallback()
+    {
+        var responseSetId = Guid.NewGuid();
+        var groupId = Guid.NewGuid();
+
+        using var db = await SeedAsync(ctx =>
+        {
+            // dim_both has en + de titles; dim_en_only has just en (exercises the fallback).
+            foreach (var dim in new[] { "dim_both", "dim_en_only" })
+            {
+                ctx.DimensionScores.Add(new DimensionScore
+                {
+                    Id = Guid.NewGuid(), ResponseSetId = responseSetId,
+                    DimensionId = dim, RawScore = 4m, NormalisedScore = 0.8m
+                });
+                ctx.InsightSnippets.Add(new InsightSnippet
+                {
+                    Id = Guid.NewGuid(), DimensionId = dim, Text = $"Insight for {dim}"
+                });
+                ctx.DimensionGroupMemberships.Add(new DimensionGroupMembership
+                {
+                    Id = Guid.NewGuid(), DimensionGroupId = groupId, DimensionId = dim, OrderIndex = 1
+                });
+            }
+            ctx.DimensionGroups.Add(new DimensionGroup
+            {
+                Id = groupId, GroupId = "grp", Title = "Group", OrderIndex = 1
+            });
+            ctx.DimensionTitles.AddRange(
+                new DimensionTitle { Id = Guid.NewGuid(), DimensionId = "dim_both", Locale = "en", Title = "Written records over memory" },
+                new DimensionTitle { Id = Guid.NewGuid(), DimensionId = "dim_both", Locale = "de", Title = "Schriftliches vor Erinnerung" },
+                new DimensionTitle { Id = Guid.NewGuid(), DimensionId = "dim_en_only", Locale = "en", Title = "Real examples over descriptions" });
+        });
+
+        var assembler = new ReflectionAssembler(db);
+
+        var de = await assembler.AssembleReflectionAsync(responseSetId, "de");
+        var deInsights = de.Groups.Single().Insights;
+        deInsights.Single(i => i.DimensionId == "dim_both").Title.Should().Be("Schriftliches vor Erinnerung");
+        deInsights.Single(i => i.DimensionId == "dim_en_only").Title.Should().Be("Real examples over descriptions");
+
+        var en = await assembler.AssembleReflectionAsync(responseSetId, SupportedLocales.Default);
+        en.Groups.Single().Insights.Single(i => i.DimensionId == "dim_both").Title.Should().Be("Written records over memory");
+    }
+
+    [Fact]
     public async Task Groups_Are_Ordered_By_OrderIndex()
     {
         var responseSetId = Guid.NewGuid();
