@@ -1,5 +1,6 @@
 using CommonGround.Modules.Questionnaires.Entities;
 using CommonGround.SharedKernel.Interfaces;
+using CommonGround.SharedKernel.Localization;
 using Microsoft.EntityFrameworkCore;
 
 namespace CommonGround.Modules.Questionnaires.Services;
@@ -10,7 +11,7 @@ internal sealed class EfQuestionnaireReader : IQuestionnaireReader
 
     public EfQuestionnaireReader(DbContext db) => _db = db;
 
-    public async Task<ActiveQuestionnaireDto?> GetActiveVersionAsync(CancellationToken ct = default)
+    public async Task<ActiveQuestionnaireDto?> GetActiveVersionAsync(string locale, CancellationToken ct = default)
     {
         var version = await _db.Set<QuestionnaireVersion>()
             .AsNoTracking()
@@ -21,19 +22,44 @@ internal sealed class EfQuestionnaireReader : IQuestionnaireReader
         if (version is null)
             return null;
 
+        // English text is canonical on the base columns and is the field-level fallback;
+        // only a non-default locale needs a translation lookup.
+        var (questionText, optionText) = locale == SupportedLocales.Default
+            ? (new Dictionary<Guid, string>(), new Dictionary<Guid, string>())
+            : await LoadTranslationsAsync(version, locale, ct);
+
         return new ActiveQuestionnaireDto(
             version.Id,
             version.VersionNumber,
             version.Questions
                 .Select(q => new QuestionDto(
                     q.Id,
-                    q.Text,
+                    questionText.GetValueOrDefault(q.Id, q.Text),
                     q.SectionIndex,
                     q.OrderIndex,
                     q.AnswerOptions
-                        .Select(a => new AnswerOptionDto(a.Id, a.Text, a.OrderIndex))
+                        .Select(a => new AnswerOptionDto(a.Id, optionText.GetValueOrDefault(a.Id, a.Text), a.OrderIndex))
                         .ToList()))
                 .ToList());
+    }
+
+    private async Task<(Dictionary<Guid, string> Questions, Dictionary<Guid, string> Options)> LoadTranslationsAsync(
+        QuestionnaireVersion version, string locale, CancellationToken ct)
+    {
+        var questionIds = version.Questions.Select(q => q.Id).ToList();
+        var optionIds = version.Questions.SelectMany(q => q.AnswerOptions.Select(a => a.Id)).ToList();
+
+        var questionText = await _db.Set<QuestionTranslation>()
+            .AsNoTracking()
+            .Where(t => t.Locale == locale && questionIds.Contains(t.QuestionId))
+            .ToDictionaryAsync(t => t.QuestionId, t => t.Text, ct);
+
+        var optionText = await _db.Set<AnswerOptionTranslation>()
+            .AsNoTracking()
+            .Where(t => t.Locale == locale && optionIds.Contains(t.AnswerOptionId))
+            .ToDictionaryAsync(t => t.AnswerOptionId, t => t.Text, ct);
+
+        return (questionText, optionText);
     }
 
     public async Task<IReadOnlyList<DimensionWeightDto>> GetDimensionWeightsForOptionsAsync(

@@ -1,12 +1,8 @@
 import type { Question } from '../../types/api'
 import { ProgressIndicator } from '../ProgressIndicator/ProgressIndicator'
+import { LanguageSwitcher } from '../LanguageSwitcher/LanguageSwitcher'
+import { useMessages } from '../../i18n/useMessages'
 import styles from './QuestionStep.module.css'
-
-function choiceSuffix(state: 'primary' | 'secondary' | 'none'): string {
-  if (state === 'primary') return ' — your primary choice'
-  if (state === 'secondary') return ' — your secondary choice'
-  return ''
-}
 
 interface Props {
   question: Question
@@ -40,7 +36,13 @@ export function QuestionStep({
   isFirst,
   isLast,
 }: Readonly<Props>) {
+  const m = useMessages()
   const progressPct = ((questionNumber - 1) / totalQuestions) * 100
+
+  const choiceSuffix = (state: 'primary' | 'secondary' | 'none'): string =>
+    state === 'primary' ? m.question.primaryChoice
+      : state === 'secondary' ? m.question.secondaryChoice
+        : ''
 
   function handleCardClick(optionId: string) {
     if (optionId === primaryAnswerId) {
@@ -78,10 +80,13 @@ export function QuestionStep({
           <span />
         ) : (
           <button className={styles.backLink} onClick={onBack}>
-            ← Previous
+            {m.question.previous}
           </button>
         )}
-        <span className={styles.brand}>common ground</span>
+        <span className={styles.headerEnd}>
+          <LanguageSwitcher />
+          <span className={styles.brand}>common ground</span>
+        </span>
       </header>
 
       {/* Main scrollable content */}
@@ -95,7 +100,7 @@ export function QuestionStep({
 
         <h1 className={styles.question}>{question.text}</h1>
 
-        <fieldset className={styles.cards} aria-label="Answer options">
+        <fieldset className={styles.cards} aria-label={m.question.answerOptions}>
           {question.answerOptions.map(option => {
             const state = getState(option.id)
             return (
@@ -122,8 +127,8 @@ export function QuestionStep({
 
         {primaryAnswerId !== null && (
           <p className={styles.hint}>
-            {secondaryAnswerId === null && 'You can optionally pick a second preference. '}
-            Tap a selected answer again to undo it.
+            {secondaryAnswerId === null && m.question.hintPickSecond}
+            {m.question.hintUndo}
           </p>
         )}
       </main>
@@ -141,7 +146,7 @@ export function QuestionStep({
           onClick={onNext}
           disabled={primaryAnswerId === null}
         >
-          {isLast ? 'Submit' : 'Next'} →
+          {isLast ? m.question.submit : m.question.next} →
         </button>
       </footer>
     </div>

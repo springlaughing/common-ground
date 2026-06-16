@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { ReflectionPage } from './ReflectionPage'
 import { ApiError, fetchMyReflection, startSession } from '../../services/questionnaireApi'
+import { LanguageProvider } from '../../i18n/LanguageContext'
 import type { ReflectionDto } from '../../types/api'
 import styles from './MeReflection.module.css'
 
@@ -12,6 +13,14 @@ type Status = 'loading' | 'ready' | 'unavailable' | 'error'
  *  returns without a token (the fragment was already scrubbed) we rely on the existing
  *  cg_session cookie. */
 export function MeReflection() {
+  return (
+    <LanguageProvider>
+      <MeReflectionView />
+    </LanguageProvider>
+  )
+}
+
+function MeReflectionView() {
   const [status, setStatus] = useState<Status>('loading')
   const [reflection, setReflection] = useState<ReflectionDto | null>(null)
 

@@ -1,5 +1,6 @@
 import { PageShell } from '../PageShell/PageShell'
 import { CredentialsDisplay } from '../CredentialsDisplay/CredentialsDisplay'
+import { useMessages } from '../../i18n/useMessages'
 import styles from './CompletionStep.module.css'
 
 interface Props {
@@ -10,20 +11,19 @@ interface Props {
 }
 
 export function CompletionStep({ privateResultLink, accessCode, onViewReflection, onBack }: Readonly<Props>) {
+  const m = useMessages()
+
   return (
-    <PageShell align="top" decoStyle="outline" onBack={onBack} backLabel="← Back">
-      <p className={styles.eyebrow}>All done</p>
-      <h1 className={styles.heading}>Your reflection is ready.</h1>
-      <p className={styles.lede}>
-        Save these two before you go — they're the only way back to your results. We don't
-        store anything that could recover them for you.
-      </p>
+    <PageShell align="top" decoStyle="outline" onBack={onBack} backLabel={m.shell.back}>
+      <p className={styles.eyebrow}>{m.completion.eyebrow}</p>
+      <h1 className={styles.heading}>{m.completion.heading}</h1>
+      <p className={styles.lede}>{m.completion.lede}</p>
 
       <CredentialsDisplay privateResultLink={privateResultLink} accessCode={accessCode} />
 
       <div>
         <button className={styles.cta} onClick={onViewReflection}>
-          View my reflection →
+          {m.completion.view}
         </button>
       </div>
     </PageShell>

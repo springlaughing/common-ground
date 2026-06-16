@@ -14,6 +14,8 @@ import type {
   SubmitResponseResult,
 } from './types/api'
 import { ApiError, fetchCurrentQuestionnaire, submitResponses } from './services/questionnaireApi'
+import { LanguageProvider, useLanguage } from './i18n/LanguageContext'
+import { useMessages } from './i18n/useMessages'
 
 // Comparison is a separate feature (not part of US1) and is not yet wired to the
 // API, so it still renders from demo data until the comparison endpoints exist.
@@ -185,7 +187,9 @@ const centered: CSSProperties = {
   minHeight: '100vh', padding: '2rem', textAlign: 'center', flexDirection: 'column', gap: '1rem',
 }
 
-export default function App() {
+function AppInner() {
+  const { locale } = useLanguage()
+  const m = useMessages()
   const [stage, setStage] = useState<Stage>('welcome')
   const [idx, setIdx] = useState(0)
   const [answers, setAnswers] = useState<Record<string, AnswerState>>({})
@@ -196,17 +200,20 @@ export default function App() {
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
 
-  // Load the active questionnaire once on mount.
+  // Load the active questionnaire in the active locale; re-fetch when the locale changes
+  // so switching language updates the questions. In-progress answers persist — they're
+  // keyed by stable option IDs, which are locale-invariant.
   useEffect(() => {
     const controller = new AbortController()
-    fetchCurrentQuestionnaire(controller.signal)
+    setLoadError(null)
+    fetchCurrentQuestionnaire(controller.signal, locale)
       .then(data => setQuestions(data.questions))
       .catch((e: unknown) => {
         if (e instanceof DOMException && e.name === 'AbortError') return
-        setLoadError(e instanceof Error ? e.message : 'Failed to load the questionnaire.')
+        setLoadError(e instanceof Error ? e.message : m.status.loadFailed)
       })
     return () => controller.abort()
-  }, [])
+  }, [locale, m])
 
   // "Section Y of N" — derived from the loaded questionnaire, not hardcoded.
   const totalSections = useMemo(
@@ -231,15 +238,11 @@ export default function App() {
           return sub
         }),
       }
-      const res = await submitResponses(request)
+      const res = await submitResponses(request, locale)
       setResult(res)
       setStage('completion')
     } catch (e: unknown) {
-      setSubmitError(
-        e instanceof ApiError
-          ? e.message
-          : 'Something went wrong submitting your answers. Please try again.',
-      )
+      setSubmitError(e instanceof ApiError ? e.message : m.status.submitFailed)
     } finally {
       setSubmitting(false)
     }
@@ -324,13 +327,13 @@ export default function App() {
     return (
       <div style={centered}>
         <p>{loadError}</p>
-        <button onClick={() => globalThis.location.reload()}>Retry</button>
+        <button onClick={() => globalThis.location.reload()}>{m.status.retry}</button>
       </div>
     )
   }
 
   if (questions.length === 0) {
-    return <div style={centered}><p>Loading questionnaire…</p></div>
+    return <div style={centered}><p>{m.status.loading}</p></div>
   }
 
   const isLastQuestion = idx === questions.length - 1
@@ -386,9 +389,17 @@ export default function App() {
             padding: '0.6rem 1rem', borderRadius: 8, maxWidth: '90%',
           }}
         >
-          {submitError ?? 'Submitting your answers…'}
+          {submitError ?? m.status.submitting}
         </div>
       )}
     </>
+  )
+}
+
+export default function App() {
+  return (
+    <LanguageProvider>
+      <AppInner />
+    </LanguageProvider>
   )
 }

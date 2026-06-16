@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using CommonGround.SharedKernel.Interfaces;
+using CommonGround.SharedKernel.Localization;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -33,7 +34,9 @@ public sealed class MeController : ControllerBase
         if (responseSet is null || responseSet.IsDeleted)
             return NotFound();
 
-        var reflection = await _reportingService.AssembleReflectionAsync(responseSetId, ct);
+        // US4/T039 will accept ?locale= here to render a saved reflection at view time;
+        // until then the saved reflection renders in the default locale.
+        var reflection = await _reportingService.AssembleReflectionAsync(responseSetId, SupportedLocales.Default, ct);
         return Ok(new MeReflectionResult(reflection, responseSet.HasAccessCode));
     }
 }

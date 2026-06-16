@@ -17,7 +17,7 @@ namespace CommonGround.Api.Persistence.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.4")
+                .HasAnnotation("ProductVersion", "10.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -124,6 +124,33 @@ namespace CommonGround.Api.Persistence.Migrations
                     b.ToTable("AnswerOptions");
                 });
 
+            modelBuilder.Entity("CommonGround.Modules.Questionnaires.Entities.AnswerOptionTranslation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("AnswerOptionId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Locale")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AnswerOptionId", "Locale")
+                        .IsUnique();
+
+                    b.ToTable("AnswerOptionTranslations");
+                });
+
             modelBuilder.Entity("CommonGround.Modules.Questionnaires.Entities.DimensionMaxScore", b =>
                 {
                     b.Property<Guid>("Id")
@@ -202,6 +229,33 @@ namespace CommonGround.Api.Persistence.Migrations
                     b.ToTable("Questions");
                 });
 
+            modelBuilder.Entity("CommonGround.Modules.Questionnaires.Entities.QuestionTranslation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Locale")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)");
+
+                    b.Property<Guid>("QuestionId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuestionId", "Locale")
+                        .IsUnique();
+
+                    b.ToTable("QuestionTranslations");
+                });
+
             modelBuilder.Entity("CommonGround.Modules.Questionnaires.Entities.QuestionnaireVersion", b =>
                 {
                     b.Property<Guid>("Id")
@@ -275,6 +329,33 @@ namespace CommonGround.Api.Persistence.Migrations
                     b.ToTable("DimensionGroupMemberships");
                 });
 
+            modelBuilder.Entity("CommonGround.Modules.Reporting.Entities.DimensionGroupTranslation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("DimensionGroupId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Locale")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DimensionGroupId", "Locale")
+                        .IsUnique();
+
+                    b.ToTable("DimensionGroupTranslations");
+                });
+
             modelBuilder.Entity("CommonGround.Modules.Reporting.Entities.DimensionScore", b =>
                 {
                     b.Property<Guid>("Id")
@@ -305,6 +386,35 @@ namespace CommonGround.Api.Persistence.Migrations
                     b.ToTable("DimensionScores");
                 });
 
+            modelBuilder.Entity("CommonGround.Modules.Reporting.Entities.DimensionTitle", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("DimensionId")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("Locale")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DimensionId", "Locale")
+                        .IsUnique();
+
+                    b.ToTable("DimensionTitles");
+                });
+
             modelBuilder.Entity("CommonGround.Modules.Reporting.Entities.InsightSnippet", b =>
                 {
                     b.Property<Guid>("Id")
@@ -324,6 +434,33 @@ namespace CommonGround.Api.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("InsightSnippets");
+                });
+
+            modelBuilder.Entity("CommonGround.Modules.Reporting.Entities.InsightSnippetTranslation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("InsightSnippetId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Locale")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InsightSnippetId", "Locale")
+                        .IsUnique();
+
+                    b.ToTable("InsightSnippetTranslations");
                 });
 
             modelBuilder.Entity("CommonGround.Modules.Responses.Entities.Answer", b =>
@@ -407,6 +544,15 @@ namespace CommonGround.Api.Persistence.Migrations
                     b.Navigation("Question");
                 });
 
+            modelBuilder.Entity("CommonGround.Modules.Questionnaires.Entities.AnswerOptionTranslation", b =>
+                {
+                    b.HasOne("CommonGround.Modules.Questionnaires.Entities.AnswerOption", null)
+                        .WithMany()
+                        .HasForeignKey("AnswerOptionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("CommonGround.Modules.Questionnaires.Entities.DimensionMaxScore", b =>
                 {
                     b.HasOne("CommonGround.Modules.Questionnaires.Entities.QuestionnaireVersion", "QuestionnaireVersion")
@@ -440,6 +586,15 @@ namespace CommonGround.Api.Persistence.Migrations
                     b.Navigation("QuestionnaireVersion");
                 });
 
+            modelBuilder.Entity("CommonGround.Modules.Questionnaires.Entities.QuestionTranslation", b =>
+                {
+                    b.HasOne("CommonGround.Modules.Questionnaires.Entities.Question", null)
+                        .WithMany()
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("CommonGround.Modules.Reporting.Entities.DimensionGroupMembership", b =>
                 {
                     b.HasOne("CommonGround.Modules.Reporting.Entities.DimensionGroup", "DimensionGroup")
@@ -449,6 +604,24 @@ namespace CommonGround.Api.Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("DimensionGroup");
+                });
+
+            modelBuilder.Entity("CommonGround.Modules.Reporting.Entities.DimensionGroupTranslation", b =>
+                {
+                    b.HasOne("CommonGround.Modules.Reporting.Entities.DimensionGroup", null)
+                        .WithMany()
+                        .HasForeignKey("DimensionGroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("CommonGround.Modules.Reporting.Entities.InsightSnippetTranslation", b =>
+                {
+                    b.HasOne("CommonGround.Modules.Reporting.Entities.InsightSnippet", null)
+                        .WithMany()
+                        .HasForeignKey("InsightSnippetId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("CommonGround.Modules.Responses.Entities.Answer", b =>

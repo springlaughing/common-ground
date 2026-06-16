@@ -1,3 +1,4 @@
+import { useMessages } from '../../i18n/useMessages'
 import styles from './ProgressIndicator.module.css'
 
 interface Props {
@@ -8,19 +9,21 @@ interface Props {
 }
 
 export function ProgressIndicator({ current, total, sectionCurrent, sectionTotal }: Readonly<Props>) {
+  const m = useMessages()
+
   return (
     <div className={styles.root}>
       <span
         className={styles.counter}
-        aria-label={`Question ${current} of ${total}`}
+        aria-label={m.progress.questionAria(current, total)}
       >
-        Question {current} / {total}
+        {m.progress.questionCounter(current, total)}
       </span>
       <span
         className={styles.section}
-        aria-label={`Section ${sectionCurrent} of ${sectionTotal}`}
+        aria-label={m.progress.sectionLabel(sectionCurrent, sectionTotal)}
       >
-        Section {sectionCurrent} of {sectionTotal}
+        {m.progress.sectionLabel(sectionCurrent, sectionTotal)}
       </span>
     </div>
   )

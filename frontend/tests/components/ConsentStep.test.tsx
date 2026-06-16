@@ -1,18 +1,19 @@
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
+import { renderWithLocale } from '../support/renderWithLocale'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
 import { ConsentStep } from '../../src/components/ConsentStep/ConsentStep'
 
 describe('ConsentStep', () => {
   it('keeps the "Begin" button disabled until the user acknowledges', () => {
-    render(<ConsentStep onAcknowledge={vi.fn()} onBack={vi.fn()} />)
+    renderWithLocale(<ConsentStep onAcknowledge={vi.fn()} onBack={vi.fn()} />)
 
     expect(screen.getByRole('button', { name: /begin/i })).toBeDisabled()
   })
 
   it('enables "Begin" once the consent checkbox is checked', async () => {
     const user = userEvent.setup()
-    render(<ConsentStep onAcknowledge={vi.fn()} onBack={vi.fn()} />)
+    renderWithLocale(<ConsentStep onAcknowledge={vi.fn()} onBack={vi.fn()} />)
 
     await user.click(screen.getByRole('checkbox'))
 
@@ -22,7 +23,7 @@ describe('ConsentStep', () => {
   it('calls onAcknowledge after the user agrees and clicks Begin', async () => {
     const user = userEvent.setup()
     const onAcknowledge = vi.fn()
-    render(<ConsentStep onAcknowledge={onAcknowledge} onBack={vi.fn()} />)
+    renderWithLocale(<ConsentStep onAcknowledge={onAcknowledge} onBack={vi.fn()} />)
 
     await user.click(screen.getByRole('checkbox'))
     await user.click(screen.getByRole('button', { name: /begin/i }))

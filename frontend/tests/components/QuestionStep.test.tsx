@@ -1,5 +1,6 @@
 import type { ComponentProps } from 'react'
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
+import { renderWithLocale } from '../support/renderWithLocale'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
 import { QuestionStep } from '../../src/components/QuestionStep/QuestionStep'
@@ -35,7 +36,7 @@ function renderStep(overrides: Partial<ComponentProps<typeof QuestionStep>> = {}
     isLast: false,
     ...overrides,
   }
-  render(<QuestionStep {...props} />)
+  renderWithLocale(<QuestionStep {...props} />)
   return props
 }
 

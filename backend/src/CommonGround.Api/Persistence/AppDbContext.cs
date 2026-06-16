@@ -17,6 +17,8 @@ public sealed class AppDbContext : DbContext
     public DbSet<AnswerOption> AnswerOptions => Set<AnswerOption>();
     public DbSet<DimensionWeight> DimensionWeights => Set<DimensionWeight>();
     public DbSet<DimensionMaxScore> DimensionMaxScores => Set<DimensionMaxScore>();
+    public DbSet<QuestionTranslation> QuestionTranslations => Set<QuestionTranslation>();
+    public DbSet<AnswerOptionTranslation> AnswerOptionTranslations => Set<AnswerOptionTranslation>();
 
     // Responses
     public DbSet<ResponseSet> ResponseSets => Set<ResponseSet>();
@@ -25,8 +27,11 @@ public sealed class AppDbContext : DbContext
     // Reporting
     public DbSet<DimensionScore> DimensionScores => Set<DimensionScore>();
     public DbSet<InsightSnippet> InsightSnippets => Set<InsightSnippet>();
+    public DbSet<InsightSnippetTranslation> InsightSnippetTranslations => Set<InsightSnippetTranslation>();
     public DbSet<DimensionGroup> DimensionGroups => Set<DimensionGroup>();
+    public DbSet<DimensionGroupTranslation> DimensionGroupTranslations => Set<DimensionGroupTranslation>();
     public DbSet<DimensionGroupMembership> DimensionGroupMemberships => Set<DimensionGroupMembership>();
+    public DbSet<DimensionTitle> DimensionTitles => Set<DimensionTitle>();
 
     // Comparisons
     public DbSet<ComparisonSession> ComparisonSessions => Set<ComparisonSession>();

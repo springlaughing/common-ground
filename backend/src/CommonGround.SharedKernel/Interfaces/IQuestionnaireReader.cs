@@ -2,7 +2,7 @@ namespace CommonGround.SharedKernel.Interfaces;
 
 public interface IQuestionnaireReader
 {
-    Task<ActiveQuestionnaireDto?> GetActiveVersionAsync(CancellationToken ct = default);
+    Task<ActiveQuestionnaireDto?> GetActiveVersionAsync(string locale, CancellationToken ct = default);
     Task<IReadOnlyList<DimensionWeightDto>> GetDimensionWeightsForOptionsAsync(IEnumerable<Guid> answerOptionIds, CancellationToken ct = default);
     Task<IReadOnlyDictionary<string, decimal>> GetDimensionMaxScoresAsync(Guid questionnaireVersionId, CancellationToken ct = default);
 }

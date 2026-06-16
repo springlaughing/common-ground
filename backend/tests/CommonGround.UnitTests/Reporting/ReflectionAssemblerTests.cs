@@ -1,5 +1,6 @@
 using CommonGround.Modules.Reporting;
 using CommonGround.Modules.Reporting.Entities;
+using CommonGround.SharedKernel.Localization;
 using FluentAssertions;
 
 namespace CommonGround.UnitTests.Reporting;
@@ -24,7 +25,7 @@ public sealed class ReflectionAssemblerTests
         using var db = await SeedAsync(_ => { });
         var assembler = new ReflectionAssembler(db);
 
-        var result = await assembler.AssembleReflectionAsync(Guid.NewGuid());
+        var result = await assembler.AssembleReflectionAsync(Guid.NewGuid(), SupportedLocales.Default);
 
         result.Groups.Should().BeEmpty();
     }
@@ -61,7 +62,7 @@ public sealed class ReflectionAssemblerTests
         });
 
         var assembler = new ReflectionAssembler(db);
-        var result = await assembler.AssembleReflectionAsync(responseSetId);
+        var result = await assembler.AssembleReflectionAsync(responseSetId, SupportedLocales.Default);
 
         result.Groups.Should().BeEmpty();
     }
@@ -117,7 +118,7 @@ public sealed class ReflectionAssemblerTests
         });
 
         var assembler = new ReflectionAssembler(db);
-        var result = await assembler.AssembleReflectionAsync(responseSetId);
+        var result = await assembler.AssembleReflectionAsync(responseSetId, SupportedLocales.Default);
 
         result.Groups.Should().ContainSingle()
             .Which.Id.Should().Be("group_qualifying");
@@ -164,7 +165,7 @@ public sealed class ReflectionAssemblerTests
         });
 
         var assembler = new ReflectionAssembler(db);
-        var result = await assembler.AssembleReflectionAsync(responseSetId);
+        var result = await assembler.AssembleReflectionAsync(responseSetId, SupportedLocales.Default);
 
         var insights = result.Groups.Should().ContainSingle().Which.Insights;
         foreach (var (dimId, _, expectedStrength) in cases)
@@ -204,7 +205,7 @@ public sealed class ReflectionAssemblerTests
         });
 
         var assembler = new ReflectionAssembler(db);
-        var result = await assembler.AssembleReflectionAsync(responseSetId);
+        var result = await assembler.AssembleReflectionAsync(responseSetId, SupportedLocales.Default);
 
         result.Groups.Single().Insights.Single().Text.Should().Be(expectedText);
     }
@@ -257,7 +258,7 @@ public sealed class ReflectionAssemblerTests
         });
 
         var assembler = new ReflectionAssembler(db);
-        var result = await assembler.AssembleReflectionAsync(responseSetId);
+        var result = await assembler.AssembleReflectionAsync(responseSetId, SupportedLocales.Default);
 
         result.Groups.Should().HaveCount(2);
         result.Groups[0].Id.Should().Be("group_first");

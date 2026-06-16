@@ -2,7 +2,7 @@ namespace CommonGround.SharedKernel.Interfaces;
 
 public interface IReportingService
 {
-    Task<ReflectionDto> AssembleReflectionAsync(Guid responseSetId, CancellationToken ct = default);
+    Task<ReflectionDto> AssembleReflectionAsync(Guid responseSetId, string locale, CancellationToken ct = default);
 }
 
 public record ReflectionDto(IReadOnlyList<ReflectionGroupDto> Groups);
