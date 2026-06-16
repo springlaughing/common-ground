@@ -48,18 +48,26 @@ function parseQuestionary(md) {
       continue
     }
 
-    const questionMatch = line.match(/^\*\*Q(\d+)\s+(.*?)\*\*$/)
-    if (questionMatch) {
-      if (section === null) fail('Question found before any "## Abschnitt" header')
-      current = { section, q: Number(questionMatch[1]), text: questionMatch[2].trim(), options: [] }
-      questions.push(current)
-      continue
+    // Question lines look like: **Q1 …question text…**. Matched with string ops + a
+    // simple anchored regex (digits then one space) to avoid the super-linear backtracking
+    // a greedy `.*` next to `\s+` can cause (SonarCloud S5852 / ReDoS).
+    if (line.startsWith('**Q') && line.endsWith('**') && line.length > 4) {
+      const inner = line.slice(2, -2) // strip ** … ** → "Q1 …text…"
+      const qm = inner.match(/^Q(\d+)\s/)
+      if (qm) {
+        if (section === null) fail('Question found before any "## Abschnitt" header')
+        current = { section, q: Number(qm[1]), text: inner.slice(qm[0].length).trim(), options: [] }
+        questions.push(current)
+        continue
+      }
     }
 
-    const optionMatch = line.match(/^([A-D])\.\s+(.*\S)$/)
-    if (optionMatch) {
-      if (!current) fail(`Option "${optionMatch[1]}" found before any question`)
-      current.options.push({ letter: optionMatch[1], text: optionMatch[2].trim() })
+    // Option lines look like: A. …text…  (letter, dot, one space — then the rest is text).
+    const om = line.match(/^([A-D])\.\s/)
+    if (om) {
+      if (!current) fail(`Option "${om[1]}" found before any question`)
+      const text = line.slice(om[0].length).trim()
+      if (text) current.options.push({ letter: om[1], text })
     }
   }
   return questions
