@@ -69,20 +69,20 @@ description: "Task list for 002-bilingual-support"
 
 ### Tests for User Story 1 (write first, must FAIL)
 
-- [ ] T016 [P] [US1] Integration test: `GET /api/questionnaire/current?locale=de` returns German question/option text with **identical IDs and order** to `en` (Testcontainers) in `backend/tests/CommonGround.IntegrationTests/` (#36)
-- [ ] T017 [P] [US1] Integration test: `POST /api/responses?locale=de` returns reflection with German group titles + insight text, and the **same insights/order/strength** as `en` for identical answers (SC-003) in `backend/tests/CommonGround.IntegrationTests/` (#37)
-- [ ] T018 [P] [US1] Frontend test: full questionnaire + chrome (ConsentStep, ProgressIndicator, ReflectionPage) render in German when locale = `de` in `frontend/tests/components/` (#38)
+- [x] T016 [P] [US1] Integration test: `GET /api/questionnaire/current?locale=de` returns German question/option text with **identical IDs and order** to `en` (Testcontainers) in `backend/tests/CommonGround.IntegrationTests/` (#36)
+- [x] T017 [P] [US1] Integration test: `POST /api/responses?locale=de` returns reflection with German group titles + insight text, and the **same insights/order/strength** as `en` for identical answers (SC-003) in `backend/tests/CommonGround.IntegrationTests/` (#37)
+- [x] T018 [P] [US1] Frontend test: full questionnaire + chrome (ConsentStep, ProgressIndicator, ReflectionPage) render in German when locale = `de` in `frontend/tests/components/` (#38)
 
 ### Implementation for User Story 1
 
-- [ ] T019 [US1] Questionnaire reader returns localized question/option text by locale with English fallback in `backend/src/CommonGround.Modules.Questionnaires/` (reader + SharedKernel DTO as needed) (#39)
-- [ ] T020 [US1] `QuestionnaireController` accepts `?locale=`, validates via `SupportedLocales`, passes to reader in `backend/src/CommonGround.Api/Controllers/QuestionnaireController.cs` (#40)
-- [ ] T021 [US1] `ReflectionAssembler` takes a `locale` param and localizes **insight text + group title** with English fallback; update `IReportingService.AssembleReflectionAsync` signature in `backend/src/CommonGround.Modules.Reporting/ReflectionAssembler.cs` and `backend/src/CommonGround.SharedKernel/Interfaces/IReportingService.cs` (per-insight `Title` added in US3) (#41)
-- [ ] T022 [US1] `ResponsesController` accepts `?locale=` and passes it to the assembler in `backend/src/CommonGround.Api/Controllers/ResponsesController.cs` (#42)
-- [ ] T023 [US1] Seed DE rows for questions/options (from `questionary_german.md`) and group titles + insight texts (from authored DE content; placeholder/fixture until finalized — see T045) into the `AddLocalizationTranslations` seed helper in `backend/src/CommonGround.Api/Persistence/Migrations/` (#43)
-- [ ] T024 [P] [US1] Mount `LanguageSwitcher` on the consent and question pages and make the questionnaire fetch use the current locale in `frontend/src/pages/QuestionnairePage/` (#44)
-- [ ] T025 [P] [US1] Localize UI chrome via `useMessages` in `ConsentStep`, `ProgressIndicator`, `QuestionStep`, `CredentialsDisplay`, and `ReflectionPage` (eyebrow/title/intro/footnote/buttons) under `frontend/src/` (#45)
-- [ ] T026 [US1] Render the reflection with localized group titles + insight text and a locale-aware fetch of the submit result in `frontend/src/pages/ReflectionPage/` (#46)
+- [x] T019 [US1] Questionnaire reader returns localized question/option text by locale with English fallback in `backend/src/CommonGround.Modules.Questionnaires/` (reader + SharedKernel DTO as needed) (#39)
+- [x] T020 [US1] `QuestionnaireController` accepts `?locale=`, validates via `SupportedLocales`, passes to reader in `backend/src/CommonGround.Api/Controllers/QuestionnaireController.cs` (#40)
+- [x] T021 [US1] `ReflectionAssembler` takes a `locale` param and localizes **insight text + group title** with English fallback; update `IReportingService.AssembleReflectionAsync` signature in `backend/src/CommonGround.Modules.Reporting/ReflectionAssembler.cs` and `backend/src/CommonGround.SharedKernel/Interfaces/IReportingService.cs` (per-insight `Title` added in US3) (#41)
+- [x] T022 [US1] `ResponsesController` accepts `?locale=` and passes it to the assembler in `backend/src/CommonGround.Api/Controllers/ResponsesController.cs` (#42)
+- [x] T023 [US1] Seed DE rows for questions/options (from `questionary_german.md`) and group titles + insight texts (from authored DE content; placeholder/fixture until finalized — see T045) into the `AddLocalizationTranslations` seed helper in `backend/src/CommonGround.Api/Persistence/Migrations/` (#43)
+- [x] T024 [P] [US1] Mount `LanguageSwitcher` on the consent and question pages and make the questionnaire fetch use the current locale in `frontend/src/pages/QuestionnairePage/` (#44)
+- [x] T025 [P] [US1] Localize UI chrome via `useMessages` in `ConsentStep`, `ProgressIndicator`, `QuestionStep`, `CredentialsDisplay`, and `ReflectionPage` (eyebrow/title/intro/footnote/buttons) under `frontend/src/` (#45)
+- [x] T026 [US1] Render the reflection with localized group titles + insight text and a locale-aware fetch of the submit result in `frontend/src/pages/ReflectionPage/` (#46)
 
 **Checkpoint**: a complete bilingual completion journey works end-to-end (MVP). Deployable.
 
