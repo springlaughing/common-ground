@@ -108,6 +108,28 @@ public sealed class LocalizationFlowTests : IntegrationTestBase
         }
     }
 
+    // ─── Polish — post-MVP reword of the Section 9 conflict questions ─────────
+    // A data migration (RewordGermanConflictQuestions) updates the live de rows in
+    // place; this proves the new wording is what the API serves.
+
+    [Fact]
+    public async Task GetCurrent_LocaleDe_RewordsSection9ConflictQuestions()
+    {
+        var de = await GetQuestionnaire("de");
+        var texts = de.GetProperty("questions").EnumerateArray()
+            .Select(q => q.GetProperty("text").GetString()!)
+            .ToList();
+
+        // Gendered "einer Kollegin oder einem Kollegen" phrasing is gone everywhere…
+        texts.Should().NotContain(t => t.Contains("Kollegin oder einem Kollegen"));
+        // …replaced by the gender-neutral wording (S9 Q1/Q4) and team phrasing (S9 Q6)…
+        texts.Should().Contain(t => t.Contains("einer Person, mit der du zusammenarbeitest"));
+        texts.Should().Contain(t => t.Contains("mit jemandem im Team"));
+        // …and S9 Q3 now asks what should "herauskommen" rather than "hervorbringen".
+        texts.Should().Contain(t => t.Contains("was soll dabei vor allem herauskommen"));
+        texts.Should().NotContain(t => t.Contains("hervorbringen"));
+    }
+
     // ─── Helpers ──────────────────────────────────────────────────────────────
 
     private async Task<JsonElement> GetQuestionnaire(string locale)
