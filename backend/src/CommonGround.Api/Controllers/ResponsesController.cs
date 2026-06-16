@@ -2,6 +2,7 @@ using CommonGround.Modules.Privacy.Services;
 using CommonGround.Modules.Reporting;
 using CommonGround.Modules.Responses.Services;
 using CommonGround.SharedKernel.Interfaces;
+using CommonGround.SharedKernel.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 
@@ -37,9 +38,11 @@ public sealed class ResponsesController : ControllerBase
     [HttpPost]
     [EnableRateLimiting("PostPolicy")]
     [Consumes("application/json")]
-    public async Task<IActionResult> Submit(SubmitResponseRequest request, CancellationToken ct)
+    public async Task<IActionResult> Submit(SubmitResponseRequest request, [FromQuery] string? locale, CancellationToken ct)
     {
-        var questionnaire = await _questionnaireReader.GetActiveVersionAsync(ct);
+        // Validation only compares stable IDs, so the default locale is sufficient here;
+        // the requested locale localizes the returned reflection below.
+        var questionnaire = await _questionnaireReader.GetActiveVersionAsync(SupportedLocales.Default, ct);
         if (questionnaire is null)
             return StatusCode(StatusCodes.Status503ServiceUnavailable,
                 new ValidationError("no_active_questionnaire", "No active questionnaire is available."));
@@ -68,7 +71,7 @@ public sealed class ResponsesController : ControllerBase
 
         await _scoringEngine.ScoreAsync(responseSet.Id, questionnaire.Id, scoringInputs, ct);
 
-        var reflection = await _reportingService.AssembleReflectionAsync(responseSet.Id, ct);
+        var reflection = await _reportingService.AssembleReflectionAsync(responseSet.Id, SupportedLocales.Resolve(locale), ct);
 
         await _auditLogger.LogAsync("questionnaire_completed", responseSet.Id, ct: ct);
         await _auditLogger.LogAsync("personal_reflection_generated", responseSet.Id, ct: ct);

@@ -1,5 +1,6 @@
 using CommonGround.Modules.Reporting.Entities;
 using CommonGround.SharedKernel.Interfaces;
+using CommonGround.SharedKernel.Localization;
 using Microsoft.EntityFrameworkCore;
 
 namespace CommonGround.Modules.Reporting;
@@ -12,7 +13,7 @@ public sealed class ReflectionAssembler : IReportingService
 
     public ReflectionAssembler(DbContext db) => _db = db;
 
-    public async Task<ReflectionDto> AssembleReflectionAsync(Guid responseSetId, CancellationToken ct = default)
+    public async Task<ReflectionDto> AssembleReflectionAsync(Guid responseSetId, string locale, CancellationToken ct = default)
     {
         var scores = await _db.Set<DimensionScore>()
             .AsNoTracking()
@@ -35,6 +36,8 @@ public sealed class ReflectionAssembler : IReportingService
         if (qualifyingIds.Count == 0)
             return new ReflectionDto([]);
 
+        // English text is canonical on the base entities (the field-level fallback);
+        // a non-default locale overrides it where a translation row exists.
         var snippetText = await _db.Set<InsightSnippet>()
             .AsNoTracking()
             .Where(s => qualifyingIds.Contains(s.DimensionId))
@@ -46,15 +49,49 @@ public sealed class ReflectionAssembler : IReportingService
             .OrderBy(g => g.OrderIndex)
             .ToListAsync(ct);
 
+        var groupTitle = new Dictionary<Guid, string>();
+
+        if (locale != SupportedLocales.Default)
+        {
+            await ApplyTranslationsAsync(locale, qualifyingIds, snippetText, groupTitle, ct);
+        }
+
         var reflectionGroups = new List<ReflectionGroupDto>();
         foreach (var group in groups)
         {
             var insights = BuildInsights(group, scoreByDimension, snippetText);
             if (insights.Count > 0)
-                reflectionGroups.Add(new ReflectionGroupDto(group.GroupId, group.Title, insights));
+                reflectionGroups.Add(new ReflectionGroupDto(
+                    group.GroupId,
+                    groupTitle.GetValueOrDefault(group.Id, group.Title),
+                    insights));
         }
 
         return new ReflectionDto(reflectionGroups);
+    }
+
+    private async Task ApplyTranslationsAsync(
+        string locale,
+        List<string> qualifyingIds,
+        Dictionary<string, string> snippetText,
+        Dictionary<Guid, string> groupTitle,
+        CancellationToken ct)
+    {
+        var translatedSnippets = await (
+            from s in _db.Set<InsightSnippet>().AsNoTracking()
+            join t in _db.Set<InsightSnippetTranslation>().AsNoTracking() on s.Id equals t.InsightSnippetId
+            where t.Locale == locale && qualifyingIds.Contains(s.DimensionId)
+            select new { s.DimensionId, t.Text })
+            .ToListAsync(ct);
+        foreach (var s in translatedSnippets)
+            snippetText[s.DimensionId] = s.Text;
+
+        var translatedTitles = await _db.Set<DimensionGroupTranslation>()
+            .AsNoTracking()
+            .Where(t => t.Locale == locale)
+            .ToListAsync(ct);
+        foreach (var t in translatedTitles)
+            groupTitle[t.DimensionGroupId] = t.Title;
     }
 
     private static List<InsightDto> BuildInsights(
