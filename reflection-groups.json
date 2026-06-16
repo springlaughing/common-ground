@@ -176,12 +176,13 @@
     "help_seeking_safety_need": "Asking for help without it counting against you",
     "autonomous_problem_resolution": "Resolving problems before involving others",
 
-    "risk_transparency_need": "Surfacing risks before they become surprises",
-    "pragmatic_completion_preference": "Done when the core problem is solved",
-    "external_validation_need": "A second pair of eyes catches what you miss",
+    "risk_transparency_need": "Making risks and open issues visible early",
+    "pragmatic_completion_preference": "Good enough means the core problem is solved",
+    "external_validation_need": "A second pair of eyes makes handoff safer",
     "impact_calibration_preference": "Assessing actual impact before reacting",
     "root_cause_orientation": "Fixing the cause, not just the symptom",
     "quality_protection_preference": "Quality holds even when deadlines push back",
+    
     "accountability_preference": "Own it and fix it — explanation comes second",
     "critical_feedback_validation": "Questioning whether critical feedback reflects a real gap",
 
