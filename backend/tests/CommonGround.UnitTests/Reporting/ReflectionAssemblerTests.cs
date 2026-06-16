@@ -257,6 +257,52 @@ public sealed class ReflectionAssemblerTests
     }
 
     [Fact]
+    public async Task Insights_Within_A_Group_Are_Ordered_By_Score_Descending()
+    {
+        var responseSetId = Guid.NewGuid();
+        var groupId = Guid.NewGuid();
+
+        // Membership order (by OrderIndex) deliberately differs from score order.
+        var rows = new (string DimId, int OrderIndex, decimal Score)[]
+        {
+            ("dim_mid", 1, 0.60m),
+            ("dim_high", 2, 0.90m),
+            ("dim_low", 3, 0.50m),
+        };
+
+        using var db = await SeedAsync(ctx =>
+        {
+            foreach (var (dimId, orderIndex, score) in rows)
+            {
+                ctx.DimensionScores.Add(new DimensionScore
+                {
+                    Id = Guid.NewGuid(), ResponseSetId = responseSetId,
+                    DimensionId = dimId, RawScore = score, NormalisedScore = score
+                });
+                ctx.InsightSnippets.Add(new InsightSnippet
+                {
+                    Id = Guid.NewGuid(), DimensionId = dimId, Text = $"Insight {dimId}"
+                });
+                ctx.DimensionGroupMemberships.Add(new DimensionGroupMembership
+                {
+                    Id = Guid.NewGuid(), DimensionGroupId = groupId,
+                    DimensionId = dimId, OrderIndex = orderIndex
+                });
+            }
+            ctx.DimensionGroups.Add(new DimensionGroup
+            {
+                Id = groupId, GroupId = "grp", Title = "Group", OrderIndex = 1
+            });
+        });
+
+        var assembler = new ReflectionAssembler(db);
+        var result = await assembler.AssembleReflectionAsync(responseSetId, SupportedLocales.Default);
+
+        result.Groups.Single().Insights.Select(i => i.DimensionId)
+            .Should().Equal("dim_high", "dim_mid", "dim_low");
+    }
+
+    [Fact]
     public async Task Groups_Are_Ordered_By_OrderIndex()
     {
         var responseSetId = Guid.NewGuid();

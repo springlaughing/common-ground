@@ -131,6 +131,12 @@ public sealed class ReflectionAssembler : IReportingService
         group.Memberships
             .Where(m => scoreByDimension.GetValueOrDefault(m.DimensionId) >= DisplayThreshold
                         && snippetText.ContainsKey(m.DimensionId))
+            // Strongest first within each group. Ties fall back to the group-definition
+            // order (OrderIndex), so ordering is deterministic and locale-invariant
+            // (scores don't depend on locale). The strength dots already convey "more",
+            // so this just surfaces the existing order.
+            .OrderByDescending(m => scoreByDimension[m.DimensionId])
+            .ThenBy(m => m.OrderIndex)
             .Select(m => new InsightDto(
                 m.DimensionId,
                 titleByDimension.GetValueOrDefault(m.DimensionId, string.Empty),
