@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useMessages } from '../../i18n/useMessages'
 import styles from './CredentialsDisplay.module.css'
 
 interface Props {
@@ -8,8 +9,9 @@ interface Props {
   accessCode: string
 }
 
-function CopyButton({ value, label }: Readonly<{ value: string; label: string }>) {
+function CopyButton({ value, ariaLabel }: Readonly<{ value: string; ariaLabel: string }>) {
   const [copied, setCopied] = useState(false)
+  const m = useMessages()
 
   async function copy() {
     try {
@@ -22,13 +24,14 @@ function CopyButton({ value, label }: Readonly<{ value: string; label: string }>
   }
 
   return (
-    <button type="button" className={styles.copyBtn} onClick={copy} aria-label={`Copy ${label}`}>
-      {copied ? 'Copied' : 'Copy'}
+    <button type="button" className={styles.copyBtn} onClick={copy} aria-label={ariaLabel}>
+      {copied ? m.credentials.copied : m.credentials.copy}
     </button>
   )
 }
 
 export function CredentialsDisplay({ privateResultLink, accessCode }: Readonly<Props>) {
+  const m = useMessages()
   const fullLink = 'window' in globalThis
     ? `${globalThis.location.origin}${privateResultLink}`
     : privateResultLink
@@ -37,27 +40,23 @@ export function CredentialsDisplay({ privateResultLink, accessCode }: Readonly<P
     <div className={styles.root}>
       {/* Private result link */}
       <section className={styles.card}>
-        <span className={styles.label}>Your private result link</span>
-        <p className={styles.explain}>Bookmark this to return to your reflection anytime.</p>
+        <span className={styles.label}>{m.credentials.linkLabel}</span>
+        <p className={styles.explain}>{m.credentials.linkExplain}</p>
         <div className={styles.valueRow}>
           <code className={styles.value}>{fullLink}</code>
-          <CopyButton value={fullLink} label="private result link" />
+          <CopyButton value={fullLink} ariaLabel={m.credentials.copyLinkAria} />
         </div>
       </section>
 
       {/* Access code */}
       <section className={styles.card}>
-        <span className={styles.label}>Your access code</span>
-        <p className={styles.explain}>
-          Use this to reuse your response in a future comparison — not to open your results.
-        </p>
+        <span className={styles.label}>{m.credentials.codeLabel}</span>
+        <p className={styles.explain}>{m.credentials.codeExplain}</p>
         <div className={styles.valueRow}>
           <code className={`${styles.value} ${styles.code}`}>{accessCode}</code>
-          <CopyButton value={accessCode} label="access code" />
+          <CopyButton value={accessCode} ariaLabel={m.credentials.copyCodeAria} />
         </div>
-        <p className={styles.warning}>
-          Keep it private. Anyone who has it can reuse your response.
-        </p>
+        <p className={styles.warning}>{m.credentials.warning}</p>
       </section>
     </div>
   )

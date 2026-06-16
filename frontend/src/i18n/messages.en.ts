@@ -6,4 +6,82 @@ export const en: Messages = {
     en: 'English',
     de: 'Deutsch',
   },
+  welcome: {
+    eyebrow: 'A working-style reflection',
+    headline: 'Find your common ground.',
+    lede:
+      "A few questions about how you collaborate, plan, give feedback, and handle " +
+      "pressure. It takes about ten minutes. There's no test, no score, and no right " +
+      'answer — just a private reflection of how you work.',
+    start: 'Get started →',
+  },
+  consent: {
+    heading: 'Before we begin',
+    collectTitle: 'What we collect',
+    collectText: 'Only your answers to the questionnaire. No name, no email, no account.',
+    useTitle: "How it's used",
+    useText:
+      'To generate a private reflection of your working style. Your individual answers stay private.',
+    privateTitle: 'Private by design',
+    privateText:
+      "You'll get a private link to return to your results, and a separate access code " +
+      'to reuse your response later. Both are yours alone.',
+    agree: 'I understand what this is, and I want to begin.',
+    begin: 'Begin →',
+  },
+  question: {
+    previous: '← Previous',
+    next: 'Next',
+    submit: 'Submit',
+    answerOptions: 'Answer options',
+    primaryChoice: ' — your primary choice',
+    secondaryChoice: ' — your secondary choice',
+    hintPickSecond: 'You can optionally pick a second preference. ',
+    hintUndo: 'Tap a selected answer again to undo it.',
+  },
+  progress: {
+    questionCounter: (current, total) => `Question ${current} / ${total}`,
+    questionAria: (current, total) => `Question ${current} of ${total}`,
+    sectionLabel: (current, total) => `Section ${current} of ${total}`,
+  },
+  completion: {
+    eyebrow: 'All done',
+    heading: 'Your reflection is ready.',
+    lede:
+      "Save these two before you go — they're the only way back to your results. We don't " +
+      'store anything that could recover them for you.',
+    view: 'View my reflection →',
+  },
+  credentials: {
+    linkLabel: 'Your private result link',
+    linkExplain: 'Bookmark this to return to your reflection anytime.',
+    codeLabel: 'Your access code',
+    codeExplain: 'Use this to reuse your response in a future comparison — not to open your results.',
+    warning: 'Keep it private. Anyone who has it can reuse your response.',
+    copy: 'Copy',
+    copied: 'Copied',
+    copyLinkAria: 'Copy private result link',
+    copyCodeAria: 'Copy access code',
+  },
+  reflection: {
+    eyebrow: 'Your reflection',
+    title: 'How you work',
+    intro:
+      'Based on your answers. These are observations about how you tend to work — not ' +
+      'scores, not a rating, and nothing here is better or worse than its opposite.',
+    footnote:
+      "Only the patterns your answers signal clearly are shown here — that's why some " +
+      'themes may not appear.',
+    compare: 'Compare with someone →',
+  },
+  shell: {
+    back: '← Back',
+  },
+  status: {
+    loading: 'Loading questionnaire…',
+    loadFailed: 'Failed to load the questionnaire.',
+    retry: 'Retry',
+    submitting: 'Submitting your answers…',
+    submitFailed: 'Something went wrong submitting your answers. Please try again.',
+  },
 }

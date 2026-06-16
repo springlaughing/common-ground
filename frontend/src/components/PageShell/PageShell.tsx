@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { LanguageSwitcher } from '../LanguageSwitcher/LanguageSwitcher'
 import styles from './PageShell.module.css'
 
 interface Props {
@@ -11,6 +12,8 @@ interface Props {
   /** 'filled' (default) solid accent colour; 'outline' contour-only for subtler inner pages. */
   decoStyle?: 'filled' | 'outline'
   showBrand?: boolean
+  /** Shows the EN/DE language switcher in the header (primary pages before submit). */
+  showLanguageSwitcher?: boolean
   children: ReactNode
 }
 
@@ -26,6 +29,7 @@ export function PageShell({
   decoVariant = 'default',
   decoStyle = 'filled',
   showBrand = true,
+  showLanguageSwitcher = false,
   children,
 }: Readonly<Props>) {
   const outlineClass = decoStyle === 'outline' ? ` ${styles.outlineDeco}` : ''
@@ -40,7 +44,10 @@ export function PageShell({
         ) : (
           <span />
         )}
-        {showBrand && <span className={styles.brand}>common ground</span>}
+        <span className={styles.headerEnd}>
+          {showLanguageSwitcher && <LanguageSwitcher />}
+          {showBrand && <span className={styles.brand}>common ground</span>}
+        </span>
       </header>
 
       <main className={`${styles.content} ${align === 'top' ? styles.alignTop : ''}`}>

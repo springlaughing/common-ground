@@ -1,4 +1,5 @@
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
+import { renderWithLocale } from '../support/renderWithLocale'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
 import { ReflectionPage } from '../../src/pages/ReflectionPage/ReflectionPage'
@@ -25,7 +26,7 @@ const REFLECTION: ReflectionDto = {
 
 describe('ReflectionPage', () => {
   it('renders every group title and its insights', () => {
-    render(<ReflectionPage reflection={REFLECTION} />)
+    renderWithLocale(<ReflectionPage reflection={REFLECTION} />)
 
     expect(screen.getByText('How you plan')).toBeInTheDocument()
     expect(screen.getByText('How you communicate')).toBeInTheDocument()
@@ -35,7 +36,7 @@ describe('ReflectionPage', () => {
 
   it('shows the compare CTA only when an onCompare handler is provided', async () => {
     const onCompare = vi.fn()
-    const { rerender } = render(<ReflectionPage reflection={REFLECTION} />)
+    const { rerender } = renderWithLocale(<ReflectionPage reflection={REFLECTION} />)
     expect(screen.queryByRole('button', { name: /compare/i })).not.toBeInTheDocument()
 
     rerender(<ReflectionPage reflection={REFLECTION} onCompare={onCompare} />)

@@ -1,4 +1,5 @@
 import { PageShell } from '../PageShell/PageShell'
+import { useMessages } from '../../i18n/useMessages'
 import styles from './WelcomeStep.module.css'
 
 interface Props {
@@ -6,25 +7,19 @@ interface Props {
 }
 
 export function WelcomeStep({ onStart }: Readonly<Props>) {
+  const m = useMessages()
+
   return (
-    <PageShell decoVariant="hero" showBrand={false}>
-      <p className={styles.eyebrow}>A working-style reflection</p>
+    <PageShell decoVariant="hero" showBrand={false} showLanguageSwitcher>
+      <p className={styles.eyebrow}>{m.welcome.eyebrow}</p>
 
-      <h1 className={styles.headline}>
-        Find your
-        <br />
-        common ground.
-      </h1>
+      <h1 className={styles.headline}>{m.welcome.headline}</h1>
 
-      <p className={styles.lede}>
-        A few questions about how you collaborate, plan, give feedback, and handle
-        pressure. It takes about ten minutes. There's no test, no score, and no right
-        answer — just a private reflection of how you work.
-      </p>
+      <p className={styles.lede}>{m.welcome.lede}</p>
 
       <div>
         <button className={styles.cta} onClick={onStart}>
-          Get started →
+          {m.welcome.start}
         </button>
       </div>
     </PageShell>

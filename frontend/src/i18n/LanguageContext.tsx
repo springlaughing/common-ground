@@ -49,6 +49,9 @@ export function LanguageProvider({ children }: Readonly<{ children: ReactNode }>
   )
 }
 
+// The provider and its hook are colocated by design; the fast-refresh caveat
+// (this hook won't hot-reload) is acceptable here.
+// eslint-disable-next-line react-refresh/only-export-components
 export function useLanguage(): LanguageContextValue {
   const ctx = useContext(LanguageContext)
   if (!ctx) throw new Error('useLanguage must be used within a LanguageProvider')
