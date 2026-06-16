@@ -95,4 +95,12 @@ describe('QuestionStep', () => {
 
     expect(props.onNext).toHaveBeenCalledTimes(1)
   })
+
+  it('shows the sending label and disables the button while submitting', () => {
+    renderStep({ primaryAnswerId: 'a', isLast: true, submitting: true })
+
+    const button = screen.getByRole('button', { name: /sending/i })
+    expect(button).toBeDisabled()
+    expect(screen.queryByRole('button', { name: /^submit/i })).not.toBeInTheDocument()
+  })
 })
