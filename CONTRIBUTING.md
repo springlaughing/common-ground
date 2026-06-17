@@ -48,6 +48,9 @@ We don't backfill issues for work merged before this workflow was adopted.
   feature). Use plain-word scopes (`bilingual`, `frontend`, `backend`,
   `reporting`); avoid insider abbreviations such as `i18n` or `a11y`.
 - Prefer one issue per PR to keep the trail clear.
+- **Linking issues:** use one closing keyword per issue, each on its own line
+  (`Closes #12`, then `Closes #13`). GitHub only auto-closes the number directly
+  after the keyword, so `Closes #12, #13` closes #12 and silently leaves #13 open.
 
 ## Local development
 

@@ -5,7 +5,10 @@
 
 <!-- What does this PR change, and why? -->
 
-## Linked issue
+## Linked issues
+
+<!-- One closing keyword per issue, each on its own line. GitHub only auto-closes the
+     number directly after the keyword, so "Closes #1, #2" leaves #2 open. -->
 
 Closes #
 
