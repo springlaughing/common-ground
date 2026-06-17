@@ -11,6 +11,8 @@ export interface Messages {
     label: string
     en: string
     de: string
+    /** Live-region announcement spoken to assistive tech after the locale changes. */
+    changed: (language: string) => string
   }
   welcome: {
     eyebrow: string
