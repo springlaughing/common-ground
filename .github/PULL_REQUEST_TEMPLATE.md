@@ -1,4 +1,5 @@
-<!-- Title: use a Conventional Commit prefix, e.g. "feat(frontend): …", "fix: …", "chore: …" -->
+<!-- Title: Conventional Commits with an area scope, e.g. "feat(bilingual): … (US2)".
+     Full convention: see "Branch, commit & PR conventions" in CONTRIBUTING.md. -->
 
 ## Summary
 

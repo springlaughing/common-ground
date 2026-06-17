@@ -34,13 +34,19 @@ Smaller standalone work skips `tasks.md`:
 
 We don't backfill issues for work merged before this workflow was adopted.
 
-## Branch & commit conventions
+## Branch, commit & PR conventions
 
 - **Branches:** `feat/…`, `fix/…`, `chore/…`, `docs/…` (kebab-case); Spec Kit
   feature branches are `NNN-feature-name`.
 - **Commits:** [Conventional Commits](https://www.conventionalcommits.org/)
   (`feat:`, `fix:`, `chore:`, `docs:`, `test:`, `build:`, `ci:`). Commit per
   logical change and keep history readable.
+- **PR titles:** same Conventional Commits format, with a **scope that names the
+  area or feature** so the title stands alone without opening the spec — e.g.
+  `feat(bilingual): switch language mid-flow (US2)`, not a bare `US2` (every spec
+  has its own `US1`/`US2`/…, so the number only means something next to the
+  feature). Use plain-word scopes (`bilingual`, `frontend`, `backend`,
+  `reporting`); avoid insider abbreviations such as `i18n` or `a11y`.
 - Prefer one issue per PR to keep the trail clear.
 
 ## Local development
