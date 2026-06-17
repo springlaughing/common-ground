@@ -96,12 +96,12 @@ description: "Task list for 002-bilingual-support"
 
 ### Tests for User Story 2 (write first, must FAIL)
 
-- [ ] T027 [P] [US2] Frontend test: select answers in `en`, switch to `de` mid-flow → selected option IDs preserved, question position unchanged, content now German in `frontend/tests/components/` (#47)
+- [x] T027 [P] [US2] Frontend test: select answers in `en`, switch to `de` mid-flow → selected option IDs preserved, question position unchanged, content now German in `frontend/tests/components/LanguageSwitchMidFlow.test.tsx` (#47)
 
 ### Implementation for User Story 2
 
-- [ ] T028 [US2] On locale change, re-fetch the questionnaire with the new locale and re-render while preserving in-progress answer selections (keyed by stable option IDs) and the current step in `frontend/src/pages/QuestionnairePage/` (#48)
-- [ ] T029 [US2] Ensure `LanguageSwitcher` reflects the active locale and the change is announced to assistive tech with no progress reset in `frontend/src/components/LanguageSwitcher/` and the questionnaire page (#49)
+- [x] T028 [US2] On locale change, re-fetch the questionnaire with the new locale and re-render while preserving in-progress answer selections (keyed by stable option IDs) and the current step in `frontend/src/App.tsx` (the questionnaire flow lives in `App.tsx`, not a `QuestionnairePage/`; behavior landed with US1's locale-aware fetch effect, now locked in by T027) (#48)
+- [x] T029 [US2] `LanguageSwitcher` reflects the active locale (`aria-pressed`) and announces the change to assistive tech via a polite live region, with no progress reset, in `frontend/src/components/LanguageSwitcher/LanguageSwitcher.tsx` (#49)
 
 **Checkpoint**: US1 and US2 both work independently.
 

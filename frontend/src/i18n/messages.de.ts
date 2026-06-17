@@ -5,6 +5,7 @@ export const de: Messages = {
     label: 'Sprache',
     en: 'English',
     de: 'Deutsch',
+    changed: language => `Sprache auf ${language} umgestellt. Deine Antworten bleiben erhalten.`,
   },
   welcome: {
     eyebrow: 'Eine Reflexion über deinen Arbeitsstil',

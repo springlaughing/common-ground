@@ -5,6 +5,7 @@ export const en: Messages = {
     label: 'Language',
     en: 'English',
     de: 'Deutsch',
+    changed: language => `Language set to ${language}. Your answers are kept.`,
   },
   welcome: {
     eyebrow: 'A working-style reflection',
