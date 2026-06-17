@@ -25,6 +25,11 @@ jobs:
   sonar:
     name: SonarCloud Quality Gate
     runs-on: ubuntu-latest
+    # Skip on Dependabot PRs. They get a separate, restricted secret store, so
+    # SONAR_TOKEN is empty and the scan hard-fails — and dependency bumps change
+    # no analyzable source anyway. The gate still runs on the push to main after
+    # the PR merges (merged by a human, so the token is present), keeping main covered.
+    if: github.actor != 'dependabot[bot]'
     steps:
       - uses: actions/checkout@v6
         with:
