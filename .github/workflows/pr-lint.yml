@@ -1,0 +1,31 @@
+# Lints the PR description for the issue-linking convention: one closing keyword
+# per issue. GitHub only auto-closes the issue number directly after a keyword,
+# so a comma-list like "Closes #1, #2" closes #1 and silently leaves #2 open
+# (this already stranded #51-#56). See "Branch, commit & PR conventions" in
+# CONTRIBUTING.md.
+name: PR Lint
+
+on:
+  pull_request:
+    types: [opened, edited, reopened, synchronize]
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  closing-keywords:
+    name: Issue-linking format
+    runs-on: ubuntu-latest
+    steps:
+      - name: Reject comma-listed closing keywords
+        # The body is passed via env (never interpolated into the script) to
+        # avoid shell injection from an attacker-controlled PR description.
+        env:
+          BODY: ${{ github.event.pull_request.body }}
+        run: |
+          if printf '%s' "$BODY" | grep -iEq '\b(close[sd]?|fix(es|ed)?|resolve[sd]?)[[:space:]]+#[0-9]+[[:space:]]*,[[:space:]]*#[0-9]+'; then
+            echo "::error::PR description has a comma-listed closing keyword (e.g. 'Closes #1, #2'). GitHub only auto-closes the first number — put one closing keyword per issue, each on its own line. See CONTRIBUTING.md."
+            exit 1
+          fi
+          echo "Issue-linking format OK."
