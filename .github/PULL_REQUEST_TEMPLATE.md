@@ -1,10 +1,14 @@
-<!-- Title: use a Conventional Commit prefix, e.g. "feat(frontend): …", "fix: …", "chore: …" -->
+<!-- Title: Conventional Commits with an area scope, e.g. "feat(bilingual): … (US2)".
+     Full convention: see "Branch, commit & PR conventions" in CONTRIBUTING.md. -->
 
 ## Summary
 
 <!-- What does this PR change, and why? -->
 
-## Linked issue
+## Linked issues
+
+<!-- One closing keyword per issue, each on its own line. GitHub only auto-closes the
+     number directly after the keyword, so "Closes #1, #2" leaves #2 open. -->
 
 Closes #
 
