@@ -91,6 +91,48 @@ public sealed class ReflectionAccessTests : IntegrationTestBase
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }
 
+    // ─── T037 (US4) — GET /api/me/reflection?locale= re-renders at view time ────
+
+    [Fact]
+    public async Task MeReflection_LocaleDe_ReturnsGermanReflection_SameInsightsOrderAndStrengthAsEnglish()
+    {
+        var client = NewClient();
+        var token = await CompleteQuestionnaireAndGetToken(client);
+        var sessionCookie = await StartSession(client, token);
+
+        // No locale is stored on the response; the saved reflection is re-assembled per
+        // request, so the same session yields the same insights re-rendered in whichever
+        // locale is asked for (en↔de).
+        var en = await GetMeReflection(client, sessionCookie, "en");
+        var de = await GetMeReflection(client, sessionCookie, "de");
+
+        // SC-003 carried to the saved reflection: identical answers ⇒ identical insight
+        // selection, order, and strength regardless of the view-time locale.
+        var enShape = Shape(en);
+        enShape.Should().NotBeEmpty();
+        Shape(de).Should().BeEquivalentTo(enShape, o => o.WithStrictOrdering());
+
+        // Localized: for the same ids, German group titles and insight text differ from English.
+        var enGroups = en.GetProperty("groups").EnumerateArray().ToList();
+        var deGroups = de.GetProperty("groups").EnumerateArray().ToList();
+        for (var g = 0; g < enGroups.Count; g++)
+        {
+            deGroups[g].GetProperty("id").GetString().Should().Be(enGroups[g].GetProperty("id").GetString());
+            deGroups[g].GetProperty("title").GetString()
+                .Should().NotBe(enGroups[g].GetProperty("title").GetString());
+
+            var enInsights = enGroups[g].GetProperty("insights").EnumerateArray().ToList();
+            var deInsights = deGroups[g].GetProperty("insights").EnumerateArray().ToList();
+            for (var i = 0; i < enInsights.Count; i++)
+            {
+                deInsights[i].GetProperty("dimensionId").GetString()
+                    .Should().Be(enInsights[i].GetProperty("dimensionId").GetString());
+                deInsights[i].GetProperty("text").GetString()
+                    .Should().NotBe(enInsights[i].GetProperty("text").GetString());
+            }
+        }
+    }
+
     // ─── Helpers ──────────────────────────────────────────────────────────────
 
     // A no-cookie client: the cg_session cookie is Secure, so the test-server's
@@ -145,4 +187,24 @@ public sealed class ReflectionAccessTests : IntegrationTestBase
         var link = body.GetProperty("privateResultLink").GetString()!; // "/me#<token>"
         return link["/me#".Length..];
     }
+
+    private static async Task<JsonElement> GetMeReflection(HttpClient client, string cookie, string locale)
+    {
+        var response = await SendWithCookie(client, HttpMethod.Get, $"/api/me/reflection?locale={locale}", cookie);
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        var body = await response.Content.ReadFromJsonAsync<JsonElement>(JsonOptions);
+        return body.GetProperty("reflection");
+    }
+
+    // A locale-invariant fingerprint of a reflection: ordered (groupId, [(dimensionId, strength)]).
+    private static List<(string Group, List<(string Dimension, int Strength)> Insights)> Shape(JsonElement reflection) =>
+        reflection.GetProperty("groups").EnumerateArray()
+            .Select(g => (
+                Group: g.GetProperty("id").GetString()!,
+                Insights: g.GetProperty("insights").EnumerateArray()
+                    .Select(i => (
+                        Dimension: i.GetProperty("dimensionId").GetString()!,
+                        Strength: i.GetProperty("strength").GetInt32()))
+                    .ToList()))
+            .ToList();
 }
