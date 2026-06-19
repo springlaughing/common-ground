@@ -1,11 +1,18 @@
 import { useEffect, useState } from 'react'
 import { ReflectionPage } from './ReflectionPage'
 import { ApiError, fetchMyReflection, startSession } from '../../services/questionnaireApi'
-import { LanguageProvider } from '../../i18n/LanguageContext'
+import { LanguageProvider, useLanguage } from '../../i18n/LanguageContext'
+import { LanguageSwitcher } from '../../components/LanguageSwitcher/LanguageSwitcher'
 import type { ReflectionDto } from '../../types/api'
 import styles from './MeReflection.module.css'
 
 type Status = 'loading' | 'ready' | 'unavailable' | 'error'
+
+// 401 (no/invalid session) and 404 (soft-deleted) both mean "no result to show";
+// anything else is an unexpected error.
+function statusForLoadError(e: unknown): Status {
+  return e instanceof ApiError && (e.status === 401 || e.status === 404) ? 'unavailable' : 'error'
+}
 
 /** The `/me` route: a returning user lands here from their saved private result link.
  *  The token rides in the URL fragment (`/me#TOKEN`). We exchange it for a session
@@ -21,42 +28,55 @@ export function MeReflection() {
 }
 
 function MeReflectionView() {
+  const { locale } = useLanguage()
   const [status, setStatus] = useState<Status>('loading')
   const [reflection, setReflection] = useState<ReflectionDto | null>(null)
+  const [sessionReady, setSessionReady] = useState(false)
 
+  // Exchange the fragment token for a session cookie once, on mount. The token rides in
+  // the URL fragment (/me#TOKEN); we read it into a local — never into state — so the raw
+  // token isn't retained, and scrub it from history as soon as the session exists.
   useEffect(() => {
     let cancelled = false
-
-    async function load() {
+    async function startIfNeeded() {
       try {
-        // Read the token into a local — never into state — so the raw token isn't
-        // retained anywhere after we've exchanged it for a session cookie.
         const token = window.location.hash.replace(/^#/, '')
         if (token) {
           await startSession(token)
-          // Scrub the token from the address bar and history once the session exists.
           window.history.replaceState(null, '', window.location.pathname)
         }
+        if (!cancelled) setSessionReady(true)
+      } catch (e) {
+        if (!cancelled) setStatus(statusForLoadError(e))
+      }
+    }
+    void startIfNeeded()
+    return () => { cancelled = true }
+  }, [])
 
-        const data = await fetchMyReflection()
+  // Once the session exists, load the reflection in the active locale — re-fetching when
+  // the locale changes so a saved reflection re-renders in the viewer's language (US4). No
+  // locale is stored server-side; the same insights/strengths come back, re-rendered. The
+  // previous reflection stays on screen during the swap (no flash back to "loading").
+  useEffect(() => {
+    if (!sessionReady) return
+    let cancelled = false
+    async function loadReflection() {
+      try {
+        const data = await fetchMyReflection(locale)
         if (cancelled) return
         setReflection(data.reflection)
         setStatus('ready')
       } catch (e) {
-        if (cancelled) return
-        // 401 (no/invalid session) and 404 (soft-deleted) both mean "no result to show".
-        setStatus(e instanceof ApiError && (e.status === 401 || e.status === 404)
-          ? 'unavailable'
-          : 'error')
+        if (!cancelled) setStatus(statusForLoadError(e))
       }
     }
-
-    void load()
+    void loadReflection()
     return () => { cancelled = true }
-  }, [])
+  }, [sessionReady, locale])
 
   if (status === 'ready' && reflection) {
-    return <ReflectionPage reflection={reflection} />
+    return <ReflectionPage reflection={reflection} languageSwitcher={<LanguageSwitcher />} />
   }
 
   return (

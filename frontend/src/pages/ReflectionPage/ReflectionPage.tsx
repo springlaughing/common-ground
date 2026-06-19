@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import { InsightCard } from '../../components/InsightCard/InsightCard'
 import { useMessages } from '../../i18n/useMessages'
 import type { ReflectionDto } from '../../types/api'
@@ -6,15 +7,18 @@ import styles from './ReflectionPage.module.css'
 interface Props {
   reflection: ReflectionDto
   onCompare?: () => void
+  /** Optional header-left content (the saved /me reflection mounts the language switcher
+   *  here so it's switchable at view time; the post-submit flow leaves it empty). */
+  languageSwitcher?: ReactNode
 }
 
-export function ReflectionPage({ reflection, onCompare }: Readonly<Props>) {
+export function ReflectionPage({ reflection, onCompare, languageSwitcher }: Readonly<Props>) {
   const m = useMessages()
 
   return (
     <div className={styles.page}>
       <header className={styles.header}>
-        <span />
+        {languageSwitcher ?? <span />}
         <span className={styles.brand}>common ground</span>
       </header>
 
