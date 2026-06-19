@@ -138,13 +138,13 @@ description: "Task list for 002-bilingual-support"
 
 ### Tests for User Story 4 (write first, must FAIL)
 
-- [ ] T037 [P] [US4] Integration test: `GET /api/me/reflection?locale=` returns the same insights/strengths re-rendered in the requested locale (en↔de) in `backend/tests/CommonGround.IntegrationTests/` (#57)
-- [ ] T038 [P] [US4] Frontend test: opening a saved reflection then switching language re-fetches and re-renders in `frontend/tests/components/` (#58)
+- [x] T037 [P] [US4] Integration test: `GET /api/me/reflection?locale=` returns the same insights/strengths re-rendered in the requested locale (en↔de) in `backend/tests/CommonGround.IntegrationTests/` (#57)
+- [x] T038 [P] [US4] Frontend test: opening a saved reflection then switching language re-fetches and re-renders in `frontend/tests/components/` (#58)
 
 ### Implementation for User Story 4
 
-- [ ] T039 [US4] `MeController` accepts `?locale=` and passes it to the assembler in `backend/src/CommonGround.Api/Controllers/MeController.cs` (#59)
-- [ ] T040 [US4] Mount `LanguageSwitcher` on the saved-reflection page and re-fetch `/api/me/reflection?locale=` on switch in `frontend/src/pages/ReflectionPage/MeReflection.tsx` (#60)
+- [x] T039 [US4] `MeController` accepts `?locale=` and passes it to the assembler in `backend/src/CommonGround.Api/Controllers/MeController.cs` (#59)
+- [x] T040 [US4] Mount `LanguageSwitcher` on the saved-reflection page and re-fetch `/api/me/reflection?locale=` on switch in `frontend/src/pages/ReflectionPage/MeReflection.tsx` (#60)
 
 **Checkpoint**: all four stories independently functional.
 
