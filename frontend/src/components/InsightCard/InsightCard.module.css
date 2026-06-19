@@ -10,6 +10,7 @@
   letter-spacing: -0.01em;
   color: var(--color-text-primary);
   margin: 0;
+  overflow-wrap: break-word;
 }
 
 .dots {
@@ -42,4 +43,5 @@
   color: var(--color-text-body);
   max-width: 600px;
   margin: 0;
+  overflow-wrap: break-word;
 }
