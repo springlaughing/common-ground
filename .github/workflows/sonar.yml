@@ -66,6 +66,10 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
+          # Locale catalogs (messages.<locale>.ts) are intentionally parallel — the
+          # Messages interface enforces identical keys across languages — so copy-paste
+          # detection flags each new translation block as a duplicate of its sibling.
+          # Exclude them from duplication only (still analyzed for bugs/smells/coverage).
           dotnet sonarscanner begin \
             /k:"springlaughing_common-ground" \
             /o:"springlaughing" \
@@ -74,7 +78,8 @@ jobs:
             /d:sonar.cs.vscoveragexml.reportsPaths="coverage.xml" \
             /d:sonar.javascript.lcov.reportPaths="frontend/coverage/lcov.info" \
             /d:sonar.exclusions="**/bin/**,**/obj/**,frontend/node_modules/**,frontend/dist/**,**/Migrations/**,**/.specify/**" \
-            /d:sonar.coverage.exclusions="backend/tests/**,frontend/tests/**,**/Migrations/**,**/Program.cs,frontend/src/main.tsx,**/*.config.ts,scripts/**"
+            /d:sonar.coverage.exclusions="backend/tests/**,frontend/tests/**,**/Migrations/**,**/Program.cs,frontend/src/main.tsx,**/*.config.ts,scripts/**" \
+            /d:sonar.cpd.exclusions="frontend/src/i18n/messages.*.ts"
 
       - name: Build + test backend with coverage
         env:

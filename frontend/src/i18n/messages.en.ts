@@ -85,4 +85,13 @@ export const en: Messages = {
     retry: 'Retry',
     submitFailed: 'Something went wrong submitting your answers. Please try again.',
   },
+  me: {
+    loading: 'Loading your reflection…',
+    unavailableTitle: 'Result not available',
+    unavailableBody:
+      'This result link isn’t valid, or the result has been deleted. If you saved a ' +
+      'private result link, double-check you copied the whole thing.',
+    errorMessage: 'Something went wrong loading your reflection.',
+    retry: 'Retry',
+  },
 }

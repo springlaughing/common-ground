@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { MeReflection } from '../../src/pages/ReflectionPage/MeReflection'
+import { LOCALE_STORAGE_KEY } from '../../src/i18n/locales'
 import type { GetMyReflectionResponse } from '../../src/types/api'
 
 const REFLECTION: GetMyReflectionResponse = {
@@ -158,8 +159,22 @@ describe('MeReflection (/me route)', () => {
     await user.click(screen.getByRole('button', { name: 'Deutsch' }))
 
     // A failed re-fetch surfaces the generic error state — distinct from the 401/404
-    // "not available" message — so a transient failure on switch isn't read as a dead link.
-    expect(await screen.findByText(/something went wrong/i)).toBeInTheDocument()
+    // "not available" state — so a transient failure on switch isn't read as a dead link.
+    // The switch was to German, so the error chrome renders in German too.
+    expect(await screen.findByText(/schiefgelaufen/i)).toBeInTheDocument()
+    expect(screen.queryByText('Ergebnis nicht verfügbar')).not.toBeInTheDocument()
+  })
+
+  it('renders the /me chrome in the active language (German "unavailable" state)', async () => {
+    localStorage.setItem(LOCALE_STORAGE_KEY, 'de')
+    window.location.hash = '#bad-token'
+    const fetchMock = vi.fn(async () => jsonResponse(401, { error: 'invalid_token' }))
+    vi.stubGlobal('fetch', fetchMock)
+
+    render(<MeReflection />)
+
+    // The empty/error chrome localizes too, so it stays consistent with <html lang="de">.
+    expect(await screen.findByText('Ergebnis nicht verfügbar')).toBeInTheDocument()
     expect(screen.queryByText(/not available/i)).not.toBeInTheDocument()
   })
 })

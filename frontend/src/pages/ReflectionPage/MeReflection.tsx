@@ -3,6 +3,7 @@ import { ReflectionPage } from './ReflectionPage'
 import { ApiError, fetchMyReflection, startSession } from '../../services/questionnaireApi'
 import { LanguageProvider, useLanguage } from '../../i18n/LanguageContext'
 import { LanguageSwitcher } from '../../components/LanguageSwitcher/LanguageSwitcher'
+import { useMessages } from '../../i18n/useMessages'
 import type { ReflectionDto } from '../../types/api'
 import styles from './MeReflection.module.css'
 
@@ -29,6 +30,7 @@ export function MeReflection() {
 
 function MeReflectionView() {
   const { locale } = useLanguage()
+  const m = useMessages()
   const [status, setStatus] = useState<Status>('loading')
   const [reflection, setReflection] = useState<ReflectionDto | null>(null)
   const [sessionReady, setSessionReady] = useState(false)
@@ -83,23 +85,20 @@ function MeReflectionView() {
     <div className={styles.center}>
       <span className={styles.brand}>common ground</span>
 
-      {status === 'loading' && <p className={styles.message}>Loading your reflection…</p>}
+      {status === 'loading' && <p className={styles.message}>{m.me.loading}</p>}
 
       {status === 'unavailable' && (
         <>
-          <h1 className={styles.title}>Result not available</h1>
-          <p className={styles.message}>
-            This result link isn’t valid, or the result has been deleted. If you saved a
-            private result link, double-check you copied the whole thing.
-          </p>
+          <h1 className={styles.title}>{m.me.unavailableTitle}</h1>
+          <p className={styles.message}>{m.me.unavailableBody}</p>
         </>
       )}
 
       {status === 'error' && (
         <>
-          <p className={styles.message}>Something went wrong loading your reflection.</p>
+          <p className={styles.message}>{m.me.errorMessage}</p>
           <button className={styles.retry} onClick={() => globalThis.location.reload()}>
-            Retry
+            {m.me.retry}
           </button>
         </>
       )}

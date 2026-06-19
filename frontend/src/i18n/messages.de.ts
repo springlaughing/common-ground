@@ -89,4 +89,13 @@ export const de: Messages = {
     retry: 'Erneut versuchen',
     submitFailed: 'Beim Senden deiner Antworten ist etwas schiefgelaufen. Bitte versuche es erneut.',
   },
+  me: {
+    loading: 'Deine Reflexion wird geladen…',
+    unavailableTitle: 'Ergebnis nicht verfügbar',
+    unavailableBody:
+      'Dieser Ergebnislink ist ungültig, oder das Ergebnis wurde gelöscht. Falls du einen ' +
+      'privaten Ergebnislink gespeichert hast, prüfe, ob du ihn vollständig kopiert hast.',
+    errorMessage: 'Beim Laden deiner Reflexion ist etwas schiefgelaufen.',
+    retry: 'Erneut versuchen',
+  },
 }
