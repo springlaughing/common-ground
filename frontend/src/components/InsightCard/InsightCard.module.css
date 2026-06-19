@@ -43,5 +43,8 @@
   color: var(--color-text-body);
   max-width: 600px;
   margin: 0;
+  /* Body copy: hyphenate per <html lang>, with overflow-wrap as the floor. */
   overflow-wrap: break-word;
+  -webkit-hyphens: auto;
+  hyphens: auto;
 }

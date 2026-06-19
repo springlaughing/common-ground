@@ -84,6 +84,8 @@
   line-height: 1.3;
   letter-spacing: -0.01em;
   color: var(--color-text-primary);
+  /* Floor against a single word wider than the line (no-op for normal headings).
+     No hyphens:auto here — short display headings read cleaner unhyphenated. */
   overflow-wrap: break-word;
 }
 
@@ -173,10 +175,13 @@
   font-weight: 500;
   line-height: 1.45;
   color: var(--color-text-primary);
-  /* Let the label shrink within the flex row and break long German compound words
-     rather than overflow the card (WCAG 2.1 AA — Reflow). */
+  /* Let the label shrink within the flex row, hyphenate per <html lang>, and hard-break
+     as a last resort — so long German compound words never overflow the card
+     (WCAG 2.1 AA — Reflow). */
   min-width: 0;
   overflow-wrap: break-word;
+  -webkit-hyphens: auto;
+  hyphens: auto;
 }
 
 .card.primary .cardText {
