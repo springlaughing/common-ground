@@ -84,4 +84,12 @@ export interface Messages {
     retry: string
     submitFailed: string
   }
+  /** The saved-reflection (/me) page: load/empty/error states a returning viewer may see. */
+  me: {
+    loading: string
+    unavailableTitle: string
+    unavailableBody: string
+    errorMessage: string
+    retry: string
+  }
 }
