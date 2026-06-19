@@ -136,4 +136,30 @@ describe('MeReflection (/me route)', () => {
       ([u]) => String(u).includes('/api/me/reflection') && String(u).includes('locale=de'),
     )).toBe(true)
   })
+
+  it('shows the generic error state when re-fetching in a new language fails', async () => {
+    const fetchMock = vi.fn(async (input: RequestInfo | URL) => {
+      const url = String(input)
+      if (url.includes('/api/session/start')) return jsonResponse(200, {})
+      if (url.includes('/api/me/reflection')) {
+        // English loads fine; the German re-fetch hits a server error.
+        return url.includes('locale=de')
+          ? jsonResponse(500, { error: 'server_error' })
+          : jsonResponse(200, REFLECTION)
+      }
+      return jsonResponse(404, { error: 'not_found' })
+    })
+    vi.stubGlobal('fetch', fetchMock)
+
+    const user = userEvent.setup()
+    render(<MeReflection />)
+
+    expect(await screen.findByText('How you plan')).toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: 'Deutsch' }))
+
+    // A failed re-fetch surfaces the generic error state — distinct from the 401/404
+    // "not available" message — so a transient failure on switch isn't read as a dead link.
+    expect(await screen.findByText(/something went wrong/i)).toBeInTheDocument()
+    expect(screen.queryByText(/not available/i)).not.toBeInTheDocument()
+  })
 })
