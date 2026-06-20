@@ -79,7 +79,7 @@ jobs:
             /d:sonar.javascript.lcov.reportPaths="frontend/coverage/lcov.info" \
             /d:sonar.exclusions="**/bin/**,**/obj/**,frontend/node_modules/**,frontend/dist/**,**/Migrations/**,**/.specify/**" \
             /d:sonar.coverage.exclusions="backend/tests/**,frontend/tests/**,**/Migrations/**,**/Program.cs,frontend/src/main.tsx,**/*.config.ts,scripts/**" \
-            /d:sonar.cpd.exclusions="frontend/src/i18n/messages.*.ts"
+            /d:sonar.cpd.exclusions="frontend/src/i18n/messages.*.ts,frontend/tests/e2e/**"
 
       - name: Build + test backend with coverage
         env:

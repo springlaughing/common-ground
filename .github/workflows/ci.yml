@@ -83,8 +83,10 @@ jobs:
 
       # The E2E suite mocks /api with Playwright route interception, so it needs only
       # the frontend dev server (started by playwright.config.ts) — no backend.
+      # Use the lockfile-pinned local Playwright (via npm run), not npx, so the browser
+      # install can't pull an unpinned package on demand.
       - name: Install Playwright browser
-        run: npx playwright install --with-deps chromium
+        run: npm run test:e2e:install
 
       - name: Run E2E tests
         run: npm run test:e2e
