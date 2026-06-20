@@ -175,13 +175,11 @@
   font-weight: 500;
   line-height: 1.45;
   color: var(--color-text-primary);
-  /* Let the label shrink within the flex row, hyphenate per <html lang>, and hard-break
-     as a last resort — so long German compound words never overflow the card
-     (WCAG 2.1 AA — Reflow). */
+  /* Let the label shrink within the flex row and hard-break a single word wider than the
+     line as a last resort, so it can't overflow the card (WCAG 2.1 AA — Reflow).
+     No hyphens:auto — whole words read cleaner on these short option cards. */
   min-width: 0;
   overflow-wrap: break-word;
-  -webkit-hyphens: auto;
-  hyphens: auto;
 }
 
 .card.primary .cardText {
