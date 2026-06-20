@@ -301,3 +301,13 @@
   .content { padding: 8px 20px 80px; }
   .footer  { padding: 16px 20px 24px; }
 }
+
+/* On phone-width columns the cards get narrow enough that whole German compound
+   words leave large ragged gaps; hyphenate there to fill the short lines. Wider
+   screens keep whole words (they read cleaner on the roomier cards). */
+@media (max-width: 480px) {
+  .cardText {
+    -webkit-hyphens: auto;
+    hyphens: auto;
+  }
+}

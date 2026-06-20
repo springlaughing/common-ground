@@ -46,3 +46,12 @@
   /* Whole words; overflow-wrap is the floor for a single word wider than the line. */
   overflow-wrap: break-word;
 }
+
+/* On phone-width columns, hyphenate so long German compound words fill the short
+   lines instead of leaving large ragged gaps. Wider screens keep whole words. */
+@media (max-width: 480px) {
+  .insightText {
+    -webkit-hyphens: auto;
+    hyphens: auto;
+  }
+}
