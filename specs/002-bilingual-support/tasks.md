@@ -155,7 +155,7 @@ description: "Task list for 002-bilingual-support"
 - [x] T041 [P] Playwright E2E: full German completion flow (consent → questions → reflection) in `frontend/tests/e2e/` (#61)
 - [x] T042 [P] Playwright E2E: mid-flow language switch preserves answers, and `/me` language switch in `frontend/tests/e2e/` (#62)
 - [x] T043 [P] Accessibility pass: `<html lang>` correct per locale; switcher keyboard + screen-reader operable; longer German strings do not overflow option/insight cards (WCAG 2.1 AA) across `frontend/src/` (#63)
-- [ ] T044 [P] Run [quickstart.md](quickstart.md) validation against SC-001…SC-007 (#64)
+- [x] T044 [P] Run [quickstart.md](quickstart.md) validation against SC-001…SC-007 (#64)
 - [x] T045 Finalize production DE seed once dimension titles (76), group titles (10), and insight texts (76) are authored and reviewed for neutrality (Principle II); review DE consent copy against consent-UX rules / no double negatives (Principle V); replace placeholders in `AddLocalizationTranslations` (#65)
 - [x] T046 [P] Update README/docs for bilingual support and confirm the CI quality gate (coverage ≥ 80% on new code, SonarCloud) is green (#66)
 
