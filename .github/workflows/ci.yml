@@ -62,3 +62,39 @@ jobs:
 
       - name: Build
         run: npm run build
+
+  e2e:
+    name: E2E (Playwright)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install
+        run: npm ci --ignore-scripts
+
+      # The E2E suite mocks /api with Playwright route interception, so it needs only
+      # the frontend dev server (started by playwright.config.ts) — no backend.
+      # Use the lockfile-pinned local Playwright (via npm run), not npx, so the browser
+      # install can't pull an unpinned package on demand.
+      - name: Install Playwright browser
+        run: npm run test:e2e:install
+
+      - name: Run E2E tests
+        run: npm run test:e2e
+
+      - name: Upload report on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: frontend/playwright-report/
+          retention-days: 7

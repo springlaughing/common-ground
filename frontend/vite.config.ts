@@ -1,4 +1,4 @@
-import { defineConfig } from 'vitest/config'
+import { defineConfig, configDefaults } from 'vitest/config'
 import react from '@vitejs/plugin-react'
 
 export default defineConfig({
@@ -21,6 +21,9 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: ['./src/test-setup.ts'],
+    // Playwright specs (tests/e2e) are run by `playwright test`, not Vitest — exclude
+    // them so Vitest's default *.spec.ts glob doesn't try to load @playwright/test.
+    exclude: [...configDefaults.exclude, 'tests/e2e/**'],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'lcov'],
