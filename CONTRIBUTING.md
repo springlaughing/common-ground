@@ -72,6 +72,27 @@ The whole stack also runs in containers: `docker compose --profile full up --bui
 See [`specs/001-questionnaire-completion/quickstart.md`](specs/001-questionnaire-completion/quickstart.md)
 for the exact migration and run commands.
 
+## Localization (English / German)
+
+Two kinds of text, localized in two places:
+
+- **Interface text** (buttons, headings, progress, consent copy) lives in the
+  frontend catalogs [`frontend/src/i18n/messages.en.ts`](frontend/src/i18n/messages.en.ts)
+  and `messages.de.ts`. Both implement the same `Messages` interface, so a missing
+  key is a compile error. Edit these directly.
+- **Content** (questions, answer options, insights, dimension/group titles) lives
+  in the database, in per-language translation tables seeded by EF migrations
+  (see [ADR-0008](docs/adr/0008-localization-translation-tables.md)). The English
+  seed is hand-kept in `SeedDataHelper.cs`; the German seed
+  (`LocalizationSeedData.g.cs`) is generated from authored source files via
+  `scripts/generate-localization-seed.mjs` — don't hand-edit the generated file.
+  (Unifying these into one pipeline is tracked in
+  [#82](https://github.com/springlaughing/common-ground/issues/82).)
+
+The API serves content per `?locale=en|de` (default English); a missing
+translation for an item falls back to English. The language choice is held
+client-side — no account, nothing stored server-side.
+
 ## Definition of Done
 
 A change is done only when:

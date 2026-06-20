@@ -65,3 +65,18 @@ npm run test:e2e                 # German full flow, mid-flow switch, /me switch
 Key cases: locale resolution + English fallback; assembler returns localized title/text;
 **scoring is locale-invariant**; mid-flow switch preserves answers; `InsightCard` renders a
 title; `<html lang>` updates on switch.
+
+## Validation (T044, 2026-06-20)
+
+Each success criterion is covered by an automated test (frontend unit 46/46 + E2E 3/3
+green locally; backend integration/unit green in CI on PRs #79/#80/#81):
+
+| Criterion | Evidence | Status |
+| --- | --- | --- |
+| SC-001 — full flow in German, no English leaks | E2E `german-flow.spec.ts`; backend `GetCurrent_LocaleDe_ReturnsGermanText_SameIdsAndOrderAsEnglish` | ✅ |
+| SC-002 — switch mid-flow keeps answers + position | E2E `language-switch.spec.ts` (mid-flow) | ✅ |
+| SC-003 — locale-invariant scoring (same insights/order/strength) | backend `Submit_LocaleDe_ReturnsGermanReflection_SameInsightsOrderAndStrengthAsEnglish` | ✅ |
+| SC-004 — every insight card has a non-empty localized title | backend `Submit_EveryInsight_HasNonEmptyTitle_LocalizedPerLocale`; frontend `InsightCard` test | ✅ |
+| SC-005 — `/me` switch re-renders, same insights/strengths | E2E `language-switch.spec.ts` (`/me` switch) | ✅ |
+| SC-006 — switcher keyboard + screen-reader operable | accessibility tests (T043): `LanguageSwitcher`, `<html lang>` | ✅ |
+| FR-013 — missing translation falls back to English per item | backend `SupportedLocalesTests`, `ReflectionAssemblerTests` (fallback) | ✅ |

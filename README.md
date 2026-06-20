@@ -22,6 +22,11 @@ never a personality label or a score. You can then share a private link so
 someone else can compare their working style with yours and see where you line
 up and where you'd benefit from a conversation.
 
+The questionnaire, the reflection, and the interface are available in **English
+and German**. A language switcher on every screen lets you change language at any
+point — mid-questionnaire or when revisiting a saved reflection — without losing
+your place or your answers.
+
 ## Principles that shape it
 
 These are enforced, not aspirational — see the
@@ -42,7 +47,10 @@ These are enforced, not aspirational — see the
 - **Backend:** C# / .NET 10, structured as a **modular monolith** (Questionnaires,
   Responses, Comparisons, Reporting, Privacy, Audit) with module boundaries
   enforced by architecture tests.
-- **Frontend:** React 19 + TypeScript + Vite.
+- **Frontend:** React 19 + TypeScript + Vite. Bilingual (English / German):
+  interface text ships in the frontend; questionnaire and reflection content is
+  served per-language by the API (see
+  [ADR-0008](docs/adr/0008-localization-translation-tables.md)).
 - **Data:** PostgreSQL via EF Core.
 - **Deployment:** a single container serves the SPA and API same-origin (keeps
   the session cookie first-party), on Render + Neon Postgres.
@@ -58,7 +66,8 @@ The process is part of the project:
 - **CI quality gate on every PR:** tests, SonarCloud, CodeQL, ESLint, TypeScript,
   coverage, secret scanning; dependencies kept current via Dependabot.
 - **Testing:** xUnit + FluentAssertions, Testcontainers for integration tests,
-  NetArchTest for module boundaries, React Testing Library for the frontend.
+  NetArchTest for module boundaries, React Testing Library for the frontend, and
+  Playwright for end-to-end flows (including the bilingual journeys).
 
 ## Contributing & local setup
 
