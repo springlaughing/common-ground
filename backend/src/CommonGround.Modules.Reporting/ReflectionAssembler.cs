@@ -74,6 +74,74 @@ public sealed class ReflectionAssembler : IReportingService
         return new ReflectionDto(reflectionGroups);
     }
 
+    public async Task<ComparisonSourceDto> GetComparisonSourceAsync(Guid responseSetId, string locale, CancellationToken ct = default)
+    {
+        var scores = await _db.Set<DimensionScore>()
+            .AsNoTracking()
+            .Where(s => s.ResponseSetId == responseSetId)
+            .ToListAsync(ct);
+
+        var scoreByDimension = scores.ToDictionary(
+            s => s.DimensionId,
+            s => s.NormalisedScore,
+            StringComparer.Ordinal);
+
+        // The full group/dimension structure (shared across responses on a version), so both
+        // people line up dimension-for-dimension regardless of who scored above threshold.
+        var groups = await _db.Set<DimensionGroup>()
+            .AsNoTracking()
+            .Include(g => g.Memberships.OrderBy(m => m.OrderIndex))
+            .OrderBy(g => g.OrderIndex)
+            .ToListAsync(ct);
+
+        var allDimensionIds = groups
+            .SelectMany(g => g.Memberships.Select(m => m.DimensionId))
+            .Distinct(StringComparer.Ordinal)
+            .ToList();
+
+        if (allDimensionIds.Count == 0)
+            return new ComparisonSourceDto([]);
+
+        // English text is canonical on the base entities; a non-default locale overrides it
+        // where a translation row exists. Titles are locale-first with an English fallback.
+        var snippetText = await _db.Set<InsightSnippet>()
+            .AsNoTracking()
+            .Where(s => allDimensionIds.Contains(s.DimensionId))
+            .ToDictionaryAsync(s => s.DimensionId, s => s.Text, StringComparer.Ordinal, ct);
+
+        var titleByDimension = await LoadDimensionTitlesAsync(locale, allDimensionIds, ct);
+
+        var groupTitle = new Dictionary<Guid, string>();
+        if (locale != SupportedLocales.Default)
+        {
+            await ApplyTranslationsAsync(locale, allDimensionIds, snippetText, groupTitle, ct);
+        }
+
+        var sourceGroups = new List<ComparisonSourceGroupDto>();
+        foreach (var group in groups)
+        {
+            var dimensions = group.Memberships
+                .Select(m =>
+                {
+                    var normalised = scoreByDimension.GetValueOrDefault(m.DimensionId);
+                    var above = normalised >= DisplayThreshold && snippetText.ContainsKey(m.DimensionId);
+                    return new ComparisonSourceDimensionDto(
+                        m.DimensionId,
+                        titleByDimension.GetValueOrDefault(m.DimensionId, string.Empty),
+                        above ? StrengthFromNormalised(normalised) : null,
+                        above ? snippetText[m.DimensionId] : null);
+                })
+                .ToList();
+
+            sourceGroups.Add(new ComparisonSourceGroupDto(
+                group.GroupId,
+                groupTitle.GetValueOrDefault(group.Id, group.Title),
+                dimensions));
+        }
+
+        return new ComparisonSourceDto(sourceGroups);
+    }
+
     private async Task ApplyTranslationsAsync(
         string locale,
         List<string> qualifyingIds,
@@ -141,6 +209,10 @@ public sealed class ReflectionAssembler : IReportingService
                 m.DimensionId,
                 titleByDimension.GetValueOrDefault(m.DimensionId, string.Empty),
                 snippetText[m.DimensionId],
-                Math.Max(1, Math.Min(5, (int)Math.Ceiling(scoreByDimension[m.DimensionId] * 5m)))))
+                StrengthFromNormalised(scoreByDimension[m.DimensionId])))
             .ToList();
+
+    // Map a 0..1 normalised score onto the 1–5 strength scale the UI renders as dots.
+    private static int StrengthFromNormalised(decimal normalised) =>
+        Math.Max(1, Math.Min(5, (int)Math.Ceiling(normalised * 5m)));
 }
