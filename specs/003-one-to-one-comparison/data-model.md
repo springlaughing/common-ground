@@ -17,7 +17,7 @@ Owning module: **Comparisons** (entities + engine). Insight text is read from **
 | `ExpiresAt` | DateTimeOffset | created + fixed window (default 7d) |
 | `CreatedAt` | DateTimeOffset | |
 
-**Rules**: single-use — `Active → Used` atomically on successful join; reads treat `now > ExpiresAt` as expired (and may lazily flip to `Expired` + emit `invite_expired`). A started-but-unfinished invitee within the grace window (default 30 min past `ExpiresAt`) may still complete. The token is never stored in plain text.
+**Rules**: single-use — `Active → Used` atomically on successful join; reads treat `now > ExpiresAt` as expired (and may lazily flip to `Expired` + emit `invite_expired`). A started-but-unfinished invitee within the grace window (default 60 min past `ExpiresAt`) may still complete. The token is never stored in plain text.
 
 ### ComparisonSession *(existing entity — add EF config + migration)*
 
