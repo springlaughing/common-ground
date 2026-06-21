@@ -94,4 +94,24 @@ export const en: Messages = {
     errorMessage: 'Something went wrong loading your reflection.',
     retry: 'Retry',
   },
+  invite: {
+    eyebrow: 'A comparison invite',
+    title: 'You’ve been invited to compare working styles.',
+    intro:
+      'Answer the same short reflection, then see where you and the person who invited ' +
+      'you align and where you differ.',
+    loading: 'Checking your invite…',
+    invalidTitle: 'Invite not available',
+    invalidBody:
+      'This invite link isn’t valid, has already been used, or has expired. Ask for a ' +
+      'fresh link if you’d still like to compare.',
+  },
+  comparison: {
+    eyebrow: 'Your comparison',
+    title: 'Where you align and where you differ',
+    back: '← Back',
+  },
+  consentInvitee: {
+    heading: 'Before you join this comparison',
+  },
 }

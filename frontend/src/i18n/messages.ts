@@ -92,4 +92,35 @@ export interface Messages {
     errorMessage: string
     retry: string
   }
+  /**
+   * Invite flow chrome (the invitee lands on `/invite#TOKEN`). Only structural chrome
+   * plus load/invalid states live here now; the invite-create UI (T017/T019) and the
+   * full join page (T026) grow this group.
+   */
+  invite: {
+    eyebrow: string
+    title: string
+    intro: string
+    loading: string
+    invalidTitle: string
+    invalidBody: string
+  }
+  /**
+   * Comparison report shell. The per-dimension insight text comes from the API (feature
+   * 002's localized snippets); only page chrome lives here. Grown when the report is
+   * wired to the API (T040/T042).
+   */
+  comparison: {
+    eyebrow: string
+    title: string
+    back: string
+  }
+  /**
+   * Invitee consent variant — distinct from the questionnaire `consent` above. The
+   * §V-reviewed persuasion copy and equal-weight accept/decline labels are authored and
+   * reviewed in T027/T029; only the heading slot is scaffolded here.
+   */
+  consentInvitee: {
+    heading: string
+  }
 }
