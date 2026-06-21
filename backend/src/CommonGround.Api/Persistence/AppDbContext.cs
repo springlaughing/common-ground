@@ -36,6 +36,7 @@ public sealed class AppDbContext : DbContext
     // Comparisons
     public DbSet<ComparisonSession> ComparisonSessions => Set<ComparisonSession>();
     public DbSet<ComparisonParticipant> ComparisonParticipants => Set<ComparisonParticipant>();
+    public DbSet<Invite> Invites => Set<Invite>();
 
     // Audit
     public DbSet<AuditEvent> AuditEvents => Set<AuditEvent>();

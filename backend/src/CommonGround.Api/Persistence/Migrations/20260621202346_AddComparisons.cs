@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -11,9 +11,10 @@ namespace CommonGround.Api.Persistence.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            // ComparisonSessions/ComparisonParticipants tables already exist (InitialSchema).
-            // This migration adds the Invite table, the per-participant DisplayLabel, and the
-            // lookup indexes the comparison flow needs.
+            migrationBuilder.DropIndex(
+                name: "IX_ComparisonParticipants_ComparisonSessionId",
+                table: "ComparisonParticipants");
+
             migrationBuilder.AddColumn<string>(
                 name: "DisplayLabel",
                 table: "ComparisonParticipants",
@@ -47,15 +48,15 @@ namespace CommonGround.Api.Persistence.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ComparisonParticipants_ResponseSetId",
-                table: "ComparisonParticipants",
-                column: "ResponseSetId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ComparisonParticipants_ComparisonSessionId_ResponseSetId",
                 table: "ComparisonParticipants",
                 columns: new[] { "ComparisonSessionId", "ResponseSetId" },
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ComparisonParticipants_ResponseSetId",
+                table: "ComparisonParticipants",
+                column: "ResponseSetId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Invites_ComparisonSessionId",
@@ -76,16 +77,21 @@ namespace CommonGround.Api.Persistence.Migrations
                 name: "Invites");
 
             migrationBuilder.DropIndex(
-                name: "IX_ComparisonParticipants_ResponseSetId",
+                name: "IX_ComparisonParticipants_ComparisonSessionId_ResponseSetId",
                 table: "ComparisonParticipants");
 
             migrationBuilder.DropIndex(
-                name: "IX_ComparisonParticipants_ComparisonSessionId_ResponseSetId",
+                name: "IX_ComparisonParticipants_ResponseSetId",
                 table: "ComparisonParticipants");
 
             migrationBuilder.DropColumn(
                 name: "DisplayLabel",
                 table: "ComparisonParticipants");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ComparisonParticipants_ComparisonSessionId",
+                table: "ComparisonParticipants",
+                column: "ComparisonSessionId");
         }
     }
 }
