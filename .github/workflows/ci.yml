@@ -1,11 +1,13 @@
 name: CI
 
 on:
+  # Build/test on main and on every PR targeting main. Feature branches are verified
+  # through their PR (no feature-branch push globs): this matches the Sonar workflow
+  # (free tier analyzes only main + PRs) and avoids the double run — push + pull_request
+  # both firing — that the old, stale `001-*` glob produced for feature 001.
   push:
     branches:
       - main
-      - '001-*'
-      - 'feature/*'
   pull_request:
     branches:
       - main
