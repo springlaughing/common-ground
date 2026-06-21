@@ -98,4 +98,24 @@ export const de: Messages = {
     errorMessage: 'Beim Laden deiner Reflexion ist etwas schiefgelaufen.',
     retry: 'Erneut versuchen',
   },
+  invite: {
+    eyebrow: 'Eine Einladung zum Vergleich',
+    title: 'Du wurdest eingeladen, Arbeitsstile zu vergleichen.',
+    intro:
+      'Beantworte dieselbe kurze Reflexion und sieh dann, wo du und die einladende Person ' +
+      'ähnlich tickt und wo ihr euch unterscheidet.',
+    loading: 'Deine Einladung wird geprüft…',
+    invalidTitle: 'Einladung nicht verfügbar',
+    invalidBody:
+      'Dieser Einladungslink ist ungültig, wurde bereits verwendet oder ist abgelaufen. ' +
+      'Bitte um einen neuen Link, wenn du dich trotzdem vergleichen möchtest.',
+  },
+  comparison: {
+    eyebrow: 'Euer Vergleich',
+    title: 'Wo ihr ähnlich tickt und wo nicht',
+    back: '← Zurück',
+  },
+  consentInvitee: {
+    heading: 'Bevor du diesem Vergleich beitrittst',
+  },
 }
