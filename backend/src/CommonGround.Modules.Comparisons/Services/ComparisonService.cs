@@ -142,8 +142,30 @@ internal sealed class ComparisonService : IComparisonService
             JoinedAt = DateTimeOffset.UtcNow,
         });
 
+        // US3 — the invitee's join completes the pair, so the comparison generates automatically.
+        await GenerateIfReadyAsync(invite.ComparisonSessionId, inviteeResponseSetId, ct);
+
         await _db.SaveChangesAsync(ct);
         return invite.ComparisonSessionId;
+    }
+
+    // US3 — generation is compute-on-read, so "generating" is just marking the session Complete once
+    // both responses exist on the same version (the report itself is assembled on read in US4). The
+    // same-version assertion is defensive: join already enforces it, but it guards future paths
+    // (e.g. access-code reuse in feature 004). Audits comparison_generated exactly once, on the
+    // Pending→Complete transition.
+    private async Task GenerateIfReadyAsync(Guid sessionId, Guid inviteeResponseSetId, CancellationToken ct)
+    {
+        var session = await _db.Set<ComparisonSession>().FirstAsync(s => s.Id == sessionId, ct);
+        if (session.Status != ComparisonStatus.Pending)
+            return;
+
+        var inviteeResponse = await _responseReader.GetByIdAsync(inviteeResponseSetId, ct);
+        if (inviteeResponse is null || inviteeResponse.QuestionnaireVersionId != session.QuestionnaireVersionId)
+            return; // cross-version (shouldn't reach here in the happy path) — leave Pending, don't generate
+
+        session.Status = ComparisonStatus.Complete;
+        await _auditLogger.LogAsync("comparison_generated", comparisonSessionId: session.Id, ct: ct);
     }
 
     // Status is computed lazily — an Active invite past its window reads as expired without a
