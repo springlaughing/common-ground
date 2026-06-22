@@ -1,14 +1,8 @@
 using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
-using CommonGround.Api.Controllers;
-using CommonGround.Api.Persistence;
 using CommonGround.IntegrationTests.Infrastructure;
-using CommonGround.Modules.Audit.Entities;
 using FluentAssertions;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace CommonGround.IntegrationTests;
 
@@ -27,10 +21,10 @@ public sealed class CreateInviteTests : IntegrationTestBase
     [Fact]
     public async Task CreateInvite_WithSession_Returns201_WithTokenAndPendingStatus()
     {
-        var client = NewClient();
-        var cookie = await StartSessionForNewResponse(client);
+        var client = ComparisonTestFlow.NewClient(Factory);
+        var cookie = await ComparisonTestFlow.SessionForNewResponse(client);
 
-        var response = await PostWithCookie(client, "/api/comparisons", new { inviterLabel = "Alex" }, cookie);
+        var response = await ComparisonTestFlow.PostJsonWithCookie(client, "/api/comparisons", new { inviterLabel = "Alex" }, cookie);
 
         response.StatusCode.Should().Be(HttpStatusCode.Created);
         var body = await response.Content.ReadFromJsonAsync<JsonElement>(JsonOptions);
@@ -44,10 +38,10 @@ public sealed class CreateInviteTests : IntegrationTestBase
     [Fact]
     public async Task CreateInvite_ResponseDoesNotExposeInviterResults()
     {
-        var client = NewClient();
-        var cookie = await StartSessionForNewResponse(client);
+        var client = ComparisonTestFlow.NewClient(Factory);
+        var cookie = await ComparisonTestFlow.SessionForNewResponse(client);
 
-        var response = await PostWithCookie(client, "/api/comparisons", new { inviterLabel = "Alex" }, cookie);
+        var response = await ComparisonTestFlow.PostJsonWithCookie(client, "/api/comparisons", new { inviterLabel = "Alex" }, cookie);
         var body = await response.Content.ReadFromJsonAsync<JsonElement>(JsonOptions);
 
         // The invite link carries only the credential + status — never the inviter's reflection,
@@ -59,7 +53,7 @@ public sealed class CreateInviteTests : IntegrationTestBase
     [Fact]
     public async Task CreateInvite_WithoutSession_Returns401()
     {
-        var client = NewClient();
+        var client = ComparisonTestFlow.NewClient(Factory);
 
         var response = await client.PostAsJsonAsync("/api/comparisons", new { inviterLabel = "Alex" }, JsonOptions);
 
@@ -69,10 +63,10 @@ public sealed class CreateInviteTests : IntegrationTestBase
     [Fact]
     public async Task CreateInvite_MissingLabel_Returns400()
     {
-        var client = NewClient();
-        var cookie = await StartSessionForNewResponse(client);
+        var client = ComparisonTestFlow.NewClient(Factory);
+        var cookie = await ComparisonTestFlow.SessionForNewResponse(client);
 
-        var response = await PostWithCookie(client, "/api/comparisons", new { }, cookie);
+        var response = await ComparisonTestFlow.PostJsonWithCookie(client, "/api/comparisons", new { }, cookie);
 
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         var body = await response.Content.ReadFromJsonAsync<JsonElement>(JsonOptions);
@@ -82,10 +76,10 @@ public sealed class CreateInviteTests : IntegrationTestBase
     [Fact]
     public async Task CreateInvite_TooLongLabel_Returns400()
     {
-        var client = NewClient();
-        var cookie = await StartSessionForNewResponse(client);
+        var client = ComparisonTestFlow.NewClient(Factory);
+        var cookie = await ComparisonTestFlow.SessionForNewResponse(client);
 
-        var response = await PostWithCookie(client, "/api/comparisons", new { inviterLabel = new string('x', 61) }, cookie);
+        var response = await ComparisonTestFlow.PostJsonWithCookie(client, "/api/comparisons", new { inviterLabel = new string('x', 61) }, cookie);
 
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         var body = await response.Content.ReadFromJsonAsync<JsonElement>(JsonOptions);
@@ -95,12 +89,12 @@ public sealed class CreateInviteTests : IntegrationTestBase
     [Fact]
     public async Task CreateInvite_CalledTwice_YieldsDistinctInvites()
     {
-        var client = NewClient();
-        var cookie = await StartSessionForNewResponse(client);
+        var client = ComparisonTestFlow.NewClient(Factory);
+        var cookie = await ComparisonTestFlow.SessionForNewResponse(client);
 
-        var first = await (await PostWithCookie(client, "/api/comparisons", new { inviterLabel = "Alex" }, cookie))
+        var first = await (await ComparisonTestFlow.PostJsonWithCookie(client, "/api/comparisons", new { inviterLabel = "Alex" }, cookie))
             .Content.ReadFromJsonAsync<JsonElement>(JsonOptions);
-        var second = await (await PostWithCookie(client, "/api/comparisons", new { inviterLabel = "Alex" }, cookie))
+        var second = await (await ComparisonTestFlow.PostJsonWithCookie(client, "/api/comparisons", new { inviterLabel = "Alex" }, cookie))
             .Content.ReadFromJsonAsync<JsonElement>(JsonOptions);
 
         second.GetProperty("inviteToken").GetString()
@@ -112,67 +106,13 @@ public sealed class CreateInviteTests : IntegrationTestBase
     [Fact]
     public async Task CreateInvite_WritesComparisonInviteCreatedAudit()
     {
-        var client = NewClient();
-        var cookie = await StartSessionForNewResponse(client);
+        var client = ComparisonTestFlow.NewClient(Factory);
+        var cookie = await ComparisonTestFlow.SessionForNewResponse(client);
 
-        var body = await (await PostWithCookie(client, "/api/comparisons", new { inviterLabel = "Alex" }, cookie))
+        var body = await (await ComparisonTestFlow.PostJsonWithCookie(client, "/api/comparisons", new { inviterLabel = "Alex" }, cookie))
             .Content.ReadFromJsonAsync<JsonElement>(JsonOptions);
         var comparisonId = body.GetProperty("comparisonId").GetGuid();
 
-        using var scope = Factory.Services.CreateScope();
-        var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-        var audit = await db.Set<AuditEvent>()
-            .FirstOrDefaultAsync(e => e.EventType == "comparison_invite_created" && e.ComparisonSessionId == comparisonId);
-
-        audit.Should().NotBeNull();
-    }
-
-    // ─── Helpers ──────────────────────────────────────────────────────────────
-
-    // The cg_session cookie is Secure, so the test transport would drop it on auto-resend;
-    // we manage it manually (same approach as ReflectionAccessTests).
-    private HttpClient NewClient() => Factory.CreateClient(new WebApplicationFactoryClientOptions
-    {
-        AllowAutoRedirect = false,
-        HandleCookies = false,
-    });
-
-    private static async Task<string> StartSessionForNewResponse(HttpClient client)
-    {
-        var token = await CompleteQuestionnaireAndGetToken(client);
-        var response = await client.PostAsJsonAsync("/api/session/start", new { token }, JsonOptions);
-        response.EnsureSuccessStatusCode();
-        var setCookie = response.Headers.GetValues("Set-Cookie").Single(c => c.StartsWith("cg_session=", StringComparison.Ordinal));
-        return setCookie.Split(';')[0];
-    }
-
-    private static Task<HttpResponseMessage> PostWithCookie(HttpClient client, string url, object body, string cookie)
-    {
-        var request = new HttpRequestMessage(HttpMethod.Post, url)
-        {
-            Content = JsonContent.Create(body, options: JsonOptions),
-        };
-        request.Headers.Add("Cookie", cookie);
-        return client.SendAsync(request);
-    }
-
-    private static async Task<string> CompleteQuestionnaireAndGetToken(HttpClient client)
-    {
-        var questionnaire = await (await client.GetAsync("/api/questionnaire/current"))
-            .Content.ReadFromJsonAsync<JsonElement>(JsonOptions);
-
-        var answers = questionnaire.GetProperty("questions").EnumerateArray()
-            .Select(q => new AnswerRequest(
-                q.GetProperty("id").GetGuid(),
-                q.GetProperty("answerOptions")[0].GetProperty("id").GetGuid(),
-                null))
-            .ToList();
-
-        var response = await client.PostAsJsonAsync("/api/responses", new SubmitResponseRequest(answers), JsonOptions);
-        response.EnsureSuccessStatusCode();
-
-        var body = await response.Content.ReadFromJsonAsync<JsonElement>(JsonOptions);
-        var link = body.GetProperty("privateResultLink").GetString()!;
-        return link["/me#".Length..];
+        (await ComparisonTestFlow.AuditExists(Factory, "comparison_invite_created", comparisonId)).Should().BeTrue();
     }
 }
