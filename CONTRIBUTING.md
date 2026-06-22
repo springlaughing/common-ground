@@ -46,7 +46,10 @@ We don't backfill issues for work merged before this workflow was adopted.
   `feat(bilingual): switch language mid-flow (US2)`, not a bare `US2` (every spec
   has its own `US1`/`US2`/…, so the number only means something next to the
   feature). Use plain-word scopes (`bilingual`, `frontend`, `backend`,
-  `reporting`); avoid insider abbreviations such as `i18n` or `a11y`.
+  `reporting`); avoid insider abbreviations such as `i18n` or `a11y`. The
+  repo-infra types `ci`, `build`, and `chore` may omit the scope when the type
+  already names the area (e.g. `ci: build on main + PRs only`); every other type
+  carries one.
 - Prefer one issue per PR to keep the trail clear.
 - **Linking issues:** use one closing keyword per issue, each on its own line
   (`Closes #12`, then `Closes #13`). GitHub only auto-closes the number directly
