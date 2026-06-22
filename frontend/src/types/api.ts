@@ -78,3 +78,13 @@ export interface ComparisonDto {
   summary: string
   groups: ComparisonGroupDto[]
 }
+
+/** Result of POST /api/comparisons (US1) — the inviter mints an invite. */
+export interface CreateInviteResult {
+  comparisonId: string
+  /** Plain single-use token; the client builds `/invite#<token>`. Never persisted plain. */
+  inviteToken: string
+  expiresAt: string
+  /** Always "pending" for a freshly created comparison (no invitee yet). */
+  status: string
+}

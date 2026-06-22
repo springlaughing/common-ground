@@ -118,4 +118,23 @@ export const de: Messages = {
   consentInvitee: {
     heading: 'Bevor du diesem Vergleich beitrittst',
   },
+  inviteCreate: {
+    heading: 'Lade jemanden zum Vergleich ein',
+    intro:
+      'Teile einen privaten Link, der nur einmal funktioniert. Die andere Person beantwortet ' +
+      'dieselbe kurze Reflexion, danach seht ihr beide, wo ihr ähnlich tickt und wo ihr euch ' +
+      'unterscheidet. Deine eigenen Antworten bleiben privat.',
+    labelLabel: 'Dein Name oder Label',
+    labelHint: 'Wird der eingeladenen Person angezeigt, damit sie weiß, von wem die Einladung kommt.',
+    labelPlaceholder: 'z. B. Alex',
+    create: 'Einladungslink erstellen',
+    creating: 'Wird erstellt…',
+    cancel: 'Abbrechen',
+    linkTitle: 'Dein Einladungslink ist fertig',
+    linkNote: 'Dieser Link funktioniert nur einmal. Schicke ihn der Person, mit der du dich vergleichen möchtest.',
+    copy: 'Link kopieren',
+    copied: 'Kopiert',
+    copyAria: 'Einladungslink kopieren',
+    error: 'Beim Erstellen deiner Einladung ist etwas schiefgelaufen. Bitte versuche es erneut.',
+  },
 }
