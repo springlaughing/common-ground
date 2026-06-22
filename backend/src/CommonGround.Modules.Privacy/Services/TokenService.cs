@@ -1,9 +1,10 @@
 using System.Security.Cryptography;
 using System.Text;
+using CommonGround.SharedKernel.Interfaces;
 
 namespace CommonGround.Modules.Privacy.Services;
 
-public sealed class TokenService
+public sealed class TokenService : ITokenService
 {
     private readonly byte[] _hmacKey;
 
@@ -17,6 +18,11 @@ public sealed class TokenService
         var bytes = RandomNumberGenerator.GetBytes(32);
         return Base64UrlEncode(bytes);
     }
+
+    // ITokenService bridge — lets feature modules depend on the SharedKernel abstraction
+    // (they may not reference Privacy). Delegates to the static primitive above; HashToken
+    // is already an instance method and satisfies the interface directly.
+    string ITokenService.GenerateToken() => GenerateToken();
 
     public static string GenerateAccessCode()
     {

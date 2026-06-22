@@ -21,6 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\CommonGround.Modules.Comparisons\CommonGround.Modules.Comparisons.csproj" />
+    <ProjectReference Include="..\..\src\CommonGround.Modules.Privacy\CommonGround.Modules.Privacy.csproj" />
     <ProjectReference Include="..\..\src\CommonGround.Modules.Reporting\CommonGround.Modules.Reporting.csproj" />
     <ProjectReference Include="..\..\src\CommonGround.SharedKernel\CommonGround.SharedKernel.csproj" />
   </ItemGroup>

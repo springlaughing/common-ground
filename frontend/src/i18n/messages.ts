@@ -123,4 +123,25 @@ export interface Messages {
   consentInvitee: {
     heading: string
   }
+  /**
+   * Invite-create panel (US1) — the inviter labels themselves and mints a single-use,
+   * time-limited link from their own `/me` reflection.
+   */
+  inviteCreate: {
+    heading: string
+    intro: string
+    labelLabel: string
+    labelHint: string
+    labelPlaceholder: string
+    create: string
+    /** Button label while the create request is in flight. */
+    creating: string
+    cancel: string
+    linkTitle: string
+    linkNote: string
+    copy: string
+    copied: string
+    copyAria: string
+    error: string
+  }
 }

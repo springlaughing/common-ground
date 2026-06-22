@@ -114,4 +114,22 @@ export const en: Messages = {
   consentInvitee: {
     heading: 'Before you join this comparison',
   },
+  inviteCreate: {
+    heading: 'Invite someone to compare',
+    intro:
+      'Share a private, single-use link. They answer the same short reflection, then you ' +
+      'each see where you align and where you differ. Your own answers stay private.',
+    labelLabel: 'Your name or label',
+    labelHint: 'Shown to the person you invite, so they know who this is from.',
+    labelPlaceholder: 'e.g. Alex',
+    create: 'Create invite link',
+    creating: 'Creating…',
+    cancel: 'Cancel',
+    linkTitle: 'Your invite link is ready',
+    linkNote: 'This link can be used once. Send it to the person you’d like to compare with.',
+    copy: 'Copy link',
+    copied: 'Copied',
+    copyAria: 'Copy the invite link',
+    error: 'Something went wrong creating your invite. Please try again.',
+  },
 }

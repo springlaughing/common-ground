@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { ReflectionPage } from './ReflectionPage'
 import { ApiError, fetchMyReflection, startSession } from '../../services/questionnaireApi'
+import { InviteCreate } from '../../components/InviteCreate/InviteCreate'
 import { LanguageProvider, useLanguage } from '../../i18n/LanguageContext'
 import { LanguageSwitcher } from '../../components/LanguageSwitcher/LanguageSwitcher'
 import { useMessages } from '../../i18n/useMessages'
@@ -34,6 +35,7 @@ function MeReflectionView() {
   const [status, setStatus] = useState<Status>('loading')
   const [reflection, setReflection] = useState<ReflectionDto | null>(null)
   const [sessionReady, setSessionReady] = useState(false)
+  const [comparing, setComparing] = useState(false)
 
   // Exchange the fragment token for a session cookie once, on mount. The token rides in
   // the URL fragment (/me#TOKEN); we read it into a local — never into state — so the raw
@@ -78,7 +80,16 @@ function MeReflectionView() {
   }, [sessionReady, locale])
 
   if (status === 'ready' && reflection) {
-    return <ReflectionPage reflection={reflection} languageSwitcher={<LanguageSwitcher />} />
+    return (
+      <>
+        <ReflectionPage
+          reflection={reflection}
+          languageSwitcher={<LanguageSwitcher />}
+          onCompare={() => setComparing(true)}
+        />
+        {comparing && <InviteCreate onClose={() => setComparing(false)} />}
+      </>
+    )
   }
 
   return (
