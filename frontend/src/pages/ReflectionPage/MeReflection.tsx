@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react'
 import { ReflectionPage } from './ReflectionPage'
+import { ComparisonPage } from '../ComparisonPage/ComparisonPage'
 import { ApiError, fetchMyReflection, startSession } from '../../services/questionnaireApi'
+import { getComparison, listComparisons } from '../../services/comparisonApi'
 import { InviteCreate } from '../../components/InviteCreate/InviteCreate'
+import { ComparisonList } from '../../components/ComparisonList/ComparisonList'
 import { LanguageProvider, useLanguage } from '../../i18n/LanguageContext'
 import { LanguageSwitcher } from '../../components/LanguageSwitcher/LanguageSwitcher'
 import { useMessages } from '../../i18n/useMessages'
-import type { ReflectionDto } from '../../types/api'
+import type { ComparisonDto, ComparisonListItem, ReflectionDto } from '../../types/api'
 import styles from './MeReflection.module.css'
 
 type Status = 'loading' | 'ready' | 'unavailable' | 'error'
@@ -16,11 +19,10 @@ function statusForLoadError(e: unknown): Status {
   return e instanceof ApiError && (e.status === 401 || e.status === 404) ? 'unavailable' : 'error'
 }
 
-/** The `/me` route: a returning user lands here from their saved private result link.
- *  The token rides in the URL fragment (`/me#TOKEN`). We exchange it for a session
- *  cookie via /session/start, then load the reflection via /me/reflection. If the user
- *  returns without a token (the fragment was already scrubbed) we rely on the existing
- *  cg_session cookie. */
+/** The `/me` route and hub: a returning user lands here from their saved private result link.
+ *  Beyond their own reflection, it lists their comparisons (US4) and lets them open a report or
+ *  invite someone new. The token rides in the URL fragment (`/me#TOKEN`); we exchange it for a
+ *  session cookie via /session/start, then load via the cookie. */
 export function MeReflection() {
   return (
     <LanguageProvider>
@@ -36,10 +38,13 @@ function MeReflectionView() {
   const [reflection, setReflection] = useState<ReflectionDto | null>(null)
   const [sessionReady, setSessionReady] = useState(false)
   const [comparing, setComparing] = useState(false)
+  const [comparisons, setComparisons] = useState<ComparisonListItem[]>([])
+  const [viewingId, setViewingId] = useState<string | null>(null)
+  const [report, setReport] = useState<ComparisonDto | null>(null)
 
-  // Exchange the fragment token for a session cookie once, on mount. The token rides in
-  // the URL fragment (/me#TOKEN); we read it into a local — never into state — so the raw
-  // token isn't retained, and scrub it from history as soon as the session exists.
+  // Exchange the fragment token for a session cookie once, on mount. The token rides in the URL
+  // fragment (/me#TOKEN); we read it into a local — never into state — and scrub it from history
+  // as soon as the session exists.
   useEffect(() => {
     let cancelled = false
     async function startIfNeeded() {
@@ -58,10 +63,8 @@ function MeReflectionView() {
     return () => { cancelled = true }
   }, [])
 
-  // Once the session exists, load the reflection in the active locale — re-fetching when
-  // the locale changes so a saved reflection re-renders in the viewer's language (US4). No
-  // locale is stored server-side; the same insights/strengths come back, re-rendered. The
-  // previous reflection stays on screen during the swap (no flash back to "loading").
+  // Once the session exists, load the reflection in the active locale — re-fetching when the locale
+  // changes so a saved reflection re-renders in the viewer's language (US4).
   useEffect(() => {
     if (!sessionReady) return
     let cancelled = false
@@ -79,6 +82,37 @@ function MeReflectionView() {
     return () => { cancelled = true }
   }, [sessionReady, locale])
 
+  // The comparison list (labels + status — locale-independent). Re-loaded when an invite is created
+  // (the panel closes) so a freshly minted pending comparison appears.
+  useEffect(() => {
+    if (!sessionReady || comparing) return
+    let cancelled = false
+    listComparisons()
+      .then(list => { if (!cancelled) setComparisons(list) })
+      .catch(() => { /* the hub list is non-critical; leave it empty on failure */ })
+    return () => { cancelled = true }
+  }, [sessionReady, comparing])
+
+  // Load the opened comparison's report; re-fetch on locale change so it re-renders in the new
+  // language at view time. A not-yet-ready marker leaves the report null (handled below).
+  useEffect(() => {
+    if (viewingId === null) return
+    let cancelled = false
+    getComparison(viewingId, locale)
+      .then(res => { if (!cancelled) setReport('groups' in res ? res : null) })
+      .catch(() => { if (!cancelled) setReport(null) })
+    return () => { cancelled = true }
+  }, [viewingId, locale])
+
+  function closeReport() {
+    setViewingId(null)
+    setReport(null)
+  }
+
+  if (viewingId !== null && report) {
+    return <ComparisonPage comparison={report} onBack={closeReport} languageSwitcher={<LanguageSwitcher />} />
+  }
+
   if (status === 'ready' && reflection) {
     return (
       <>
@@ -86,6 +120,7 @@ function MeReflectionView() {
           reflection={reflection}
           languageSwitcher={<LanguageSwitcher />}
           onCompare={() => setComparing(true)}
+          hubContent={<ComparisonList comparisons={comparisons} onOpen={setViewingId} />}
         />
         {comparing && <InviteCreate onClose={() => setComparing(false)} />}
       </>

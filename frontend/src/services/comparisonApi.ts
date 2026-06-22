@@ -1,10 +1,12 @@
 import type {
+  ComparisonListItem,
+  ComparisonReportResponse,
   CreateInviteResult,
   InviteValidation,
   JoinInviteRequest,
   JoinInviteResult,
 } from '../types/api'
-import { BASE, parse } from './http'
+import { BASE, parse, withLocale } from './http'
 
 /** US1 (T016) — the inviter mints a single-use, time-limited invite for their response.
  *  Requires the cg_session cookie (the inviter's session). Returns the plain invite token
@@ -41,4 +43,18 @@ export async function joinInvite(request: JoinInviteRequest): Promise<JoinInvite
     credentials: 'include',
   })
   return parse<JoinInviteResult>(res)
+}
+
+/** US4 (T038) — every comparison the current session is part of (the /me hub). Requires the cg_session cookie. */
+export async function listComparisons(): Promise<ComparisonListItem[]> {
+  const res = await fetch(`${BASE}/me/comparisons`, { credentials: 'include' })
+  const body = await parse<{ comparisons: ComparisonListItem[] }>(res)
+  return body.comparisons
+}
+
+/** US4 (T038) — one comparison report from the caller's perspective, in the given locale. Returns the
+ *  report when ready, or a `{ state }` marker for a pending/unavailable comparison. */
+export async function getComparison(comparisonId: string, locale?: string): Promise<ComparisonReportResponse> {
+  const res = await fetch(withLocale(`${BASE}/me/comparisons/${comparisonId}`, locale), { credentials: 'include' })
+  return parse<ComparisonReportResponse>(res)
 }

@@ -79,14 +79,15 @@ internal static class ComparisonTestFlow
         return client.SendAsync(request);
     }
 
-    /// <summary>Inviter completes the questionnaire, starts a session, and mints an invite. Returns (token, comparisonId).</summary>
-    public static async Task<(string Token, Guid ComparisonId)> CreateInvite(HttpClient client, string label)
+    /// <summary>Inviter completes the questionnaire, starts a session, and mints an invite.
+    /// Returns the invite token, the comparison id, and the inviter's cg_session cookie.</summary>
+    public static async Task<(string Token, Guid ComparisonId, string InviterCookie)> CreateInvite(HttpClient client, string label)
     {
         var cookie = await SessionForNewResponse(client);
         var response = await PostJsonWithCookie(client, "/api/comparisons", new { inviterLabel = label }, cookie);
         response.EnsureSuccessStatusCode();
         var body = await response.Content.ReadFromJsonAsync<JsonElement>(JsonOptions);
-        return (body.GetProperty("inviteToken").GetString()!, body.GetProperty("comparisonId").GetGuid());
+        return (body.GetProperty("inviteToken").GetString()!, body.GetProperty("comparisonId").GetGuid(), cookie);
     }
 
     public static Task<HttpResponseMessage> Join(HttpClient client, string token, bool consent, string inviteeLabel, IReadOnlyList<AnswerRequest> answers) =>
@@ -94,6 +95,21 @@ internal static class ComparisonTestFlow
 
     public static Task<HttpResponseMessage> Validate(HttpClient client, string token) =>
         client.PostAsJsonAsync("/api/invite/validate", new { token }, JsonOptions);
+
+    public static string CookieFrom(HttpResponseMessage response) =>
+        response.Headers.GetValues("Set-Cookie").Single(c => c.StartsWith("cg_session=", StringComparison.Ordinal)).Split(';')[0];
+
+    /// <summary>Full happy path: inviter creates, invitee consents + joins (which generates the
+    /// comparison). Returns the comparison id and both participants' session cookies.</summary>
+    public static async Task<(Guid ComparisonId, string InviterCookie, string InviteeCookie)> CompleteComparison(
+        HttpClient client, string inviterLabel, string inviteeLabel)
+    {
+        var (token, comparisonId, inviterCookie) = await CreateInvite(client, inviterLabel);
+        var answers = await ValidAnswers(client);
+        var joinResponse = await Join(client, token, consent: true, inviteeLabel, answers);
+        joinResponse.EnsureSuccessStatusCode();
+        return (comparisonId, inviterCookie, CookieFrom(joinResponse));
+    }
 
     // ── DB inspection ──────────────────────────────────────────────────────────
 

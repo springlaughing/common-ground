@@ -37,7 +37,59 @@ public interface IComparisonService
     /// transaction. Returns the comparison id.
     /// </summary>
     Task<Guid> CompleteJoinAsync(string token, Guid inviteeResponseSetId, string inviteeLabel, CancellationToken ct = default);
+
+    /// <summary>
+    /// US4 — every comparison the viewer's response is part of, newest first, each with the other
+    /// participant's label and the session status (pending until the invitee joins).
+    /// </summary>
+    Task<IReadOnlyList<ComparisonSummaryDto>> ListComparisonsAsync(Guid viewerResponseSetId, CancellationToken ct = default);
+
+    /// <summary>
+    /// US4 — the comparison report from the viewer's perspective ("you" = the viewer's response),
+    /// computed on read in the requested locale. Returns the access state: a non-participant gets
+    /// <see cref="ComparisonReportState.AccessDenied"/> (and an <c>access_denied</c> audit); an
+    /// unfinished or unavailable comparison returns the matching marker state instead of a report.
+    /// </summary>
+    Task<ComparisonReportResult> GetReportAsync(Guid viewerResponseSetId, Guid comparisonId, string locale, CancellationToken ct = default);
 }
+
+/// <param name="ComparisonId">The comparison session id.</param>
+/// <param name="OtherLabel">The other participant's self-label (empty while still pending).</param>
+/// <param name="Status">"pending" · "complete" · "unavailable".</param>
+public sealed record ComparisonSummaryDto(Guid ComparisonId, string OtherLabel, string Status, DateTimeOffset CreatedAt);
+
+public enum ComparisonReportState
+{
+    Ready,
+    Pending,
+    Unavailable,
+    AccessDenied,
+    NotFound,
+}
+
+/// <param name="State">Whether a report is available, and if not, why.</param>
+/// <param name="Report">The assembled report when <see cref="State"/> is <see cref="ComparisonReportState.Ready"/>; otherwise null.</param>
+public sealed record ComparisonReportResult(ComparisonReportState State, ComparisonReportDto? Report);
+
+/// <summary>The per-viewer comparison report — second person for "you", the other named by label.
+/// No overall compatibility score and no raw answers (Principles I, II).</summary>
+public sealed record ComparisonReportDto(string OtherLabel, IReadOnlyList<ComparisonReportGroupDto> Groups);
+
+public sealed record ComparisonReportGroupDto(string Id, string Title, IReadOnlyList<ComparisonReportInsightDto> Insights);
+
+/// <param name="YourStrength">The viewer's 1–5 strength, or null if below the display threshold.</param>
+/// <param name="TheirStrength">The other participant's 1–5 strength, or null if below threshold.</param>
+/// <param name="YourText">The viewer's localized insight text, omitted when below threshold.</param>
+/// <param name="TheirText">The other's localized insight text, omitted when below threshold.</param>
+/// <param name="Classification">"similarity" or "difference".</param>
+public sealed record ComparisonReportInsightDto(
+    string DimensionId,
+    string Title,
+    int? YourStrength,
+    int? TheirStrength,
+    string? YourText,
+    string? TheirText,
+    string Classification);
 
 /// <param name="ComparisonId">The new comparison session's id (shown as pending on the inviter's /me).</param>
 /// <param name="InviteToken">The plain, single-use token — the client builds <c>/invite#&lt;token&gt;</c>; never persisted plain.</param>

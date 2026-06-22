@@ -114,14 +114,34 @@ export interface Messages {
     joinError: string
   }
   /**
-   * Comparison report shell. The per-dimension insight text comes from the API (feature
-   * 002's localized snippets); only page chrome lives here. Grown when the report is
-   * wired to the API (T040/T042).
+   * Comparison report chrome (US4). The per-dimension insight text comes from the API (feature
+   * 002's localized snippets); only page chrome lives here. "You" / the other person's label name
+   * the two sides; the summary is a neutral per-dimension count (Principle II — never a score).
    */
   comparison: {
     eyebrow: string
     title: string
     back: string
+    you: string
+    alignedHeading: string
+    differHeading: string
+    /** Neutral count, e.g. "You align on 4 of 6 shown dimensions." */
+    summary: (aligned: number, total: number) => string
+    /** Shown for a one-sided dimension where the viewer scored below threshold. */
+    absentYou: string
+    /** Shown for a one-sided dimension where the other person scored below threshold. */
+    absentThem: (otherLabel: string) => string
+  }
+  /** The /me hub's list of the viewer's comparisons (US4). */
+  comparisonList: {
+    heading: string
+    empty: string
+    /** Status label while the other person hasn't joined yet. */
+    pending: string
+    /** Marker for a comparison that's no longer available. */
+    unavailable: string
+    open: string
+    loadError: string
   }
   /**
    * Invitee consent variant — distinct from the questionnaire `consent` above. §V-reviewed:

@@ -18,19 +18,22 @@ internal sealed class ComparisonService : IComparisonService
     private readonly IResponseReader _responseReader;
     private readonly IQuestionnaireReader _questionnaireReader;
     private readonly IAuditLogger _auditLogger;
+    private readonly ComparisonAssembler _assembler;
 
     public ComparisonService(
         DbContext db,
         InviteTokenService inviteTokens,
         IResponseReader responseReader,
         IQuestionnaireReader questionnaireReader,
-        IAuditLogger auditLogger)
+        IAuditLogger auditLogger,
+        ComparisonAssembler assembler)
     {
         _db = db;
         _inviteTokens = inviteTokens;
         _responseReader = responseReader;
         _questionnaireReader = questionnaireReader;
         _auditLogger = auditLogger;
+        _assembler = assembler;
     }
 
     public async Task<CreateInviteResult> CreateInviteAsync(Guid inviterResponseSetId, string inviterLabel, CancellationToken ct = default)
@@ -167,6 +170,57 @@ internal sealed class ComparisonService : IComparisonService
         session.Status = ComparisonStatus.Complete;
         await _auditLogger.LogAsync("comparison_generated", comparisonSessionId: session.Id, ct: ct);
     }
+
+    public async Task<IReadOnlyList<ComparisonSummaryDto>> ListComparisonsAsync(Guid viewerResponseSetId, CancellationToken ct = default)
+    {
+        var sessions = await _db.Set<ComparisonSession>()
+            .AsNoTracking()
+            .Include(s => s.Participants)
+            .Where(s => s.Participants.Any(p => p.ResponseSetId == viewerResponseSetId))
+            .OrderByDescending(s => s.CreatedAt)
+            .ToListAsync(ct);
+
+        return sessions.Select(s =>
+        {
+            var other = s.Participants.FirstOrDefault(p => p.ResponseSetId != viewerResponseSetId);
+            return new ComparisonSummaryDto(s.Id, other?.DisplayLabel ?? string.Empty, SessionStatus(s.Status), s.CreatedAt);
+        }).ToList();
+    }
+
+    public async Task<ComparisonReportResult> GetReportAsync(Guid viewerResponseSetId, Guid comparisonId, string locale, CancellationToken ct = default)
+    {
+        var session = await _db.Set<ComparisonSession>()
+            .AsNoTracking()
+            .Include(s => s.Participants)
+            .FirstOrDefaultAsync(s => s.Id == comparisonId, ct);
+
+        if (session is null)
+            return new ComparisonReportResult(ComparisonReportState.NotFound, null);
+
+        // Only a participant may view the report; a non-participant is denied and audited.
+        if (session.Participants.All(p => p.ResponseSetId != viewerResponseSetId))
+        {
+            await _auditLogger.LogAsync("access_denied", responseSetId: viewerResponseSetId, comparisonSessionId: comparisonId, ct: ct);
+            return new ComparisonReportResult(ComparisonReportState.AccessDenied, null);
+        }
+
+        if (session.Status == ComparisonStatus.Unavailable)
+            return new ComparisonReportResult(ComparisonReportState.Unavailable, null);
+
+        var other = session.Participants.FirstOrDefault(p => p.ResponseSetId != viewerResponseSetId);
+        if (session.Status != ComparisonStatus.Complete || other is null)
+            return new ComparisonReportResult(ComparisonReportState.Pending, null);
+
+        var report = await _assembler.AssembleAsync(viewerResponseSetId, other.ResponseSetId, other.DisplayLabel, locale, ct);
+        return new ComparisonReportResult(ComparisonReportState.Ready, report);
+    }
+
+    private static string SessionStatus(ComparisonStatus status) => status switch
+    {
+        ComparisonStatus.Complete => "complete",
+        ComparisonStatus.Unavailable => "unavailable",
+        _ => "pending",
+    };
 
     // Status is computed lazily — an Active invite past its window reads as expired without a
     // background sweep flipping it. (Consumption to Used is the only persisted transition here.)

@@ -65,6 +65,7 @@ export interface ComparisonInsightDto {
   /** Omitted when this person scored below threshold */
   yourText?: string
   theirText?: string
+  classification: 'similarity' | 'difference'
 }
 
 export interface ComparisonGroupDto {
@@ -73,11 +74,24 @@ export interface ComparisonGroupDto {
   insights: ComparisonInsightDto[]
 }
 
+/** The per-viewer comparison report (GET /api/me/comparisons/{id}). "You" = the viewer; the other
+ *  person is named by `otherLabel`. No overall compatibility score, no raw answers. */
 export interface ComparisonDto {
-  theirName: string
-  summary: string
+  otherLabel: string
   groups: ComparisonGroupDto[]
 }
+
+/** One row in the /me hub list (GET /api/me/comparisons). */
+export interface ComparisonListItem {
+  comparisonId: string
+  /** The other participant's label (empty while still pending). */
+  otherLabel: string
+  status: 'pending' | 'complete' | 'unavailable'
+  createdAt: string
+}
+
+/** The report endpoint returns either the report or a marker for a not-yet-ready comparison. */
+export type ComparisonReportResponse = ComparisonDto | { state: 'pending' | 'unavailable' }
 
 /** Result of POST /api/comparisons (US1) — the inviter mints an invite. */
 export interface CreateInviteResult {

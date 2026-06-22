@@ -24,7 +24,7 @@ public sealed class JoinInviteTests : IntegrationTestBase
     public async Task Validate_ReturnsInviterLabel_WithoutConsumingTheInvite()
     {
         var client = ComparisonTestFlow.NewClient(Factory);
-        var (token, _) = await ComparisonTestFlow.CreateInvite(client, "Alex");
+        var (token, _, _) = await ComparisonTestFlow.CreateInvite(client, "Alex");
 
         var response = await ComparisonTestFlow.Validate(client, token);
 
@@ -51,7 +51,7 @@ public sealed class JoinInviteTests : IntegrationTestBase
     public async Task Validate_WritesComparisonInviteOpenedAudit()
     {
         var client = ComparisonTestFlow.NewClient(Factory);
-        var (token, comparisonId) = await ComparisonTestFlow.CreateInvite(client, "Alex");
+        var (token, comparisonId, _) = await ComparisonTestFlow.CreateInvite(client, "Alex");
 
         await ComparisonTestFlow.Validate(client, token);
 
@@ -64,7 +64,7 @@ public sealed class JoinInviteTests : IntegrationTestBase
     public async Task Join_WithoutConsent_CreatesNothing_Returns400()
     {
         var client = ComparisonTestFlow.NewClient(Factory);
-        var (token, _) = await ComparisonTestFlow.CreateInvite(client, "Alex");
+        var (token, _, _) = await ComparisonTestFlow.CreateInvite(client, "Alex");
         var answers = await ComparisonTestFlow.ValidAnswers(client);
 
         var response = await ComparisonTestFlow.Join(client, token, consent: false, "Sam", answers);
@@ -81,7 +81,7 @@ public sealed class JoinInviteTests : IntegrationTestBase
     public async Task Join_WithConsent_ReturnsOwnCredentials_AndConsumesInvite()
     {
         var client = ComparisonTestFlow.NewClient(Factory);
-        var (token, comparisonId) = await ComparisonTestFlow.CreateInvite(client, "Alex");
+        var (token, comparisonId, _) = await ComparisonTestFlow.CreateInvite(client, "Alex");
         var answers = await ComparisonTestFlow.ValidAnswers(client);
 
         var response = await ComparisonTestFlow.Join(client, token, consent: true, "Sam", answers);
@@ -104,7 +104,7 @@ public sealed class JoinInviteTests : IntegrationTestBase
     public async Task Join_RecordsInviteeParticipantWithLabel_AndWritesJoinedAudit()
     {
         var client = ComparisonTestFlow.NewClient(Factory);
-        var (token, comparisonId) = await ComparisonTestFlow.CreateInvite(client, "Alex");
+        var (token, comparisonId, _) = await ComparisonTestFlow.CreateInvite(client, "Alex");
         var answers = await ComparisonTestFlow.ValidAnswers(client);
 
         await ComparisonTestFlow.Join(client, token, consent: true, "Sam", answers);
@@ -119,7 +119,7 @@ public sealed class JoinInviteTests : IntegrationTestBase
     public async Task Join_GivesInviteeAWorkingPrivateResultLink()
     {
         var client = ComparisonTestFlow.NewClient(Factory);
-        var (token, _) = await ComparisonTestFlow.CreateInvite(client, "Alex");
+        var (token, _, _) = await ComparisonTestFlow.CreateInvite(client, "Alex");
         var answers = await ComparisonTestFlow.ValidAnswers(client);
 
         var body = await (await ComparisonTestFlow.Join(client, token, consent: true, "Sam", answers))
@@ -137,7 +137,7 @@ public sealed class JoinInviteTests : IntegrationTestBase
     public async Task Join_UsedInvite_Returns409()
     {
         var client = ComparisonTestFlow.NewClient(Factory);
-        var (token, _) = await ComparisonTestFlow.CreateInvite(client, "Alex");
+        var (token, _, _) = await ComparisonTestFlow.CreateInvite(client, "Alex");
         var answers = await ComparisonTestFlow.ValidAnswers(client);
 
         await ComparisonTestFlow.Join(client, token, consent: true, "Sam", answers);
@@ -150,7 +150,7 @@ public sealed class JoinInviteTests : IntegrationTestBase
     public async Task Join_ExpiredBeyondGrace_Returns409()
     {
         var client = ComparisonTestFlow.NewClient(Factory);
-        var (token, comparisonId) = await ComparisonTestFlow.CreateInvite(client, "Alex");
+        var (token, comparisonId, _) = await ComparisonTestFlow.CreateInvite(client, "Alex");
         var answers = await ComparisonTestFlow.ValidAnswers(client);
 
         await ComparisonTestFlow.ExpireInvite(Factory, comparisonId, DateTimeOffset.UtcNow - TimeSpan.FromHours(2)); // past the 1h grace
@@ -164,7 +164,7 @@ public sealed class JoinInviteTests : IntegrationTestBase
     public async Task Join_VersionMismatch_Returns400()
     {
         var client = ComparisonTestFlow.NewClient(Factory);
-        var (token, comparisonId) = await ComparisonTestFlow.CreateInvite(client, "Alex");
+        var (token, comparisonId, _) = await ComparisonTestFlow.CreateInvite(client, "Alex");
         var answers = await ComparisonTestFlow.ValidAnswers(client);
 
         await ComparisonTestFlow.RepinComparisonVersion(Factory, comparisonId, Guid.NewGuid()); // simulate the active version moving on

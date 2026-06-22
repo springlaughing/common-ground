@@ -4,110 +4,15 @@ import { ConsentStep } from './components/ConsentStep/ConsentStep'
 import { QuestionnaireFlow } from './components/QuestionnaireFlow/QuestionnaireFlow'
 import { CompletionStep } from './components/CompletionStep/CompletionStep'
 import { ReflectionPage } from './pages/ReflectionPage/ReflectionPage'
-import { ComparisonPage } from './pages/ComparisonPage/ComparisonPage'
+import { InviteCreate } from './components/InviteCreate/InviteCreate'
 import type {
   AnswerSubmission,
-  ComparisonDto,
   ReflectionDto,
   SubmitResponseResult,
 } from './types/api'
-import { ApiError, submitResponses } from './services/questionnaireApi'
+import { ApiError, startSession, submitResponses } from './services/questionnaireApi'
 import { LanguageProvider, useLanguage } from './i18n/LanguageContext'
 import { useMessages } from './i18n/useMessages'
-
-// Comparison is a separate feature (not part of US1) and is not yet wired to the
-// API, so it still renders from demo data until the comparison endpoints exist.
-const DEMO_COMPARISON: ComparisonDto = {
-  theirName: 'Jordan',
-  summary: "You're closely aligned on planning rhythms and what motivates the work — both focused on craft and predictable cycles. The main gaps are communication format and how much mid-cycle flexibility each of you can absorb.",
-  groups: [
-    {
-      id: 'work_context_expectations_and_alignment',
-      title: 'Work context, expectations, and alignment',
-      insights: [
-        {
-          // You scored above threshold; Jordan did not
-          dimensionId: 'clarity_via_written_context',
-          title: 'Written records over memory',
-          yourStrength: 4,
-          theirStrength: null,
-          yourText: "You trust written records more than memory or conversation. Decisions that only exist in someone's head — or were said once in a meeting — are hard for you to rely on.",
-        },
-        {
-          // Jordan scored above threshold; you did not
-          dimensionId: 'verbal_alignment_preference',
-          title: 'Live conversation over written exchange',
-          yourStrength: null,
-          theirStrength: 4,
-          theirText: "Live conversation works better for them than written exchange. They can test their understanding, catch what's unsaid, and ask the follow-up that unlocks the real point — in a way a message thread rarely can.",
-        },
-      ],
-    },
-    {
-      id: 'how_you_plan_and_handle_change',
-      title: 'How you plan and handle change',
-      insights: [
-        {
-          // Both scored — close, aligned
-          dimensionId: 'iteration_preference',
-          title: 'Fixed, predictable planning cycles',
-          yourStrength: 5,
-          theirStrength: 4,
-          yourText: "Fixed cycles work well for you — a predictable cadence with clear moments to plan, deliver, and reflect. The rhythm itself helps you work at your best.",
-          theirText: "Fixed cycles work well for them — a predictable cadence with clear moments to plan, deliver, and reflect. The rhythm itself helps them work at their best.",
-        },
-        {
-          // Both scored — notable gap
-          dimensionId: 'planning_boundary_protection',
-          title: 'Protecting the plan from mid-cycle interruption',
-          yourStrength: 4,
-          theirStrength: 2,
-          yourText: "You need the plan to be protected from constant interruption. Collecting changes and handling them at the next planning point — rather than mid-flow — is how you stay productive and make commitments that mean something.",
-          theirText: "They can absorb changes to scope or direction without much friction. When something important comes up, they'd rather respond to it than protect the original plan for its own sake.",
-        },
-      ],
-    },
-    {
-      id: 'how_you_handle_feedback',
-      title: 'How you handle feedback',
-      insights: [
-        {
-          // Both scored — fairly close
-          dimensionId: 'feedback_content_primacy_receiving',
-          title: 'Focusing on substance, not how feedback is delivered',
-          yourStrength: 4,
-          theirStrength: 3,
-          yourText: "When you receive feedback, you focus on the substance — even if the delivery was clumsy or harsh. You don't let style get in the way of hearing what might be a valid point.",
-          theirText: "When they receive feedback, they focus on the substance — even if the delivery was clumsy or harsh. They don't let style get in the way of hearing what might be a valid point.",
-        },
-      ],
-    },
-    {
-      id: 'what_gives_you_energy_and_meaning',
-      title: 'What gives you energy and meaning',
-      insights: [
-        {
-          // Both scored — perfectly aligned
-          dimensionId: 'craft_intrinsic_motivation',
-          title: 'Driven by the work itself',
-          yourStrength: 5,
-          theirStrength: 5,
-          yourText: "The work itself is what drives you. Building something well, solving a hard problem, getting the details right — that's satisfying in its own right, independent of whether anyone notices or what it's ultimately for.",
-          theirText: "The work itself is what drives them. Building something well, solving a hard problem, getting the details right — that's satisfying in its own right, independent of whether anyone notices or what it's ultimately for.",
-        },
-        {
-          // Both scored — notable gap
-          dimensionId: 'focus_protection',
-          title: 'Protecting uninterrupted focus',
-          yourStrength: 3,
-          theirStrength: 5,
-          yourText: "Uninterrupted focus time matters to you. Interruptions, unnecessary meetings, and constant context switching have a real cost — and you notice when that cost isn't justified by what they produce.",
-          theirText: "Uninterrupted focus time matters to them. Interruptions, unnecessary meetings, and constant context switching have a real cost — and they notice when that cost isn't justified by what they produce.",
-        },
-      ],
-    },
-  ],
-}
 
 // DEV-only sample reflection, used by the ?preview=reflection design harness below
 // so we can fine-tune the page without the backend or walking the questionnaire.
@@ -177,7 +82,7 @@ const DEMO_REFLECTION: ReflectionDto = {
   ],
 }
 
-type Stage = 'welcome' | 'consent' | 'questionnaire' | 'completion' | 'reflection' | 'comparison'
+type Stage = 'welcome' | 'consent' | 'questionnaire' | 'completion' | 'reflection'
 
 function AppInner() {
   const { locale } = useLanguage()
@@ -188,6 +93,21 @@ function AppInner() {
   const [submitError, setSubmitError] = useState<string | null>(null)
   // Retained so "back" from completion can reopen the questionnaire with the answers intact.
   const [lastAnswers, setLastAnswers] = useState<AnswerSubmission[] | undefined>(undefined)
+  const [comparing, setComparing] = useState(false)
+
+  // "Compare" from a just-finished reflection: start a session from the freshly minted token so
+  // the invite POST is authenticated, then open the invite panel (same as the /me hub).
+  async function startComparing() {
+    const token = result?.privateResultLink?.split('#')[1]
+    if (token) {
+      try {
+        await startSession(token)
+      } catch {
+        // If the session can't start, InviteCreate will surface the failure on submit.
+      }
+    }
+    setComparing(true)
+  }
 
   async function handleComplete(answers: AnswerSubmission[]) {
     if (submitting) return
@@ -205,32 +125,15 @@ function AppInner() {
     }
   }
 
-  // DEV-only design preview: render one page in isolation from demo data so we can
-  // fine-tune styling without the backend or walking the questionnaire. Try:
-  //   /?preview=reflection   ·   /?preview=comparison
+  // DEV-only design preview: render the reflection in isolation from demo data so we can
+  // fine-tune styling without the backend or walking the questionnaire. Try /?preview=reflection.
   // import.meta.env.DEV is statically false in production, so this whole block (and
   // DEMO_REFLECTION) is stripped from the prod bundle. It's excluded from coverage
   // (v8 ignore) rather than tested: it's dev scaffolding that never ships, so a test
   // for it would only game the coverage gate without guarding any production behaviour.
   /* v8 ignore start */
-  if (import.meta.env.DEV) {
-    const preview = new URLSearchParams(globalThis.location.search).get('preview')
-    if (preview === 'reflection') {
-      return (
-        <ReflectionPage
-          reflection={DEMO_REFLECTION}
-          onCompare={() => { globalThis.location.search = '?preview=comparison' }}
-        />
-      )
-    }
-    if (preview === 'comparison') {
-      return (
-        <ComparisonPage
-          comparison={DEMO_COMPARISON}
-          onBack={() => { globalThis.location.search = '?preview=reflection' }}
-        />
-      )
-    }
+  if (import.meta.env.DEV && new URLSearchParams(globalThis.location.search).get('preview') === 'reflection') {
+    return <ReflectionPage reflection={DEMO_REFLECTION} />
   }
   /* v8 ignore stop */
 
@@ -260,19 +163,13 @@ function AppInner() {
 
   if (stage === 'reflection') {
     return (
-      <ReflectionPage
-        reflection={result?.reflection ?? { groups: [] }}
-        onCompare={() => setStage('comparison')}
-      />
-    )
-  }
-
-  if (stage === 'comparison') {
-    return (
-      <ComparisonPage
-        comparison={DEMO_COMPARISON}
-        onBack={() => setStage('reflection')}
-      />
+      <>
+        <ReflectionPage
+          reflection={result?.reflection ?? { groups: [] }}
+          onCompare={startComparing}
+        />
+        {comparing && <InviteCreate onClose={() => setComparing(false)} />}
+      </>
     )
   }
 
