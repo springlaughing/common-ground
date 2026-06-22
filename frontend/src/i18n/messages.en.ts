@@ -105,6 +105,13 @@ export const en: Messages = {
     invalidBody:
       'This invite link isn’t valid, has already been used, or has expired. Ask for a ' +
       'fresh link if you’d still like to compare.',
+    joinedTitle: 'You’re in',
+    joinedIntro:
+      'Save your own private link and access code below — they’re how you return to your ' +
+      'results and your comparison.',
+    declinedTitle: 'No problem',
+    declinedBody: 'You’ve declined this invite. Nothing was created and nothing was shared.',
+    joinError: 'Something went wrong joining the comparison. Please try again.',
   },
   comparison: {
     eyebrow: 'Your comparison',
@@ -113,6 +120,27 @@ export const en: Messages = {
   },
   consentInvitee: {
     heading: 'Before you join this comparison',
+    intro: inviterLabel => `${inviterLabel} has invited you to compare working styles.`,
+    whatTitle: 'What you’ll do',
+    whatText:
+      'You’ll answer the same short reflection they did. It takes about ten minutes and there ' +
+      'are no right answers.',
+    withWhomTitle: 'Who sees it',
+    withWhomText: inviterLabel =>
+      `Only you and ${inviterLabel} can see the comparison. Each of you opens it from your own ` +
+      'private link — no accounts, and no one else has access.',
+    whyTitle: 'What you’ll get',
+    whyText:
+      'A side-by-side view of where your working styles align and where they differ — described ' +
+      'neutrally, with no score and no “better” or “worse”.',
+    shareTitle: 'The label you choose',
+    shareText: inviterLabel =>
+      `The name or label you enter below is shown to ${inviterLabel} so they know who joined. ` +
+      'Your individual answers are never shared.',
+    labelLabel: 'Your name or label',
+    labelPlaceholder: 'e.g. Sam',
+    accept: 'Yes, I’ll join',
+    decline: 'No, thanks',
   },
   inviteCreate: {
     heading: 'Invite someone to compare',

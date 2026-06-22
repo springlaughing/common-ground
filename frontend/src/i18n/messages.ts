@@ -104,6 +104,14 @@ export interface Messages {
     loading: string
     invalidTitle: string
     invalidBody: string
+    /** Shown with the invitee's own credentials once they've joined. */
+    joinedTitle: string
+    joinedIntro: string
+    /** Shown after the invitee declines — nothing was created or shared. */
+    declinedTitle: string
+    declinedBody: string
+    /** Surfaced if the join request itself fails. */
+    joinError: string
   }
   /**
    * Comparison report shell. The per-dimension insight text comes from the API (feature
@@ -116,12 +124,28 @@ export interface Messages {
     back: string
   }
   /**
-   * Invitee consent variant — distinct from the questionnaire `consent` above. The
-   * §V-reviewed persuasion copy and equal-weight accept/decline labels are authored and
-   * reviewed in T027/T029; only the heading slot is scaffolded here.
+   * Invitee consent variant — distinct from the questionnaire `consent` above. §V-reviewed:
+   * specific copy (what / with whom / why), the self-label disclosure, and equal-weight
+   * accept/decline with no double negatives or urgency.
    */
   consentInvitee: {
     heading: string
+    /** "{inviterLabel} has invited you to compare working styles." */
+    intro: (inviterLabel: string) => string
+    whatTitle: string
+    whatText: string
+    withWhomTitle: string
+    withWhomText: (inviterLabel: string) => string
+    whyTitle: string
+    whyText: string
+    shareTitle: string
+    /** Discloses that the invitee's chosen label is shown to the inviter. */
+    shareText: (inviterLabel: string) => string
+    labelLabel: string
+    labelPlaceholder: string
+    /** Equal-weight, affirmative choices (no double negatives). */
+    accept: string
+    decline: string
   }
   /**
    * Invite-create panel (US1) — the inviter labels themselves and mints a single-use,
