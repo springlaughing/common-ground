@@ -1,5 +1,6 @@
 using System.Text;
 using System.Threading.RateLimiting;
+using CommonGround.Api.Application;
 using CommonGround.Api.Auth;
 using CommonGround.Api.Persistence;
 using CommonGround.Modules.Audit;
@@ -40,6 +41,12 @@ builder.Services
 
 // Audit logger
 builder.Services.AddScoped<IAuditLogger, EfAuditLogger>();
+
+// Shared submission pipeline (used by POST /api/responses and the invitee join)
+builder.Services.AddScoped<ResponseSubmissionService>();
+
+// Transactional invitee-join orchestration (US2)
+builder.Services.AddScoped<InviteJoinService>();
 
 // Controllers
 builder.Services.AddControllers();

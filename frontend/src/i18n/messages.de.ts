@@ -109,6 +109,13 @@ export const de: Messages = {
     invalidBody:
       'Dieser Einladungslink ist ungültig, wurde bereits verwendet oder ist abgelaufen. ' +
       'Bitte um einen neuen Link, wenn du dich trotzdem vergleichen möchtest.',
+    joinedTitle: 'Du bist dabei',
+    joinedIntro:
+      'Sichere dir unten deinen eigenen privaten Link und Zugangscode – damit kehrst du zu ' +
+      'deinem Ergebnis und eurem Vergleich zurück.',
+    declinedTitle: 'Kein Problem',
+    declinedBody: 'Du hast diese Einladung abgelehnt. Es wurde nichts erstellt und nichts geteilt.',
+    joinError: 'Beim Beitreten zum Vergleich ist etwas schiefgelaufen. Bitte versuche es erneut.',
   },
   comparison: {
     eyebrow: 'Euer Vergleich',
@@ -117,6 +124,27 @@ export const de: Messages = {
   },
   consentInvitee: {
     heading: 'Bevor du diesem Vergleich beitrittst',
+    intro: inviterLabel => `${inviterLabel} hat dich eingeladen, Arbeitsstile zu vergleichen.`,
+    whatTitle: 'Was du tust',
+    whatText:
+      'Du beantwortest dieselbe kurze Reflexion wie die einladende Person. Das dauert etwa ' +
+      'zehn Minuten, und es gibt keine richtigen Antworten.',
+    withWhomTitle: 'Wer es sieht',
+    withWhomText: inviterLabel =>
+      `Nur du und ${inviterLabel} könnt den Vergleich sehen. Ihr öffnet ihn jeweils über euren ` +
+      'eigenen privaten Link – ohne Konto, und niemand sonst hat Zugriff.',
+    whyTitle: 'Was du bekommst',
+    whyText:
+      'Eine Gegenüberstellung, wo eure Arbeitsstile ähnlich sind und wo sie sich unterscheiden – ' +
+      'neutral beschrieben, ohne Punktzahl und ohne „besser“ oder „schlechter“.',
+    shareTitle: 'Das Label, das du wählst',
+    shareText: inviterLabel =>
+      `Der Name oder das Label, das du unten eingibst, wird ${inviterLabel} angezeigt, damit klar ` +
+      'ist, wer beigetreten ist. Deine einzelnen Antworten werden nie geteilt.',
+    labelLabel: 'Dein Name oder Label',
+    labelPlaceholder: 'z. B. Sam',
+    accept: 'Ja, ich mache mit',
+    decline: 'Nein, danke',
   },
   inviteCreate: {
     heading: 'Lade jemanden zum Vergleich ein',

@@ -1,0 +1,129 @@
+.headingBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.heading {
+  font-size: clamp(30px, 4.2vw, 48px);
+  font-weight: 800;
+  line-height: 1.06;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+  overflow-wrap: break-word;
+}
+
+.intro {
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+  overflow-wrap: break-word;
+}
+
+.rule {
+  width: 40px;
+  height: 3px;
+  background: var(--color-accent);
+  border-radius: 2px;
+}
+
+.points {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 560px;
+}
+
+.point {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.pointTitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.pointText {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+  overflow-wrap: break-word;
+}
+
+.labelField {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 360px;
+}
+
+.labelText {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-text-primary);
+}
+
+.input {
+  font-size: 16px;
+  color: var(--color-text-primary);
+  background: #f5f6f7;
+  border: 1.5px solid var(--color-border);
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+
+.input:focus-visible {
+  outline: 2px solid var(--color-text-primary);
+  outline-offset: 1px;
+}
+
+/* Equal-weight accept/decline (§V): same size and padding; the affirmative choice carries the
+   accent fill, decline the outline — neither is hidden or de-emphasised. */
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.accept,
+.decline {
+  font-size: 15px;
+  font-weight: 700;
+  padding: 15px 30px;
+  border-radius: var(--radius-button);
+  letter-spacing: 0.01em;
+  transition: opacity 0.15s;
+}
+
+.accept {
+  color: #ffffff;
+  background: var(--color-text-primary);
+  border: 1.5px solid var(--color-text-primary);
+}
+
+.accept:disabled {
+  opacity: 0.28;
+  cursor: not-allowed;
+}
+
+.accept:not(:disabled):hover {
+  opacity: 0.82;
+}
+
+.decline {
+  color: var(--color-text-primary);
+  background: transparent;
+  border: 1.5px solid var(--color-text-primary);
+}
+
+.decline:hover {
+  background: #f5f6f7;
+}

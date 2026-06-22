@@ -88,3 +88,26 @@ export interface CreateInviteResult {
   /** Always "pending" for a freshly created comparison (no invitee yet). */
   status: string
 }
+
+/** Result of POST /api/invite/validate (US2) — the public face of an invite, without consuming it. */
+export interface InviteValidation {
+  inviterLabel: string
+  /** "active" · "used" · "expired" (only "active" is returned with 200). */
+  status: string
+  questionnaireVersion: string
+}
+
+/** Body of POST /api/invite/join (US2). */
+export interface JoinInviteRequest {
+  token: string
+  consent: boolean
+  inviteeLabel: string
+  answers: AnswerSubmission[]
+}
+
+/** Result of POST /api/invite/join (US2) — the invitee's own credentials. */
+export interface JoinInviteResult {
+  privateResultLink: string
+  accessCode: string
+  comparisonId: string
+}
