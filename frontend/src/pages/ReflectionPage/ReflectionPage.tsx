@@ -10,9 +10,11 @@ interface Props {
   /** Optional header-left content (the saved /me reflection mounts the language switcher
    *  here so it's switchable at view time; the post-submit flow leaves it empty). */
   languageSwitcher?: ReactNode
+  /** Optional content below the reflection — the /me hub mounts its comparison list here. */
+  hubContent?: ReactNode
 }
 
-export function ReflectionPage({ reflection, onCompare, languageSwitcher }: Readonly<Props>) {
+export function ReflectionPage({ reflection, onCompare, languageSwitcher, hubContent }: Readonly<Props>) {
   const m = useMessages()
 
   return (
@@ -52,6 +54,8 @@ export function ReflectionPage({ reflection, onCompare, languageSwitcher }: Read
             </button>
           </div>
         )}
+
+        {hubContent && <div className={styles.hub}>{hubContent}</div>}
       </main>
 
       <div className={styles.deco} aria-hidden="true">

@@ -9,6 +9,7 @@ public static class ComparisonsModuleExtensions
     public static IServiceCollection AddComparisonsModule(this IServiceCollection services)
     {
         services.AddScoped<InviteTokenService>();
+        services.AddScoped<ComparisonAssembler>();
         services.AddScoped<ComparisonService>();
         services.AddScoped<IComparisonService>(sp => sp.GetRequiredService<ComparisonService>());
         return services;

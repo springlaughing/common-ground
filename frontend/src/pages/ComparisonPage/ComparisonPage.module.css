@@ -33,6 +33,12 @@
   color: var(--color-text-primary);
 }
 
+.headerEnd {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
 .brand {
   font-size: 12px;
   font-weight: 700;

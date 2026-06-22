@@ -99,6 +99,10 @@
   border-top: 1px solid var(--color-border);
 }
 
+.hub {
+  margin-top: 40px;
+}
+
 .compareCta {
   font-size: 15px;
   font-weight: 700;

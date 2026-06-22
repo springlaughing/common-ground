@@ -19,7 +19,7 @@ public sealed class ComparisonGenerationTests : IntegrationTestBase
     public async Task AfterBothResponsesExist_SessionBecomesComplete_AndGeneratedAuditedOnce()
     {
         var client = ComparisonTestFlow.NewClient(Factory);
-        var (token, comparisonId) = await ComparisonTestFlow.CreateInvite(client, "Alex");
+        var (token, comparisonId, _) = await ComparisonTestFlow.CreateInvite(client, "Alex");
         var answers = await ComparisonTestFlow.ValidAnswers(client);
 
         (await ComparisonTestFlow.Join(client, token, consent: true, "Sam", answers)).EnsureSuccessStatusCode();
@@ -33,7 +33,7 @@ public sealed class ComparisonGenerationTests : IntegrationTestBase
     public async Task BeforeInviteeJoins_SessionStaysPending_AndNotGenerated()
     {
         var client = ComparisonTestFlow.NewClient(Factory);
-        var (_, comparisonId) = await ComparisonTestFlow.CreateInvite(client, "Alex");
+        var (_, comparisonId, _) = await ComparisonTestFlow.CreateInvite(client, "Alex");
 
         (await ComparisonTestFlow.SessionStatus(Factory, comparisonId)).Should().Be(ComparisonStatus.Pending);
         (await ComparisonTestFlow.AuditCount(Factory, "comparison_generated", comparisonId)).Should().Be(0);
@@ -43,7 +43,7 @@ public sealed class ComparisonGenerationTests : IntegrationTestBase
     public async Task VersionMismatch_DoesNotGenerate()
     {
         var client = ComparisonTestFlow.NewClient(Factory);
-        var (token, comparisonId) = await ComparisonTestFlow.CreateInvite(client, "Alex");
+        var (token, comparisonId, _) = await ComparisonTestFlow.CreateInvite(client, "Alex");
         var answers = await ComparisonTestFlow.ValidAnswers(client);
 
         await ComparisonTestFlow.RepinComparisonVersion(Factory, comparisonId, Guid.NewGuid());
