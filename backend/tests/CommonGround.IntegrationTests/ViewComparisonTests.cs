@@ -129,6 +129,29 @@ public sealed class ViewComparisonTests : IntegrationTestBase
     }
 
     [Fact]
+    public async Task Report_UnknownId_Returns404()
+    {
+        var client = ComparisonTestFlow.NewClient(Factory);
+        var cookie = await ComparisonTestFlow.SessionForNewResponse(client);
+
+        var response = await ComparisonTestFlow.SendWithCookie(client, HttpMethod.Get, $"/api/me/comparisons/{Guid.NewGuid()}", cookie);
+
+        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+    }
+
+    [Fact]
+    public async Task Report_Unavailable_ReturnsUnavailableMarker()
+    {
+        var client = ComparisonTestFlow.NewClient(Factory);
+        var (comparisonId, inviterCookie, _) = await ComparisonTestFlow.CompleteComparison(client, "Alex", "Sam");
+
+        await ComparisonTestFlow.SetUnavailable(Factory, comparisonId);
+
+        var body = await GetJson(client, $"/api/me/comparisons/{comparisonId}", inviterCookie);
+        body.GetProperty("state").GetString().Should().Be("unavailable");
+    }
+
+    [Fact]
     public async Task Report_StillPending_ReturnsPendingMarker()
     {
         var client = ComparisonTestFlow.NewClient(Factory);

@@ -177,4 +177,48 @@ describe('MeReflection (/me route)', () => {
     expect(await screen.findByText('Ergebnis nicht verfügbar')).toBeInTheDocument()
     expect(screen.queryByText(/not available/i)).not.toBeInTheDocument()
   })
+
+  // ─── US4 — the hub lists comparisons and opens a report ──────────────────────
+
+  it('lists the caller’s comparisons and opens a report, then returns to the hub', async () => {
+    window.location.hash = '#tok'
+    const report = {
+      otherLabel: 'Sam',
+      groups: [{
+        id: 'g1', title: 'Group',
+        insights: [{
+          dimensionId: 'd1', title: 'A difference',
+          yourStrength: 5, theirStrength: 1, yourText: 'you', theirText: 'them',
+          classification: 'difference',
+        }],
+      }],
+    }
+    const fetchMock = vi.fn(async (input: RequestInfo | URL) => {
+      const url = String(input)
+      if (url.includes('/api/session/start')) return jsonResponse(200, {})
+      if (url.includes('/api/me/reflection')) return jsonResponse(200, REFLECTION)
+      // Report (has an id segment) before the bare list endpoint.
+      if (/\/api\/me\/comparisons\/[^?]+/.test(url)) return jsonResponse(200, report)
+      if (url.includes('/api/me/comparisons')) {
+        return jsonResponse(200, { comparisons: [{ comparisonId: 'cmp-1', otherLabel: 'Sam', status: 'complete', createdAt: 'x' }] })
+      }
+      return jsonResponse(404, { error: 'not_found' })
+    })
+    vi.stubGlobal('fetch', fetchMock)
+
+    const user = userEvent.setup()
+    render(<MeReflection />)
+
+    // Hub shows the reflection + the comparison list.
+    expect(await screen.findByText('How you plan')).toBeInTheDocument()
+    await user.click(await screen.findByRole('button', { name: /view/i }))
+
+    // The report renders (per-viewer, differences first).
+    expect(await screen.findByText('Where you differ')).toBeInTheDocument()
+    expect(screen.getByText('A difference')).toBeInTheDocument()
+
+    // Back returns to the hub.
+    await user.click(screen.getByRole('button', { name: /← back/i }))
+    expect(await screen.findByText('How you plan')).toBeInTheDocument()
+  })
 })

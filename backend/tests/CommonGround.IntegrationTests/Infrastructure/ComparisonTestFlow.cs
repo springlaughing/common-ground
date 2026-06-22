@@ -147,6 +147,15 @@ internal static class ComparisonTestFlow
         await db.SaveChangesAsync();
     }
 
+    public static async Task SetUnavailable(IntegrationTestFactory factory, Guid comparisonId)
+    {
+        using var scope = factory.Services.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        var session = await db.Set<ComparisonSession>().FirstAsync(s => s.Id == comparisonId);
+        session.Status = ComparisonStatus.Unavailable;
+        await db.SaveChangesAsync();
+    }
+
     public static async Task RepinComparisonVersion(IntegrationTestFactory factory, Guid comparisonId, Guid versionId)
     {
         using var scope = factory.Services.CreateScope();
